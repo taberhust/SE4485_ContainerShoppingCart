@@ -9,6 +9,8 @@
     </head>
 
     <body>
+	<p>Matt's attempt at added to code and committed it to gethub. Just not 
+sure on how to add it to netbeans and working on it in there.</P>
         <p>Hello! This is the default welcome page for a Spring Web MVC project.</p>
         <p><i>To display a different welcome page for this project, modify</i>
             <tt>index.jsp</tt> <i>, or create your own welcome page then change
