@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 import DAO.AccountDAO;
 import Entity.Account;
 
@@ -26,7 +25,7 @@ public class AccountDaoImpl implements AccountDAO{
     public Account createAccount(Connection connection, Account account) throws SQLException{
         PreparedStatement ps = null;
         try{
-            final String insertSQL = "INSERT INTO ACCOUNT (userName, firstName, lastName, privilege) VALUES (?, ?, ?, ?);";
+            String insertSQL = "INSERT INTO ACCOUNT (userName, firstName, lastName, privilege) VALUES (?, ?, ?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, account.getUsername());
             ps.setString(2, account.getFirstName());

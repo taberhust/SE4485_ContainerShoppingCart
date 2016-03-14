@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author matt
  */
 public class Container {
-    private String id;
+    private String containerID;
     private String name;
     private String version;
     private Image icon;
@@ -23,7 +23,7 @@ public class Container {
     private ArrayList<Component> comps;
     
     public void setID(String ID){
-        this.id = ID;
+        this.containerID = ID;
     }
     
     public void setName(String Name){
@@ -39,7 +39,7 @@ public class Container {
     }
     
     public String getID(){
-        return id;
+        return containerID;
     }
     
     public String getName(){
@@ -56,11 +56,11 @@ public class Container {
     
     //--------------Below are the configuration and component methods
     public void addConfig(Configuration configuration){
-    
+        this.configs.add(configuration);
     }
     
     public void editConfig(int ID, Configuration configuration){
-    
+        //Is there a way to replace the old configuration with the new configuration
     }
     
 //    public void editConfig(int Index, Configuration configuration){
@@ -68,7 +68,7 @@ public class Container {
 //    }
     
     public void removeConfig(int index){
-    
+        
     }
     
 }
