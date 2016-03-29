@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import DAO.ContainerDAO;
 import Entity.Container;
+import java.awt.Image;
 import java.sql.ResultSet;
 
 /**
@@ -25,14 +26,24 @@ public class ContainerDaoImpl implements ContainerDAO{
     public ArrayList<Container> retrieveContainer(Connection connection) throws SQLException {
         PreparedStatement ps = null;
         try{
-            String retrieveSQL = "SELECT * FROM ___;";
+            String retrieveSQL = "SELECT * FROM Container;";
             ps = connection.prepareStatement(retrieveSQL);
             ResultSet rs = ps.executeQuery();
-            if(!rs.next()){
+            if(!rs.isBeforeFirst()){
                     return null;
             }
+            
             ArrayList<Container> containerList = new ArrayList<>();
-            containerList.add();
+            while(rs.next()) {
+                Container container = new Container();
+                container.setContainerID(rs.getString("containerID"));
+                container.setIcon((Image)rs.getObject("icon"));
+                container.setName(rs.getString("name"));
+                container.setVersion(rs.getString("version"));
+                container.setProductName(rs.getString("productName"));
+                container.setCategory(rs.getString("category"));
+                containerList.add(container);
+            }
             return containerList;
         }
         catch(Exception ex){
@@ -43,6 +54,8 @@ public class ContainerDaoImpl implements ContainerDAO{
             if (connection != null && !connection.isClosed()){
                 connection.close();
             }
+            
+            return null;
         }
         
     }

@@ -22,7 +22,7 @@ public class Container {
     private ArrayList<Configuration> configs;
     private ArrayList<Component> comps;
     
-    public void setID(String ID){
+    public void setContainerID(String ID){
         this.containerID = ID;
     }
     
@@ -37,8 +37,17 @@ public class Container {
     public void setIcon(Image Icon){
         this.icon = Icon;
     }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
     
-    public String getID(){
+    
+    public String getContainerID(){
         return containerID;
     }
     
@@ -53,7 +62,15 @@ public class Container {
     public Image getIcon(){
         return icon;
     }
-    
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+        
     //--------------Below are the configuration and component methods
     public void addConfig(Configuration configuration){
         this.configs.add(configuration);

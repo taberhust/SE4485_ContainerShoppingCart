@@ -55,7 +55,7 @@ public class DBConnection {
         
         Properties properties = new Properties();
         
-        InputStream inputStream = DBConnection.class.getClassLoader().getResourceAsStream(DBconfigs);
+        InputStream inputStream = DBConnection.class.getResourceAsStream(DBconfigs);
         
         if(inputStream == null){
             throw new RuntimeException("Can't find configuration file");  
