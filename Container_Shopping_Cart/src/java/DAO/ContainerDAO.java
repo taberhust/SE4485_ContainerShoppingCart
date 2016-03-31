@@ -18,10 +18,12 @@ import java.util.ArrayList;
  */
 public interface ContainerDAO {
     
-    ArrayList<Container> retrieveContainer(Connection connection) throws SQLException;
+    ArrayList<Container> retrieveAllContainers(Connection connection) throws SQLException;
+    ArrayList<Container> retrieveContainersByCategory(Connection connection, String category) throws SQLException;
+    ArrayList<Container> retrieveContainersByName(Connection connection, String name) throws SQLException;
     Container retrieveContainer(Connection connection, String containerid) throws SQLException;
-    Container addContainer(Connection connection, File image) throws SQLException;
-    Container editContainer(Connection connection,String id, File image) throws SQLException;
-    void deleteContainer(Connection connection, String id) throws SQLException;
+    boolean addContainer(Connection connection, Container container) throws SQLException;
+    boolean editContainer(Connection connection, String id, Container container) throws SQLException;
+    boolean deleteContainer(Connection connection, String id) throws SQLException;
     
 }
