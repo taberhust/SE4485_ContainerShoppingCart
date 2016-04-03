@@ -10,13 +10,17 @@ package Entity;
  * @author matt
  */
 public class Account {
-    
+    private Long userID;
     private String userName;
     private String firstName;
     private String lastName;
     private String privilege;
+    private Cart cart;
             
-    //Is this the same as email?  Should we only call it one thing to avoid confusion?
+    public void setUserID(Long userID){
+        this.userID = userID;
+    }
+    
     public void setUserName(String username){
         this.userName = username;
     }
@@ -29,10 +33,16 @@ public class Account {
         this.lastName = lastname;
     }
     
-    //Probable need a setter and getter for privilege
-    //Also wouldn't this be better as an int, or is it just admin/user
-    public void setPrivilege(String Privilege){
-        this.privilege = Privilege;
+    public void setPrivilege(String privilege){
+        this.privilege = privilege;
+    }
+    
+    public void setCart(Cart cart){
+        this.cart = cart;
+    }
+    
+    public Long getUserID(){
+        return userID;
     }
     
     public String getUsername(){
@@ -47,8 +57,12 @@ public class Account {
         return lastName;
     }
     
-    //Here is the getter for privilege mentioned earlier
     public String getPrivilege(){
         return privilege;
     }
+    
+    public Cart getCart(){
+        return cart;
+    }
+    
 }
