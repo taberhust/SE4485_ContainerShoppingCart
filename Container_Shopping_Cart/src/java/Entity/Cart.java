@@ -12,22 +12,32 @@ import java.util.ArrayList;
  * @author matt
  */
 public class Cart {
-    private String userName;
-    private ArrayList<Container> containers;
-    
-    public void setUserName(String UserName){
-        this.userName = UserName;
+    private Long userID;
+    private Long cartContainerID;
+    private String cartContainerConfig;
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
     
-    public void addContainer(Container container){
-      this.containers.add(container);
+    public void setCartContainerID(Long cartContainerID) {
+        this.cartContainerID = cartContainerID;
+    }
+
+    public void setCartContainerConfig(String cartContainerConfig) {
+        this.cartContainerConfig = cartContainerConfig;
     }
     
-    public String getUserName(){
-        return userName;
+    public Long getUserID() {
+        return userID;
     }
     
-    public ArrayList retrieveContainers(){
-        return containers;
+    public Long getCartContainerID() {
+        return cartContainerID;
     }
+    
+    public String getCartContainerConfig() {
+        return cartContainerConfig;
+    }
+    
 }

@@ -13,21 +13,31 @@ import java.util.ArrayList;
  * @author matt
  */
 public class Container {
-    private String containerID;
-    private String name;
+    private Long containerID;
+    private String dockerID;
+    private String dockerName;
+    private String containerName;
     private String version;
     private Image icon;
     private String category;
     private String productName;
-    private ArrayList<Configuration> configs;
-    private ArrayList<Component> comps;
+    private ArrayList<Component> components;
+    private ArrayList<Configuration> configurations;
     
-    public void setContainerID(String ID){
-        this.containerID = ID;
+    public void setContainerID(Long id){
+        this.containerID = id;
     }
     
-    public void setName(String Name){
-        this.name = Name;
+    public void setDockerID(String dockerID){
+        this.dockerID = dockerID;
+    }
+
+    public void setDockerName(String dockerName){
+        this.dockerName = dockerName;
+    }
+    
+    public void setContainerName(String containerName){
+        this.containerName = containerName;
     }
     
     public void setVersion(String Version){
@@ -46,13 +56,28 @@ public class Container {
         this.productName = productName;
     }
     
+    public void setComponents(ArrayList<Component> components){
+        this.components = components;
+    }
+            
+    public void setConfigurations(ArrayList<Configuration> configurations) {
+        this.configurations = configurations;
+    }            
     
-    public String getContainerID(){
+    public Long getContainerID(){
         return containerID;
     }
     
-    public String getName(){
-        return name;
+    public String getDockerID(){
+        return dockerID;
+    }
+    
+    public String getDockerName(){
+        return dockerName;
+    }
+    
+    public String getContainerName(){
+        return containerName;
     }
     
     public String getVersion(){
@@ -70,22 +95,13 @@ public class Container {
     public String getProductName() {
         return productName;
     }
+    
+    public ArrayList<Component> getComponents() {
+        return components;
+    }
+
+    public ArrayList<Configuration> getConfigurations() {
+        return configurations;
+    }
         
-    //--------------Below are the configuration and component methods
-    public void addConfig(Configuration configuration){
-        this.configs.add(configuration);
-    }
-    
-    public void editConfig(int ID, Configuration configuration){
-        //Is there a way to replace the old configuration with the new configuration
-    }
-    
-//    public void editConfig(int Index, Configuration configuration){
-//    
-//    }
-    
-    public void removeConfig(int index){
-        
-    }
-    
 }

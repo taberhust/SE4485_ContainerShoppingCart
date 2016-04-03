@@ -10,39 +10,39 @@ package Entity;
  * @author matt
  */
 public class Configuration {
-    private int id;
+    private Long configurationID;
     private String fileName;
     private int lineNumber;
     private String displayName;
     private String defaultValue;
-    private String value;
+    private String configValue;
     
-    public void setID(int ID){
-        this.id = ID;
+    public void setConfigurationID(Long configurationID){
+        this.configurationID = configurationID;
     }
     
-    public void setFileName(String FileName){
-        this.fileName = FileName;
+    public void setFileName(String fileName){
+        this.fileName = fileName;
     }
     
-    public void setLineNumber(int LineNumber){
-        this.lineNumber = LineNumber;
+    public void setLineNumber(int lineNumber){
+        this.lineNumber = lineNumber;
     }
     
-    public void setDisplayName(String DisplayName){
-        this.displayName = DisplayName;
+    public void setDisplayName(String displayName){
+        this.displayName = displayName;
     }
     
-    public void setDefaultValue(String DefaultName){
-        this.defaultValue = DefaultName;
+    public void setDefaultValue(String defaultName){
+        this.defaultValue = defaultName;
     }
     
-    public void setValue(String Value){
-        this.value = Value;
+    public void setCongfigValue(String configValue){
+        this.configValue = configValue;
     }
     
-    public int getID(){
-        return id;
+    public Long getConfigurationID(){
+        return configurationID;
     }
     
     public String getFileName(){
@@ -61,8 +61,8 @@ public class Configuration {
         return defaultValue;
     }
     
-    public String getValue(){
-        return value;
+    public String getConfigValue(){
+        return configValue;
     }
     
 }

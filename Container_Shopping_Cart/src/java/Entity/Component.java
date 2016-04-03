@@ -10,40 +10,50 @@ package Entity;
  * @author matt
  */
 public class Component {
+    private Long componentID;
     private String imageID;
-    private String name;
-    private String type;
+    private String componentName;
+    private String componentType;
     private String version;
     
-    public void setImage(String ImageID){
-        this.imageID = ImageID;
+    public void setComponentID(Long componentID){
+        this.componentID = componentID;
     }
     
-    public void setName(String Name){
-        this.name = Name;
+    public void setImageID(String imageID){
+        this.imageID = imageID;
     }
     
-    public void setType(String Type){
-        this.type = Type;
+    public void setComponentName(String componentName){
+        this.componentName = componentName;
     }
     
-    public void setVersion(String Version){
-        this.version = Version;
+    public void setComponentType(String componentType){
+        this.componentType = componentType;
     }
     
-    public String getImage(){
+    public void setVersion(String version){
+        this.version = version;
+    }
+    
+    public Long getComponentID(){
+        return componentID;
+    }
+    
+    public String getImageID(){
         return imageID;
     }
     
-    public String getName(){
-        return name;
+    public String getComponentName(){
+        return componentName;
     }
     
-    public String getType(){
-        return type;
+    public String getComponentType(){
+        return componentType;
     }
     
     public String getVersion(){
         return version;
-    }       
+    } 
+    
 }

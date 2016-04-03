@@ -13,32 +13,28 @@ import java.util.ArrayList;
  * @author matt
  */
 public class Purchase {
-    private int purchaseID;
+    private Long purchaseID;
     private String userName;
     private Date timeOfPurchase;
     private ArrayList<Container> items;
     
-    public void setPurchaseID(int PurchaseID){
-        this.purchaseID = PurchaseID;
+    public void setPurchaseID(Long purchaseID){
+        this.purchaseID = purchaseID;
     }
     
-    public void setUserName(String UserName){
-        this.userName = UserName;
+    public void setUserName(String userName){
+        this.userName = userName;
     }
     
-    public void setTimeOfPurchase(Date TimeOfPurchase){
-        this.timeOfPurchase = TimeOfPurchase;
+    public void setTimeOfPurchase(Date timeOfPurchase){
+        this.timeOfPurchase = timeOfPurchase;
     }
     
-    public void setItems(ArrayList Items){
-        this.items = Items;
+    public void setItems(ArrayList<Container> items){
+        this.items = items;
     }
     
-    //*****************************
-    //NEEDS WORKED ON
-    public void addItem(){}
-    
-    public int getPurchaseID(){
+    public Long getPurchaseID(){
         return purchaseID;
     }
     
@@ -53,4 +49,5 @@ public class Purchase {
     public ArrayList<Container> getItems(){
         return items;
     }
+    
 }
