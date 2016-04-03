@@ -8,12 +8,12 @@ package DAO;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import Entity.Configuration;
+import Entity.Items;
 
 /**
  *
  * @author matt
  */
-public interface ConfigurationDAO {
+public interface ItemsDAO {
     
 }
