@@ -10,13 +10,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import DAO.CartDAO;
-import Entity.Cart;
+import DAO.ConfigurationsDAO;
+import Entity.Configurations;
 
 /**
  *
  * @author matt
  */
-public class CartDaoImpl implements CartDAO{
+public class ConfigurationsDaoImpl implements ConfigurationsDAO{
     
 }

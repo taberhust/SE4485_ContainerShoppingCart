@@ -4,7 +4,14 @@
  * and open the template in the editor.
  */
 package DaoImpl;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import DAO.ConfigurationDAO;
+import Entity.Configuration;
 
 /**
  *

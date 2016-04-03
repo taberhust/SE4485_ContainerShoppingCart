@@ -40,7 +40,7 @@ public class ContainerDaoImpl implements ContainerDAO{
             ArrayList<Container> containerList = new ArrayList<>();
             while(rs.next()) {
                 Container container = new Container();
-                container.setContainerID(rs.getString("containerID"));
+                container.setContainerID(rs.getLong("containerID"));
                 container.setIcon((Image)rs.getObject("icon"));
                 container.setName(rs.getString("name"));
                 container.setVersion(rs.getString("version"));
