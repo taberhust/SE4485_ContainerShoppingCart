@@ -16,4 +16,6 @@ import Entity.Items;
  */
 public interface ItemsDAO {
     
+    Items createItems(Connection connection, Items items) throws SQLException;
+    
 }

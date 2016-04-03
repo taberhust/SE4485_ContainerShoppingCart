@@ -16,4 +16,6 @@ import Entity.Purchase;
  */
 public interface PurchaseDAO {
     
+    Purchase createPurchase(Connection connection, Purchase purchase) throws SQLException;
+    
 }

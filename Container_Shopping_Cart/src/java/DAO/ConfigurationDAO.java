@@ -16,4 +16,6 @@ import Entity.Configuration;
  */
 public interface ConfigurationDAO {
     
+    Configuration createConfiguration(Connection connection, Configuration configuration) throws SQLException;
+    
 }

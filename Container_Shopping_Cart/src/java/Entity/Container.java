@@ -18,7 +18,7 @@ public class Container {
     private String dockerName;
     private String containerName;
     private String version;
-    private Image icon;
+    private String pathToIcon;
     private String category;
     private String productName;
     private ArrayList<Component> components;
@@ -44,8 +44,8 @@ public class Container {
         this.version = Version;
     }
     
-    public void setIcon(Image Icon){
-        this.icon = Icon;
+    public void setPathToIcon(String pathToIcon){
+        this.pathToIcon = pathToIcon;
     }
 
     public void setCategory(String category) {
@@ -84,8 +84,8 @@ public class Container {
         return version;
     }
     
-    public Image getIcon(){
-        return icon;
+    public String getPathToIcon(){
+        return pathToIcon;
     }
 
     public String getCategory() {

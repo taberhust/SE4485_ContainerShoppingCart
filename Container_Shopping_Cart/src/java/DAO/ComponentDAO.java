@@ -16,6 +16,6 @@ import Entity.Component;
  */
 public interface ComponentDAO {
     
-    
+    Component createComponent(Connection connection, Component component) throws SQLException;
     
 }

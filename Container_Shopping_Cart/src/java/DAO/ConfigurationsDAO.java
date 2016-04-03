@@ -16,6 +16,8 @@ import Entity.Configurations;
  */
 public interface ConfigurationsDAO {
     
+    Configurations createConfigurations(Connection connection, Configurations configurations) throws SQLException;
+    
     Configurations createConfigurations(Connection connection, Configurations configurations, Long containerID) throws SQLException;
     
     Configurations retrieveConfigurations(Connection connection, Long containerID) throws SQLException;

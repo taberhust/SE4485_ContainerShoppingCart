@@ -37,7 +37,7 @@ public class Configuration {
         this.defaultValue = defaultName;
     }
     
-    public void setCongfigValue(String configValue){
+    public void setConfigValue(String configValue){
         this.configValue = configValue;
     }
     

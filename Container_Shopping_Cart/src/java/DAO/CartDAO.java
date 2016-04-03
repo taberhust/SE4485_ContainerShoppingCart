@@ -16,4 +16,7 @@ import Entity.Cart;
  */
 public interface CartDAO {
     
+    Cart createCart(Connection connection, Cart cart) throws SQLException;
+    Cart createCart(Connection connection, Cart cart, Long userID) throws SQLException;
+    
 }

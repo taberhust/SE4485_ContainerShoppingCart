@@ -16,6 +16,8 @@ import Entity.Components;
  */
 public interface ComponentsDAO {
     
+    Components createComponents(Connection connection, Components components) throws SQLException;
+    
     Components createComponents(Connection connection, Components components, Long containerID) throws SQLException;
     
     Components retrieveComponents(Connection connection, Long containerID) throws SQLException;
