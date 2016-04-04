@@ -21,18 +21,12 @@ public class CartDaoImpl implements CartDAO{
 
     @Override
     public Cart createCart(Connection connection, Cart cart) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Cart createCart(Connection connection, Cart cart, Long userID) throws SQLException {
         PreparedStatement ps = null;
         try{
             String insertSQL = "INSERT INTO CART (userID, cartContainerID, cartContainerConfig) VALUES (?, ?, ?);";
             ps = connection.prepareStatement(insertSQL);
-            ps.setString(1, userID.toString());
+            ps.setString(1, cart.getUserID().toString());
             ps.setString(2, cart.getCartContainerID().toString());
-            ps.setString(3, cart.getCartContainerConfig());
             
             ps.executeUpdate();
             
@@ -40,6 +34,31 @@ public class CartDaoImpl implements CartDAO{
         }
         catch(Exception ex){
             System.out.println("Exception in CartDaoImpl.create(2 arg)");
+            if (ps != null && !ps.isClosed()){
+                ps.close();
+            }
+            if (connection != null && !connection.isClosed()){
+                connection.close();
+            }
+        }
+        return cart;    
+    }
+
+    @Override
+    public Cart createCart(Connection connection, Cart cart, Long userID) throws SQLException {
+        PreparedStatement ps = null;
+        try{
+            String insertSQL = "INSERT INTO CART (userID, cartContainerID) VALUES (?, ?);";
+            ps = connection.prepareStatement(insertSQL);
+            ps.setString(1, userID.toString());
+            ps.setString(2, cart.getCartContainerID().toString());
+            
+            ps.executeUpdate();
+            
+            return cart;
+        }
+        catch(Exception ex){
+            System.out.println("Exception in CartDaoImpl.create(3 arg)");
             if (ps != null && !ps.isClosed()){
                 ps.close();
             }

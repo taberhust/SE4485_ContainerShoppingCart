@@ -15,7 +15,6 @@ public class Account {
     private String firstName;
     private String lastName;
     private String privilege;
-    private Cart cart;
             
     public void setUserID(Long userID){
         this.userID = userID;
@@ -37,10 +36,6 @@ public class Account {
         this.privilege = privilege;
     }
     
-    public void setCart(Cart cart){
-        this.cart = cart;
-    }
-    
     public Long getUserID(){
         return userID;
     }
@@ -59,10 +54,6 @@ public class Account {
     
     public String getPrivilege(){
         return privilege;
-    }
-    
-    public Cart getCart(){
-        return cart;
     }
     
 }

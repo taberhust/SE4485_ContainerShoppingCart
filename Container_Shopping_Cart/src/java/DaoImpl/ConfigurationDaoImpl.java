@@ -26,11 +26,10 @@ public class ConfigurationDaoImpl implements ConfigurationDAO{
             String insertSQL = "INSERT INTO CONFIGURATION (configurationID, fileName, lineNumber, displayName, defaultValue, configValue) VALUES (?, ?, ?, ?, ?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, configuration.getConfigurationID().toString());
-            ps.setString(2, configuration.getFileName());
-            ps.setString(3, configuration.getLineNumber().toString());
-            ps.setString(4, configuration.getDisplayName());
-            ps.setString(5, configuration.getDefaultValue());
-            ps.setString(6, configuration.getConfigValue());            
+            ps.setString(2, configuration.getDisplayName());
+            ps.setString(3, configuration.getDefaultType());
+            ps.setString(4, configuration.getDefaultArg1()); 
+            ps.setString(5, configuration.getDefaultArg2()); 
             ps.executeUpdate();
             
             return configuration;

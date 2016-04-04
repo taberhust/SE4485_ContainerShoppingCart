@@ -23,10 +23,10 @@ public class PurchaseDaoImpl implements PurchaseDAO{
     public Purchase createPurchase(Connection connection, Purchase purchase) throws SQLException {
         PreparedStatement ps = null;
         try{
-            String insertSQL = "INSERT INTO ITEMS (purchaseID, userName, timeOfPurchase) VALUES (?, ?, ?);";
+            String insertSQL = "INSERT INTO ITEMS (purchaseID, userID, timeOfPurchase) VALUES (?, ?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, purchase.getPurchaseID().toString());
-            ps.setString(2, purchase.getUserName());
+            ps.setString(2, purchase.getUserID().toString());
             ps.setString(2, purchase.getTimeOfPurchase().toString());
             
             ps.executeUpdate();

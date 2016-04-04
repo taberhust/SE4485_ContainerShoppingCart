@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Purchase {
     private Long purchaseID;
-    private String userName;
+    private Long userID;
     private Date timeOfPurchase;
     private ArrayList<Container> items;
     
@@ -22,8 +22,8 @@ public class Purchase {
         this.purchaseID = purchaseID;
     }
     
-    public void setUserName(String userName){
-        this.userName = userName;
+    public void setUserID(Long userID){
+        this.userID = userID;
     }
     
     public void setTimeOfPurchase(Date timeOfPurchase){
@@ -38,8 +38,8 @@ public class Purchase {
         return purchaseID;
     }
     
-    public String getUserName(){
-        return userName;
+    public Long getUserID(){
+        return userID;
     }
     
     public Date getTimeOfPurchase(){

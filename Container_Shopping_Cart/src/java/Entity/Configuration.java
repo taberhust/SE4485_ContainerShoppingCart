@@ -11,58 +11,49 @@ package Entity;
  */
 public class Configuration {
     private Long configurationID;
-    private String fileName;
-    private Long lineNumber;
     private String displayName;
-    private String defaultValue;
-    private String configValue;
+    private String defaultType;
+    private String defaultArg1;
+    private String defaultArg2;
     
     public void setConfigurationID(Long configurationID){
         this.configurationID = configurationID;
-    }
-    
-    public void setFileName(String fileName){
-        this.fileName = fileName;
-    }
-    
-    public void setLineNumber(Long lineNumber){
-        this.lineNumber = lineNumber;
     }
     
     public void setDisplayName(String displayName){
         this.displayName = displayName;
     }
     
-    public void setDefaultValue(String defaultName){
-        this.defaultValue = defaultName;
+    public void setDefaultType(String defaultType){
+        this.defaultType = defaultType;
     }
     
-    public void setConfigValue(String configValue){
-        this.configValue = configValue;
+    public void setDefaultArg1(String defaultArg1){
+        this.defaultArg1 = defaultArg1;
+    }
+        
+    public void setDefaultArg2(String defaultArg2){
+        this.defaultArg2 = defaultArg2;
     }
     
     public Long getConfigurationID(){
         return configurationID;
     }
-    
-    public String getFileName(){
-        return fileName;
-    }
-    
-    public Long getLineNumber(){
-        return lineNumber;
-    }
-    
+        
     public String getDisplayName(){
         return displayName;
     }
     
-    public String getDefaultValue(){
-        return defaultValue;
+    public String getDefaultType(){
+        return defaultType;
     }
     
-    public String getConfigValue(){
-        return configValue;
+    public String getDefaultArg1(){
+        return defaultArg1;
+    }
+    
+    public String getDefaultArg2(){
+        return defaultArg2;
     }
     
 }

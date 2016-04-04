@@ -17,10 +17,10 @@ public class Container {
     private String dockerID;
     private String dockerName;
     private String containerName;
-    private String version;
     private String pathToIcon;
     private String category;
     private String productName;
+    private String version;
     private ArrayList<Component> components;
     private ArrayList<Configuration> configurations;
     

@@ -5,7 +5,6 @@
  */
 package DaoImpl;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 
 import DAO.ContainerDAO;
 import Entity.Container;
-import java.awt.Image;
 import java.sql.ResultSet;
 
 /**
@@ -43,11 +41,11 @@ public class ContainerDaoImpl implements ContainerDAO{
                 container.setContainerID(rs.getLong("containerID"));
                 container.setDockerID(rs.getString("dockerID"));
                 container.setDockerName(rs.getString("dockerName"));
-                container.setContainerName(rs.getString("containerName"));
-                container.setVersion(rs.getString("version"));    
+                container.setContainerName(rs.getString("containerName"));  
                 container.setPathToIcon(rs.getString("pathToIcon"));
                 container.setCategory(rs.getString("category"));
                 container.setProductName(rs.getString("productName"));
+                container.setVersion(rs.getString("version")); 
                 containerList.add(container);
             }
             return containerList;
@@ -88,11 +86,11 @@ public class ContainerDaoImpl implements ContainerDAO{
             container.setContainerID(rs.getLong("containerID"));
             container.setDockerID(rs.getString("dockerID"));
             container.setDockerName(rs.getString("dockerName"));
-            container.setContainerName(rs.getString("containerName"));
-            container.setVersion(rs.getString("version"));    
+            container.setContainerName(rs.getString("containerName"));    
             container.setPathToIcon(rs.getString("pathToIcon"));
             container.setCategory(rs.getString("category"));
             container.setProductName(rs.getString("productName"));
+            container.setVersion(rs.getString("version"));
 
             return container;
         }
@@ -132,10 +130,10 @@ public class ContainerDaoImpl implements ContainerDAO{
                 container.setDockerID(rs.getString("dockerID"));
                 container.setDockerName(rs.getString("dockerName"));
                 container.setContainerName(rs.getString("containerName"));
-                container.setVersion(rs.getString("version"));    
                 container.setPathToIcon(rs.getString("pathToIcon"));
                 container.setCategory(rs.getString("category"));
                 container.setProductName(rs.getString("productName"));
+                container.setVersion(rs.getString("version"));                 
             }
             return containerList;
         }
@@ -174,11 +172,11 @@ public class ContainerDaoImpl implements ContainerDAO{
                 container.setContainerID(rs.getLong("containerID"));
                 container.setDockerID(rs.getString("dockerID"));
                 container.setDockerName(rs.getString("dockerName"));
-                container.setContainerName(rs.getString("containerName"));
-                container.setVersion(rs.getString("version"));    
+                container.setContainerName(rs.getString("containerName"));  
                 container.setPathToIcon(rs.getString("pathToIcon"));
                 container.setCategory(rs.getString("category"));
                 container.setProductName(rs.getString("productName"));
+                container.setVersion(rs.getString("version"));
                 containerList.add(container);
             }
             return containerList;
@@ -202,17 +200,17 @@ public class ContainerDaoImpl implements ContainerDAO{
         PreparedStatement ps = null;
         try{
             String insertSQL = "Insert INTO Container " +
-                    "(containerID, dockerID, dockerName, containerName, version, pathToIcon, category, productName) " + 
+                    "(containerID, dockerID, dockerName, containerName, pathToIcon, category, productName, version) " + 
                     "  Values (?, ?, ?, ?, ?, ?, ?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, container.getContainerID().toString());
             ps.setString(2, container.getDockerID());
             ps.setString(3, container.getDockerName());
             ps.setString(4, container.getContainerName());
-            ps.setString(5, container.getVersion());
             ps.setString(6, container.getPathToIcon());
             ps.setString(7, container.getCategory());
             ps.setString(8, container.getProductName());
+            ps.setString(5, container.getVersion());
             ps.executeUpdate();
             
             return container;
@@ -236,17 +234,17 @@ public class ContainerDaoImpl implements ContainerDAO{
             // Prepare the statement
             String editSQL = "UPDATE Container SET containerID = ?, dokcerID = ?,"
                     + " dockerName = ?, containerName = ?, "
-                    + " version = ?, pathToIcon = ?, category = ?, productName = ?"
+                    + "pathToIcon = ?, category = ?, productName = ?, version = ?"
                     + "WHERE containerID = ?;";
             ps = connection.prepareStatement(editSQL);
             ps.setString(1, container.getContainerID().toString());
             ps.setString(2, container.getDockerID());
             ps.setString(3, container.getDockerName());
             ps.setString(4, container.getContainerName());
-            ps.setString(5, container.getVersion());
             ps.setObject(6, container.getPathToIcon());
             ps.setString(7, container.getCategory());
             ps.setString(8, container.getProductName());
+            ps.setString(5, container.getVersion());
             ps.setString(9, id);
             ps.executeUpdate();
             
