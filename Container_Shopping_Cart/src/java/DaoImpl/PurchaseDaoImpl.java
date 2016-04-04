@@ -18,5 +18,31 @@ import Entity.Purchase;
  * @author matt
  */
 public class PurchaseDaoImpl implements PurchaseDAO{
+
+    @Override
+    public Purchase createPurchase(Connection connection, Purchase purchase) throws SQLException {
+        PreparedStatement ps = null;
+        try{
+            String insertSQL = "INSERT INTO ITEMS (purchaseID, userName, timeOfPurchase) VALUES (?, ?, ?);";
+            ps = connection.prepareStatement(insertSQL);
+            ps.setString(1, purchase.getPurchaseID().toString());
+            ps.setString(2, purchase.getUserName());
+            ps.setString(2, purchase.getTimeOfPurchase().toString());
+            
+            ps.executeUpdate();
+            
+            return purchase;
+        }
+        catch(Exception ex){
+            System.out.println("Exception in PurchaseDaoImpl.create(2 arg)");
+            if (ps != null && !ps.isClosed()){
+                ps.close();
+            }
+            if (connection != null && !connection.isClosed()){
+                connection.close();
+            }
+        }
+        return purchase;     
+    }
     
 }

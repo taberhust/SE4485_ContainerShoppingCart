@@ -321,8 +321,8 @@ public class FillTables{
         
 	private void insertContainer(Connection connection, Map<Long, Container> containerMap) throws Exception{
 		for(Container container: containerMap.values()){
-			ContainerDAO containerDAO = new ContainerDaoImpl();
-			containerDAO.createContainer(connection, container);
+                    ContainerDAO containerDAO = new ContainerDaoImpl();
+                    containerDAO.createContainer(connection, container);
 		}
 	}
 
@@ -391,7 +391,7 @@ public class FillTables{
 		Configuration configuration = new Configuration();
 		Long id = Long.parseLong(st.nextToken());
 		configuration.setFileName(st.nextToken());
-		configuration.setLineNumber(Integer.parseInt(st.nextToken()));
+		configuration.setLineNumber(Long.parseLong(st.nextToken()));
 		configuration.setDisplayName(st.nextToken());
 		configuration.setDefaultValue(st.nextToken());
 		configuration.setConfigValue(st.nextToken());

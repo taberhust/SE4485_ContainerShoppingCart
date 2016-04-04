@@ -12,7 +12,7 @@ package Entity;
 public class Configuration {
     private Long configurationID;
     private String fileName;
-    private int lineNumber;
+    private Long lineNumber;
     private String displayName;
     private String defaultValue;
     private String configValue;
@@ -25,7 +25,7 @@ public class Configuration {
         this.fileName = fileName;
     }
     
-    public void setLineNumber(int lineNumber){
+    public void setLineNumber(Long lineNumber){
         this.lineNumber = lineNumber;
     }
     
@@ -49,7 +49,7 @@ public class Configuration {
         return fileName;
     }
     
-    public int getLineNumber(){
+    public Long getLineNumber(){
         return lineNumber;
     }
     

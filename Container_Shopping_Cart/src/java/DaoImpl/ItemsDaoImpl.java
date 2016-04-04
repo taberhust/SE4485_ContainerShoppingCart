@@ -18,5 +18,30 @@ import Entity.Items;
  * @author matt
  */
 public class ItemsDaoImpl implements ItemsDAO{
+
+    @Override
+    public Items createItems(Connection connection, Items items) throws SQLException {
+        PreparedStatement ps = null;
+        try{
+            String insertSQL = "INSERT INTO ITEMS (purchaseID, containerID) VALUES (?, ?);";
+            ps = connection.prepareStatement(insertSQL);
+            ps.setString(1, items.getPurchaseID().toString());
+            ps.setString(2, items.getContainerID().toString());
+
+            ps.executeUpdate();
+            
+            return items;
+        }
+        catch(Exception ex){
+            System.out.println("Exception in ItemsDaoImpl.create(2 arg)");
+            if (ps != null && !ps.isClosed()){
+                ps.close();
+            }
+            if (connection != null && !connection.isClosed()){
+                connection.close();
+            }
+        }
+        return items; 
+    }
     
 }
