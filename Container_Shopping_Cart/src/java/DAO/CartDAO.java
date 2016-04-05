@@ -12,7 +12,7 @@ import Entity.Cart;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public interface CartDAO {
     

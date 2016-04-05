@@ -15,7 +15,7 @@ import Entity.Cart;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public class CartDaoImpl implements CartDAO{
 
@@ -23,7 +23,7 @@ public class CartDaoImpl implements CartDAO{
     public Cart createCart(Connection connection, Cart cart) throws SQLException {
         PreparedStatement ps = null;
         try{
-            String insertSQL = "INSERT INTO CART (userID, cartContainerID, cartContainerConfig) VALUES (?, ?, ?);";
+            String insertSQL = "INSERT INTO CART (userID, cartContainerID) VALUES (?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, cart.getUserID().toString());
             ps.setString(2, cart.getCartContainerID().toString());

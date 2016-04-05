@@ -7,7 +7,7 @@ package Entity;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public class Account {
     private Long userID;

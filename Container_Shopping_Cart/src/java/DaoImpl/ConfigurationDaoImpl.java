@@ -15,7 +15,7 @@ import Entity.Configuration;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public class ConfigurationDaoImpl implements ConfigurationDAO{
 

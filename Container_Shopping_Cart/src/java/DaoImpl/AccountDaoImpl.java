@@ -15,7 +15,7 @@ import Entity.Account;
 
 
 /**
- *@author matt
+ *@author matt & kevin
  * 
  * This only updates the Account table
  */
@@ -27,16 +27,18 @@ public class AccountDaoImpl implements AccountDAO{
         try{
             String insertSQL = "INSERT INTO ACCOUNT (userName, firstName, lastName, privilege) VALUES (?, ?, ?, ?);";
             ps = connection.prepareStatement(insertSQL);
-            ps.setString(1, account.getUsername());
-            ps.setString(2, account.getFirstName());
-            ps.setString(3, account.getLastName());
-            ps.setString(4, account.getPrivilege());
+            ps.setString(1, account.getUserID().toString());
+            ps.setString(2, account.getUsername());
+            ps.setString(3, account.getFirstName());
+            ps.setString(4, account.getLastName());
+            ps.setString(5, account.getPrivilege());
             
             ps.executeUpdate();
             
             return account;
         }
         catch(Exception ex){
+            ex.printStackTrace();
             System.out.println("Exception in AccountDaoImpl.create()");
             if (ps != null && !ps.isClosed()){
                 ps.close();
@@ -60,6 +62,7 @@ public class AccountDaoImpl implements AccountDAO{
                     return null;
             }
             Account account = new Account();
+            account.setUserID(Long.valueOf(rs.getString("userID")));
             account.setUserName(rs.getString("userName"));
             account.setFirstName(rs.getString("firstName"));
             account.setLastName(rs.getString("lastName"));

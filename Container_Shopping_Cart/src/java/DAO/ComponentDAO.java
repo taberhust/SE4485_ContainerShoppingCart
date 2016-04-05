@@ -12,7 +12,7 @@ import Entity.Component;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public interface ComponentDAO {
     

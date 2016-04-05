@@ -9,12 +9,11 @@ import java.util.ArrayList;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public class Cart {
     private Long userID;
     private Long cartContainerID;
-    private String cartContainerConfig;
 
     public void setUserID(Long userID) {
         this.userID = userID;
@@ -22,10 +21,6 @@ public class Cart {
     
     public void setCartContainerID(Long cartContainerID) {
         this.cartContainerID = cartContainerID;
-    }
-
-    public void setCartContainerConfig(String cartContainerConfig) {
-        this.cartContainerConfig = cartContainerConfig;
     }
     
     public Long getUserID() {
@@ -35,9 +30,5 @@ public class Cart {
     public Long getCartContainerID() {
         return cartContainerID;
     }
-    
-    public String getCartContainerConfig() {
-        return cartContainerConfig;
-    }
-    
+   
 }

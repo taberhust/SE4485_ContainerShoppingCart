@@ -15,7 +15,7 @@ import Entity.ConfigCart;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public class ConfigCartDaoImpl implements ConfigCartDAO {
 

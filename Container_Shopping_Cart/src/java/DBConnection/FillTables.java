@@ -56,32 +56,24 @@ import DaoImpl.PurchaseDaoImpl;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public class FillTables{
 
     private File accountFile;
-//    private File purchaseFile;
-    private File cartFile;
     private File containerFile;
-//    private File componentsFile;
     private File configCartFile;
-//    private File configurationsFile;
     private File componentFile;
     private File configurationFile;
     
     Random rnGen = new Random();
 
     private void initialize(){
-	accountFile = new File("cvsData/account.csv");
-//	purchaseFile = new File("cvsData/purchase.csv");
-	cartFile = new File("cvsData/cart.csv");
-	containerFile = new File("cvsData/container.csv");
-//	componentsFile = new File("cvsData/components.csv");
-        configCartFile = new File("cvsData.csv");
-//	configurationsFile = new File("cvsData/configurations.csv");
-	componentFile = new File("cvsData/component.csv");
-	configurationFile = new File("cvsData/configuration.csv");
+	accountFile = new File("/home/matt/Downloads/cvsData/account.csv");
+	containerFile = new File("/home/matt/Downloads/cvsData/container.csv");
+        configCartFile = new File("/home/matt/Downloads/cvsData.csv");
+	componentFile = new File("/home/matt/Downloads/cvsData/component.csv");
+	configurationFile = new File("/home/matt/Downloads/cvsData/configuration.csv");
     }	
 
     public static void main(String args[]){
@@ -94,11 +86,11 @@ public class FillTables{
             fillTables.initialize();
 
             Map<Long, Account> accountMap = fillTables.buildAccount();
-            //fillTables.addCart(accountMap);//Delete if I can get new one working
             fillTables.insertAccount(connection, accountMap);
                     
             Map<Long, Container> containerMap = fillTables.buildContainer();
             fillTables.insertContainer(connection, containerMap);
+            
             List<Cart> cartItems = fillTables.buildCart(accountMap.values(), containerMap.values().toArray(new Container[0]));
             fillTables.insertCart(connection, cartItems); 
             
@@ -381,6 +373,7 @@ public class FillTables{
         StringTokenizer st = new StringTokenizer(line, ",");
         Account account = new Account();
         Long id = Long.parseLong(st.nextToken());
+        account.setUserID(Long.parseLong(st.nextToken()));
         account.setFirstName(st.nextToken());
         account.setLastName(st.nextToken());
         account.setPrivilege(st.nextToken());
@@ -388,21 +381,11 @@ public class FillTables{
         return result;
     }
     
-    private Object[] parseCart(String line){
-	StringTokenizer st = new StringTokenizer(line, ",");
-	Cart cart = new Cart();
-	Long id = Long.parseLong(st.nextToken());
-	cart.setUserID(Long.parseLong(st.nextToken()));
-	cart.setCartContainerID(Long.parseLong(st.nextToken()));
-	cart.setCartContainerConfig(st.nextToken());
-	Object[] result = {id, cart};
-	return result;
-    }
-
     private Object[] parseComponent(String line){
 	StringTokenizer st = new StringTokenizer(line, ",");
 	Component component = new Component();
 	Long id = Long.parseLong(st.nextToken());
+        component.setComponentID(Long.parseLong(st.nextToken()));
 	component.setImageID(st.nextToken());
 	component.setComponentName(st.nextToken());
 	component.setComponentType(st.nextToken());
@@ -410,17 +393,6 @@ public class FillTables{
 	Object[] result = {id, component};
 	return result;
     }
-
-//	//Don't think this is right.
-//	private Object[] parseComponents(String line){
-//		StringTokenizer st = new StringTokenizer(line, ",");
-//		Components components = new Components();
-//		Long id = Long.parseLong(st.nextToken());
-//		components.setContainerID(Long.parseLong(st.nextToken()));
-//		components.setComponentID(Long.parseLong(st.nextToken()));
-//		Object[] result = {id, components};
-//		return result;
-//	}
 
     private Object[] parseConfigCart(String line){
         StringTokenizer st = new StringTokenizer(line, ",");
@@ -437,6 +409,7 @@ public class FillTables{
 	StringTokenizer st = new StringTokenizer(line, ",");
 	Configuration configuration = new Configuration();
 	Long id = Long.parseLong(st.nextToken());
+        configuration.setConfigurationID(Long.parseLong(st.nextToken()));
 	configuration.setDisplayName(st.nextToken());
         configuration.setDefaultType(st.nextToken());
 	configuration.setDefaultArg1(st.nextToken());
@@ -445,21 +418,11 @@ public class FillTables{
 	return result;
     }
 
-//	//Don't think this is right.
-//	private Object[] parseConfigurations(String line){
-//		StringTokenizer st = new StringTokenizer(line, ",");
-//		Configurations configuration = new Configurations();
-//		Long id = Long.parseLong(st.nextToken());
-//		configuration.setContainerID(Long.parseLong(st.nextToken()));
-//		configuration.setConfigurationID(Long.parseLong(st.nextToken()));
-//		Object[] result = {id, configuration};
-//		return result;
-//	}
-
     private Object[] parseContainer(String line){
 	StringTokenizer st = new StringTokenizer(line, ",");
 	Container container = new Container();
 	Long id = Long.parseLong(st.nextToken());
+        container.setContainerID(Long.parseLong(st.nextToken()));
 	container.setDockerID(st.nextToken());
 	container.setDockerName(st.nextToken());
 	container.setContainerName(st.nextToken());
@@ -470,15 +433,5 @@ public class FillTables{
 	Object[] result = {id, container};
 	return result;
     }
-
-//	private Object[] parsePurchase(String line){
-//		StringTokenizer st = new StringTokenizer(line, ",");
-//		Purchase purchase = new Purchase();
-//		Long id = Long.parseLong(st.nextToken());
-//		purchase.setPurchaseID(Long.parseLong(st.nextToken()));
-//		purchase.setTimeOfPurchase(Date.valueOf(st.nextToken()));
-//		Object[] result = {id, purchase};
-//		return result;
-//	}
 
 }//Closes FillTables

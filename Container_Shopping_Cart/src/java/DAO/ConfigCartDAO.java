@@ -12,7 +12,7 @@ import Entity.ConfigCart;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public interface ConfigCartDAO {
     

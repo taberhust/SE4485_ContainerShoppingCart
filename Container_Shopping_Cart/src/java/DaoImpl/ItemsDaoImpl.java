@@ -15,7 +15,7 @@ import Entity.Items;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public class ItemsDaoImpl implements ItemsDAO{
 

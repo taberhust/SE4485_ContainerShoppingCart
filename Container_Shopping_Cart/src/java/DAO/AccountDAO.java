@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import Entity.Account;
 
 /**
- *@author matt
+ *@author matt & kevin
  * 
  * This only updates the Account table
  */

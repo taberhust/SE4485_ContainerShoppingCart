@@ -12,7 +12,7 @@ import Entity.Purchase;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public interface PurchaseDAO {
     

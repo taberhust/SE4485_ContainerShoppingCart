@@ -7,7 +7,7 @@ package Entity;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public class Components {
     private Long containerID;

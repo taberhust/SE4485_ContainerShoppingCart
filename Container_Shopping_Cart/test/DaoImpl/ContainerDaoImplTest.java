@@ -100,12 +100,14 @@ public class ContainerDaoImplTest {
         // Test add container
         ContainerDaoImpl instance = new ContainerDaoImpl();
         Container container = new Container();
-        container.setContainerID("000000000000");
-        container.setName("Test Container");
-        container.setVersion("1.0");
-        container.setIcon(null);
+        container.setContainerID(Long.valueOf("1234567"));
+        container.setDockerID("DockerID");
+        container.setDockerName("DockerName");
+        container.setContainerName("ContainerName");
+        container.setPathToIcon(null);
         container.setCategory("Test");
         container.setProductName("Test Container 1.0");
+        container.setVersion("1.0");
         boolean result = instance.addContainer(connection, container);
         assertTrue(result);
         
@@ -133,12 +135,14 @@ public class ContainerDaoImplTest {
         String id = "4dc735ed4bb4";
         ContainerDaoImpl instance = new ContainerDaoImpl();
         Container container = new Container();
-        container.setContainerID("000000000000");
-        container.setName("Test Container");
-        container.setVersion("1.0");
-        container.setIcon(null);
+        container.setContainerID(Long.valueOf("1234567"));
+        container.setDockerID("DockerID");
+        container.setDockerName("DockerName");
+        container.setContainerName("ContainerName");
+        container.setPathToIcon(null);
         container.setCategory("Test");
         container.setProductName("Test Container 1.0");
+        container.setVersion("1.0");
         boolean result = instance.editContainer(connection, id, container);
         assertTrue(result);
         

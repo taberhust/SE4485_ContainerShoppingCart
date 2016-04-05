@@ -15,7 +15,7 @@ import Entity.Components;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public class ComponentsDaoImpl implements ComponentsDAO{
     

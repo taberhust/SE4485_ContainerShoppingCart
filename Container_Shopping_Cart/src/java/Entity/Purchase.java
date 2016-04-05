@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public class Purchase {
     private Long purchaseID;

@@ -15,7 +15,7 @@ import Entity.Purchase;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public class PurchaseDaoImpl implements PurchaseDAO{
 

@@ -12,7 +12,7 @@ import Entity.Items;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public interface ItemsDAO {
     

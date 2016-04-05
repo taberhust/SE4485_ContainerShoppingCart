@@ -12,7 +12,7 @@ import Entity.Configurations;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public interface ConfigurationsDAO {
     

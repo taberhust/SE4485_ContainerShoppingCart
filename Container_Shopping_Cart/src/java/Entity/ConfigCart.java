@@ -7,7 +7,7 @@ package Entity;
 
 /**
  *
- * @author matt
+ * @author matt & kevin
  */
 public class ConfigCart {
     private Long userID;
