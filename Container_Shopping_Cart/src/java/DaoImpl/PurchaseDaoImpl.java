@@ -27,7 +27,7 @@ public class PurchaseDaoImpl implements PurchaseDAO{
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, purchase.getPurchaseID().toString());
             ps.setString(2, purchase.getUserID().toString());
-            ps.setString(2, purchase.getTimeOfPurchase().toString());
+            ps.setString(3, purchase.getTimeOfPurchase().toString());
             
             ps.executeUpdate();
             

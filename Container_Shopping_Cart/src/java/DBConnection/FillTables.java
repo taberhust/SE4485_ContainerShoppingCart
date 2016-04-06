@@ -72,8 +72,8 @@ public class FillTables{
 	accountFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/accounts.csv.xls");
 	containerFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/container.csv.xls");
         configCartFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/configCart.csv.xls");
-	componentFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/component.csv.xsl");
-	configurationFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/configuration.csv.xsl");
+	componentFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/component.csv.xls");
+	configurationFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/configuration.csv.xls");
     }	
 
     public static void main(String args[]){
@@ -119,6 +119,7 @@ public class FillTables{
             System.out.println("Finished Filling the tables");
 	}
 	catch(Exception ex){
+            ex.printStackTrace();
             System.out.print("Failed to fill the tables.");
         }
     }
@@ -235,8 +236,8 @@ public class FillTables{
 	List<Items> itemList = new ArrayList<>();
             int numPur;
             for(Purchase purchase : purchases){
-		numPur = rnGen.nextInt(4)+1;
-		for(int i=0; i<numPur; i++){
+		numPur = rnGen.nextInt(5)+1;
+		for(int i=1; i<numPur; i++){
                     Container container = containers[rnGen.nextInt(containers.length)];
                     Items itemToAdd = buildItems(purchase.getPurchaseID(), container.getContainerID());
                     itemList.add(itemToAdd);
@@ -274,11 +275,12 @@ public class FillTables{
     
     private List<Purchase> buildPurchase(Account[] accounts) throws Exception{
 	List<Purchase> purchaseList = new ArrayList<>();
-	for(int i=0; i<100; i++){
+	for(int i=1; i<101; i++){
             Account account = accounts[rnGen.nextInt(accounts.length)];
-            Purchase purchase = new Purchase();
-            purchase.setPurchaseID(Long.valueOf(i));
-            buildPurchase(purchase.getPurchaseID(), account.getUserID());
+            //Purchase purchase = new Purchase();
+            //purchase.setPurchaseID(Long.valueOf(i));
+            //buildPurchase(purchase.getPurchaseID(), account.getUserID());
+            Purchase purchase = buildPurchase(Long.valueOf(i), account.getUserID());
             purchaseList.add(purchase);
         }
         return purchaseList;
