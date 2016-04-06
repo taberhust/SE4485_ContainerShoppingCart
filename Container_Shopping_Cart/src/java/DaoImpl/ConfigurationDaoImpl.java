@@ -23,7 +23,7 @@ public class ConfigurationDaoImpl implements ConfigurationDAO{
     public Configuration createConfiguration(Connection connection, Configuration configuration) throws SQLException {
         PreparedStatement ps = null;
         try{
-            String insertSQL = "INSERT INTO CONFIGURATION (configurationID, fileName, lineNumber, displayName, defaultValue, configValue) VALUES (?, ?, ?, ?, ?, ?);";
+            String insertSQL = "INSERT INTO Configuration (configurationID, fileName, lineNumber, displayName, defaultValue, configValue) VALUES (?, ?, ?, ?, ?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, configuration.getConfigurationID().toString());
             ps.setString(2, configuration.getDisplayName());
@@ -35,7 +35,8 @@ public class ConfigurationDaoImpl implements ConfigurationDAO{
             return configuration;
         }
         catch(Exception ex){
-            System.out.println("Exception in ConfigurationDaoImpl.create(2 arg)");
+            ex.printStackTrace();
+            //System.out.println("Exception in ConfigurationDaoImpl.create(2 arg)");
             if (ps != null && !ps.isClosed()){
                 ps.close();
             }

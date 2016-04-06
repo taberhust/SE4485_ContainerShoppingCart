@@ -207,16 +207,17 @@ public class ContainerDaoImpl implements ContainerDAO{
             ps.setString(2, container.getDockerID());
             ps.setString(3, container.getDockerName());
             ps.setString(4, container.getContainerName());
-            ps.setString(6, container.getPathToIcon());
-            ps.setString(7, container.getCategory());
-            ps.setString(8, container.getProductName());
-            ps.setString(5, container.getVersion());
+            ps.setString(5, container.getPathToIcon());
+            ps.setString(6, container.getCategory());
+            ps.setString(7, container.getProductName());
+            ps.setString(8, container.getVersion());
             ps.executeUpdate();
             
             return container;
         }
         catch(Exception ex){
-            System.out.println("Exception in ContainerDaoImpl.retrieveContainer()");
+            ex.printStackTrace();
+            //System.out.println("Exception in ContainerDaoImpl.retrieveContainer()");
             if (ps != null && !ps.isClosed()){
                 ps.close();
             }

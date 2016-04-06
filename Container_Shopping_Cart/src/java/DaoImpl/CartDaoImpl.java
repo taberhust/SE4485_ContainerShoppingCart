@@ -23,7 +23,7 @@ public class CartDaoImpl implements CartDAO{
     public Cart createCart(Connection connection, Cart cart) throws SQLException {
         PreparedStatement ps = null;
         try{
-            String insertSQL = "INSERT INTO CART (userID, cartContainerID) VALUES (?, ?);";
+            String insertSQL = "INSERT INTO Cart (userID, cartContainerID) VALUES (?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, cart.getUserID().toString());
             ps.setString(2, cart.getCartContainerID().toString());
@@ -33,6 +33,7 @@ public class CartDaoImpl implements CartDAO{
             return cart;
         }
         catch(Exception ex){
+            ex.printStackTrace();
             System.out.println("Exception in CartDaoImpl.create(2 arg)");
             if (ps != null && !ps.isClosed()){
                 ps.close();
@@ -48,7 +49,7 @@ public class CartDaoImpl implements CartDAO{
     public Cart createCart(Connection connection, Cart cart, Long userID) throws SQLException {
         PreparedStatement ps = null;
         try{
-            String insertSQL = "INSERT INTO CART (userID, cartContainerID) VALUES (?, ?);";
+            String insertSQL = "INSERT INTO Cart (userID, cartContainerID) VALUES (?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, userID.toString());
             ps.setString(2, cart.getCartContainerID().toString());

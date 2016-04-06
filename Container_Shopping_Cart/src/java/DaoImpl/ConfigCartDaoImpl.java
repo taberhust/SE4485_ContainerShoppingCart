@@ -23,7 +23,7 @@ public class ConfigCartDaoImpl implements ConfigCartDAO {
     public ConfigCart createConfigCart(Connection connection, ConfigCart configCart) throws SQLException {
         PreparedStatement ps = null;
         try{
-            String insertSQL = "INSERT INTO CONFIGCART (userID, cartContainerID, userType, "
+            String insertSQL = "INSERT INTO ConfigCart (userID, cartContainerID, userType, "
                     + "userArg1, userArg2) VALUES (?, ?, ?, ?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, configCart.getUserID().toString());
@@ -37,7 +37,8 @@ public class ConfigCartDaoImpl implements ConfigCartDAO {
             return configCart;
         }
         catch(Exception ex){
-            System.out.println("Exception in ConfigCartDaoImpl.create(2 arg)");
+            ex.printStackTrace();
+            //System.out.println("Exception in ConfigCartDaoImpl.create(2 arg)");
             if (ps != null && !ps.isClosed()){
                 ps.close();
             }

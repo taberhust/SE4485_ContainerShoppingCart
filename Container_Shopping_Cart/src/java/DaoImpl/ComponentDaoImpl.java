@@ -23,7 +23,7 @@ public class ComponentDaoImpl implements ComponentDAO{
     public Component createComponent(Connection connection, Component component) throws SQLException {
         PreparedStatement ps = null;
         try{
-            String insertSQL = "INSERT INTO COMPONENT (componentID, imageID, componentName, componentType, version) VALUES (?, ?, ?, ?, ?);";
+            String insertSQL = "INSERT INTO Component (componentID, imageID, componentName, componentType, version) VALUES (?, ?, ?, ?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, component.getComponentID().toString());
             ps.setString(2, component.getImageID());
@@ -36,7 +36,8 @@ public class ComponentDaoImpl implements ComponentDAO{
             return component;
         }
         catch(Exception ex){
-            System.out.println("Exception in ComponentDaoImpl.create(2 arg)");
+            ex.printStackTrace();
+            //System.out.println("Exception in ComponentDaoImpl.create(2 arg)");
             if (ps != null && !ps.isClosed()){
                 ps.close();
             }

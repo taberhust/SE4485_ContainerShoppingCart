@@ -25,7 +25,7 @@ public class AccountDaoImpl implements AccountDAO{
     public Account createAccount(Connection connection, Account account) throws SQLException{
         PreparedStatement ps = null;
         try{
-            String insertSQL = "INSERT INTO ACCOUNT (userName, firstName, lastName, privilege) VALUES (?, ?, ?, ?);";
+            String insertSQL = "INSERT INTO Account (userID, userName, firstName, lastName, privilege) VALUES (?, ?, ?, ?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, account.getUserID().toString());
             ps.setString(2, account.getUsername());
@@ -39,7 +39,7 @@ public class AccountDaoImpl implements AccountDAO{
         }
         catch(Exception ex){
             ex.printStackTrace();
-            System.out.println("Exception in AccountDaoImpl.create()");
+            //System.out.println("Exception in AccountDaoImpl.create()");
             if (ps != null && !ps.isClosed()){
                 ps.close();
             }
@@ -54,7 +54,7 @@ public class AccountDaoImpl implements AccountDAO{
     public Account retrieveAccount(Connection connection, String username) throws SQLException{
         PreparedStatement ps = null;
         try{
-            String retrieveSQL = "SELECT * FROM ACCOUNT WHERE ACCOUNT.userName = ?;";
+            String retrieveSQL = "SELECT * FROM Account WHERE Account.userName = ?;";
             ps = connection.prepareStatement(retrieveSQL);
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
@@ -85,7 +85,7 @@ public class AccountDaoImpl implements AccountDAO{
     public void deleteAccount(Connection connection, String username) throws SQLException{
         PreparedStatement ps = null;
         try{
-            String deleteSQL = "DELETE FROM ACCOUNT WHERE Account.userName = ?;";
+            String deleteSQL = "DELETE FROM Account WHERE Account.userName = ?;";
             ps = connection.prepareStatement(deleteSQL);
             ps.setString(1, username);
             ps.executeUpdate();

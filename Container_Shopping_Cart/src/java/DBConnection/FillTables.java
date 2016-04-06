@@ -21,7 +21,7 @@ import java.util.StringTokenizer;
 
 import javax.sql.DataSource;
 
-import DBConnection.DBConnection;
+//import DBConnection.DBConnection;
 
 import Entity.Account;
 import Entity.Cart;
@@ -69,11 +69,11 @@ public class FillTables{
     Random rnGen = new Random();
 
     private void initialize(){
-	accountFile = new File("/home/matt/Downloads/cvsData/account.csv");
-	containerFile = new File("/home/matt/Downloads/cvsData/container.csv");
-        configCartFile = new File("/home/matt/Downloads/cvsData.csv");
-	componentFile = new File("/home/matt/Downloads/cvsData/component.csv");
-	configurationFile = new File("/home/matt/Downloads/cvsData/configuration.csv");
+	accountFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/accounts.csv.xls");
+	containerFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/container.csv.xls");
+        configCartFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/configCart.csv.xls");
+	componentFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/component.csv.xsl");
+	configurationFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/configuration.csv.xsl");
     }	
 
     public static void main(String args[]){
@@ -91,11 +91,11 @@ public class FillTables{
             Map<Long, Container> containerMap = fillTables.buildContainer();
             fillTables.insertContainer(connection, containerMap);
             
-            List<Cart> cartItems = fillTables.buildCart(accountMap.values(), containerMap.values().toArray(new Container[0]));
-            fillTables.insertCart(connection, cartItems); 
+//            List<Cart> cartItems = fillTables.buildCart(accountMap.values(), containerMap.values().toArray(new Container[0]));
+//            fillTables.insertCart(connection, cartItems); 
             
-            List<ConfigCart> configCart = fillTables.buildConfigCart(cartItems.toArray(new Cart[0]));
-            fillTables.insertConfigCart(connection, configCart);
+//            List<ConfigCart> configCart = fillTables.buildConfigCart(cartItems.toArray(new Cart[0]));
+//            fillTables.insertConfigCart(connection, configCart);
             
             List<Purchase> purchases = fillTables.buildPurchase(accountMap.values().toArray(new Account[0]));
             fillTables.insertPurchase(connection, purchases);
@@ -301,17 +301,20 @@ public class FillTables{
     //-----------------insert Methods------------------------------
     private void insertAccount(Connection connection, Map<Long, Account> accountMap) throws Exception{
         for(Account account: accountMap.values()){
-	AccountDAO accountDAO = new AccountDaoImpl();
-	accountDAO.createAccount(connection, account);
+            AccountDAO accountDAO = new AccountDaoImpl();
+            accountDAO.createAccount(connection, account);
         }
     }
         
     private void insertCart(Connection connection, List<Cart> cartList) throws Exception{
-        CartDAO cartDAO = new CartDaoImpl();
+        //For some reason in the example cart was outside of the for loop
+        //CartDAO cartDAO = new CartDaoImpl();
         for(Cart cart : cartList){
+            CartDAO cartDAO = new CartDaoImpl();
             cartDAO.createCart(connection, cart);
         }
     }
+    
     private void insertComponent(Connection connection, Map<Long, Component> componentMap) throws Exception{
         for(Component component: componentMap.values()){
             ComponentDAO componentDAO = new ComponentDaoImpl();
@@ -320,15 +323,19 @@ public class FillTables{
     }
     
     private void insertComponents(Connection connection, List<Components> componentsList) throws Exception{
-        ComponentsDAO componDAO = new ComponentsDaoImpl();
+        //For some reason in the example cart was outside of the for loop
+        //ComponentsDAO componDAO = new ComponentsDaoImpl();
         for(Components components : componentsList){
+            ComponentsDAO componDAO = new ComponentsDaoImpl();
             componDAO.createComponents(connection, components);
         }
     }
     
     private void insertConfigCart(Connection connection, List<ConfigCart> configcartlist) throws Exception{
-        ConfigCartDAO configcartDAO = new ConfigCartDaoImpl();
+        //For some reason in the example cart was outside of the for loop
+        //ConfigCartDAO configcartDAO = new ConfigCartDaoImpl();
         for(ConfigCart configcart : configcartlist){
+            ConfigCartDAO configcartDAO = new ConfigCartDaoImpl();
             configcartDAO.createConfigCart(connection, configcart);
         }
     }
@@ -341,8 +348,10 @@ public class FillTables{
     }
         
     private void insertConfigurations(Connection connection, List<Configurations> configurationsList) throws Exception{
-        ConfigurationsDAO configDAO = new ConfigurationsDaoImpl();
+        //For some reason in the example cart was outside of the for loop
+        //ConfigurationsDAO configDAO = new ConfigurationsDaoImpl();
         for(Configurations configurations : configurationsList){
+            ConfigurationsDAO configDAO = new ConfigurationsDaoImpl();
             configDAO.createConfigurations(connection, configurations);
         }
     }
@@ -355,15 +364,19 @@ public class FillTables{
     }
     
     private void insertItems(Connection connection, List<Items> itemsList) throws Exception{
-        ItemsDAO itemsDAO = new ItemsDaoImpl();
+        //For some reason in the example cart was outside of the for loop
+        //ItemsDAO itemsDAO = new ItemsDaoImpl();
         for(Items items : itemsList){
-                itemsDAO.createItems(connection, items);
+            ItemsDAO itemsDAO = new ItemsDaoImpl();
+            itemsDAO.createItems(connection, items);
         }
     }
     
     private void insertPurchase(Connection connection, List<Purchase> purchases) throws Exception{
+        //For some reason in the example cart was outside of the for loop
         PurchaseDAO purchaseDAO = new PurchaseDaoImpl();
         for (Purchase purchase : purchases){
+            //PurchaseDAO purchaseDAO = new PurchaseDaoImpl();
             purchaseDAO.createPurchase(connection, purchase);
         }
     }
@@ -374,6 +387,7 @@ public class FillTables{
         Account account = new Account();
         Long id = Long.parseLong(st.nextToken());
         account.setUserID(Long.parseLong(st.nextToken()));
+        account.setUserName(st.nextToken());
         account.setFirstName(st.nextToken());
         account.setLastName(st.nextToken());
         account.setPrivilege(st.nextToken());

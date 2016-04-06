@@ -23,7 +23,7 @@ public class PurchaseDaoImpl implements PurchaseDAO{
     public Purchase createPurchase(Connection connection, Purchase purchase) throws SQLException {
         PreparedStatement ps = null;
         try{
-            String insertSQL = "INSERT INTO ITEMS (purchaseID, userID, timeOfPurchase) VALUES (?, ?, ?);";
+            String insertSQL = "INSERT INTO Purchase (purchaseID, userID, timeOfPurchase) VALUES (?, ?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, purchase.getPurchaseID().toString());
             ps.setString(2, purchase.getUserID().toString());
@@ -34,7 +34,8 @@ public class PurchaseDaoImpl implements PurchaseDAO{
             return purchase;
         }
         catch(Exception ex){
-            System.out.println("Exception in PurchaseDaoImpl.create(2 arg)");
+            ex.printStackTrace();
+            //System.out.println("Exception in PurchaseDaoImpl.create(2 arg)");
             if (ps != null && !ps.isClosed()){
                 ps.close();
             }

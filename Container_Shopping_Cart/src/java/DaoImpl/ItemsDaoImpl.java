@@ -23,7 +23,7 @@ public class ItemsDaoImpl implements ItemsDAO{
     public Items createItems(Connection connection, Items items) throws SQLException {
         PreparedStatement ps = null;
         try{
-            String insertSQL = "INSERT INTO ITEMS (purchaseID, containerID) VALUES (?, ?);";
+            String insertSQL = "INSERT INTO Items (purchaseID, containerID) VALUES (?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, items.getPurchaseID().toString());
             ps.setString(2, items.getContainerID().toString());
@@ -33,7 +33,8 @@ public class ItemsDaoImpl implements ItemsDAO{
             return items;
         }
         catch(Exception ex){
-            System.out.println("Exception in ItemsDaoImpl.create(2 arg)");
+            ex.printStackTrace();
+            //System.out.println("Exception in ItemsDaoImpl.create(2 arg)");
             if (ps != null && !ps.isClosed()){
                 ps.close();
             }

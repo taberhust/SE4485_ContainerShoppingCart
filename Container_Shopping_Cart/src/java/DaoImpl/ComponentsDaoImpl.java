@@ -23,7 +23,7 @@ public class ComponentsDaoImpl implements ComponentsDAO{
     public Components createComponents(Connection connection, Components components) throws SQLException {
         PreparedStatement ps = null;
         try{
-            String insertSQL = "INSERT INTO COMPONENTS (containerID, componentID) VALUES (?, ?);";
+            String insertSQL = "INSERT INTO Components (containerID, componentID) VALUES (?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, components.getContainerID().toString());
             ps.setString(2, components.getComponentID().toString());
@@ -33,7 +33,8 @@ public class ComponentsDaoImpl implements ComponentsDAO{
             return components;
         }
         catch(Exception ex){
-            System.out.println("Exception in ComponentsDaoImpl.create(2 arg)");
+            ex.printStackTrace();
+            //System.out.println("Exception in ComponentsDaoImpl.create(2 arg)");
             if (ps != null && !ps.isClosed()){
                 ps.close();
             }
