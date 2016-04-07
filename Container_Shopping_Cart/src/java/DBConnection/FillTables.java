@@ -69,11 +69,11 @@ public class FillTables{
     Random rnGen = new Random();
 
     private void initialize(){
-	accountFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/accounts.csv.xls");
-	containerFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/container.csv.xls");
-        configCartFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/configCart.csv.xls");
-	componentFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/component.csv.xls");
-	configurationFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/csvData/configuration.csv.xls");
+	accountFile = new File("test/csvData/accounts.csv");
+	containerFile = new File("test/csvData/container.csv");
+        configCartFile = new File("test/csvData/configCart.csv");
+	componentFile = new File("test/csvData/component.csv");
+	configurationFile = new File("test/csvData/configuration.csv");
     }	
 
     public static void main(String args[]){
@@ -91,11 +91,11 @@ public class FillTables{
             Map<Long, Container> containerMap = fillTables.buildContainer();
             fillTables.insertContainer(connection, containerMap);
             
-//            List<Cart> cartItems = fillTables.buildCart(accountMap.values(), containerMap.values().toArray(new Container[0]));
-//            fillTables.insertCart(connection, cartItems); 
+            List<Cart> cartItems = fillTables.buildCart(accountMap.values(), containerMap.values().toArray(new Container[0]));
+            fillTables.insertCart(connection, cartItems); 
             
-//            List<ConfigCart> configCart = fillTables.buildConfigCart(cartItems.toArray(new Cart[0]));
-//            fillTables.insertConfigCart(connection, configCart);
+            List<ConfigCart> configCart = fillTables.buildConfigCart(cartItems.toArray(new Cart[0]));
+            fillTables.insertConfigCart(connection, configCart);
             
             List<Purchase> purchases = fillTables.buildPurchase(accountMap.values().toArray(new Account[0]));
             fillTables.insertPurchase(connection, purchases);
@@ -115,7 +115,7 @@ public class FillTables{
             List<Items> items = fillTables.buildItems(purchases, containerMap.values().toArray(new Container[0]));
             fillTables.insertItems(connection, items);
 
-            connection.commit();
+            //connection.commit();
             System.out.println("Finished Filling the tables");
 	}
 	catch(Exception ex){
@@ -265,9 +265,9 @@ public class FillTables{
             configcart.setUserID(cartItems[addToThisUser].getUserID());
             configcart.setCartContainerID(cartItems[addToThisUser].getCartContainerID());
             Object item[] = parseConfigCart(line);
-            configcart.setUserType(item[0].toString());
-            configcart.setUserArg1(item[1].toString());
-            configcart.setUserArg2(item[2].toString());
+            configcart.setUserType(((ConfigCart)item[1]).getUserType());
+            configcart.setUserArg1(((ConfigCart)item[1]).getUserArg1());
+            configcart.setUserArg2(((ConfigCart)item[1]).getUserArg2());
             configCartList.add(configcart);
         }
         return configCartList;
@@ -388,7 +388,7 @@ public class FillTables{
         StringTokenizer st = new StringTokenizer(line, ",");
         Account account = new Account();
         Long id = Long.parseLong(st.nextToken());
-        account.setUserID(Long.parseLong(st.nextToken()));
+        account.setUserID(id);
         account.setUserName(st.nextToken());
         account.setFirstName(st.nextToken());
         account.setLastName(st.nextToken());
@@ -401,7 +401,7 @@ public class FillTables{
 	StringTokenizer st = new StringTokenizer(line, ",");
 	Component component = new Component();
 	Long id = Long.parseLong(st.nextToken());
-        component.setComponentID(Long.parseLong(st.nextToken()));
+        component.setComponentID(id);
 	component.setImageID(st.nextToken());
 	component.setComponentName(st.nextToken());
 	component.setComponentType(st.nextToken());
@@ -425,7 +425,7 @@ public class FillTables{
 	StringTokenizer st = new StringTokenizer(line, ",");
 	Configuration configuration = new Configuration();
 	Long id = Long.parseLong(st.nextToken());
-        configuration.setConfigurationID(Long.parseLong(st.nextToken()));
+        configuration.setConfigurationID(id);
 	configuration.setDisplayName(st.nextToken());
         configuration.setDefaultType(st.nextToken());
 	configuration.setDefaultArg1(st.nextToken());
@@ -438,7 +438,7 @@ public class FillTables{
 	StringTokenizer st = new StringTokenizer(line, ",");
 	Container container = new Container();
 	Long id = Long.parseLong(st.nextToken());
-        container.setContainerID(Long.parseLong(st.nextToken()));
+        container.setContainerID(id);
 	container.setDockerID(st.nextToken());
 	container.setDockerName(st.nextToken());
 	container.setContainerName(st.nextToken());
