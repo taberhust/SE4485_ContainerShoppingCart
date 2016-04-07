@@ -115,7 +115,7 @@ public class FillTables{
             List<Items> items = fillTables.buildItems(purchases, containerMap.values().toArray(new Container[0]));
             fillTables.insertItems(connection, items);
 
-            //connection.commit();
+            connection.commit();
             System.out.println("Finished Filling the tables");
 	}
 	catch(Exception ex){
@@ -444,7 +444,7 @@ public class FillTables{
 	container.setContainerName(st.nextToken());
 	container.setPathToIcon(st.nextToken());
         container.setCategory(st.nextToken());
-	container.setProductName(st.nextToken());
+	container.setProductFamily(st.nextToken());
         container.setVersion(st.nextToken());
 	Object[] result = {id, container};
 	return result;

@@ -19,7 +19,7 @@ public class Container {
     private String containerName;
     private String pathToIcon;
     private String category;
-    private String productName;
+    private String productFamily;
     private String version;
     private ArrayList<Component> components;
     private ArrayList<Configuration> configurations;
@@ -52,8 +52,8 @@ public class Container {
         this.category = category;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setProductFamily(String productFamily) {
+        this.productFamily = productFamily;
     }
     
     public void setComponents(ArrayList<Component> components){
@@ -92,8 +92,8 @@ public class Container {
         return category;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getProductFamily() {
+        return productFamily;
     }
     
     public ArrayList<Component> getComponents() {

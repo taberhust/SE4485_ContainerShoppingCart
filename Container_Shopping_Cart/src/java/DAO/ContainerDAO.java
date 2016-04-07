@@ -20,6 +20,7 @@ public interface ContainerDAO {
     ArrayList<Container> retrieveAllContainers(Connection connection) throws SQLException;
     ArrayList<Container> retrieveContainersByCategory(Connection connection, String category) throws SQLException;
     ArrayList<Container> retrieveContainersByName(Connection connection, String name) throws SQLException;
+    ArrayList<Container> retrieveContainersByProductFamily(Connection connection, String name) throws SQLException;
     Container createContainer(Connection connection, Container container) throws SQLException;
     Container retrieveContainer(Connection connection, String containerID) throws SQLException;
     boolean addContainer(Connection connection, Container container) throws SQLException;

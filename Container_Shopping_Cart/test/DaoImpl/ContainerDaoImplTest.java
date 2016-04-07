@@ -72,7 +72,7 @@ public class ContainerDaoImplTest {
         System.out.println("retrieveContainer");
         Connection connection = DBConnection.getDataSource().getConnection();
         ContainerDaoImpl instance = new ContainerDaoImpl();
-        String category = "Server";
+        String category = "category4";
         ArrayList<Container> result = instance.retrieveContainersByCategory(connection, category);
         assertNotNull(result);
     }
@@ -82,8 +82,18 @@ public class ContainerDaoImplTest {
         System.out.println("retrieveContainer");
         Connection connection = DBConnection.getDataSource().getConnection();
         ContainerDaoImpl instance = new ContainerDaoImpl();
-        String name = "mysql";
+        String name = "containerName7";
         ArrayList<Container> result = instance.retrieveContainersByName(connection, name);
+        assertNotNull(result);
+    }
+    
+    @Test
+    public void testRetrieveContainerByProductFamily_Connection_String() throws Exception {
+        System.out.println("retrieveContainer");
+        Connection connection = DBConnection.getDataSource().getConnection();
+        ContainerDaoImpl instance = new ContainerDaoImpl();
+        String category = "productFamily6";
+        ArrayList<Container> result = instance.retrieveContainersByProductFamily(connection, category);
         assertNotNull(result);
     }
     
@@ -106,7 +116,7 @@ public class ContainerDaoImplTest {
         container.setContainerName("ContainerName");
         container.setPathToIcon(null);
         container.setCategory("Test");
-        container.setProductName("Test Container 1.0");
+        container.setProductFamily("Test Container 1.0");
         container.setVersion("1.0");
         boolean result = instance.addContainer(connection, container);
         assertTrue(result);
@@ -132,29 +142,20 @@ public class ContainerDaoImplTest {
         connection.setAutoCommit(false);
         
         // Test edit container
-        String id = "4dc735ed4bb4";
+        String id = "2";
         ContainerDaoImpl instance = new ContainerDaoImpl();
         Container container = new Container();
-        container.setContainerID(Long.valueOf("1234567"));
+        container.setContainerID(Long.valueOf("2"));
         container.setDockerID("DockerID");
         container.setDockerName("DockerName");
         container.setContainerName("ContainerName");
         container.setPathToIcon(null);
         container.setCategory("Test");
-        container.setProductName("Test Container 1.0");
+        container.setProductFamily("Test Container 1.0");
         container.setVersion("1.0");
         boolean result = instance.editContainer(connection, id, container);
         assertTrue(result);
-        
-        // Test that old container entry is gone
-        container = instance.retrieveContainer(connection, id);
-        assertNull(container);
-        
-        // Test that new container entry exists
-        id = "000000000000";
-        container = instance.retrieveContainer(connection, id);
-        assertNotNull(container);
-        
+                
         // Rollback any changes this test made
         connection.rollback();
         connection.setAutoCommit(true);
@@ -171,7 +172,7 @@ public class ContainerDaoImplTest {
         connection.setAutoCommit(false);
         
         // Test delete container
-        String id = "4dc735ed4bb4";
+        String id = "3";
         ContainerDaoImpl instance = new ContainerDaoImpl();
         boolean result = instance.deleteContainer(connection, id);
         assertTrue(result);
