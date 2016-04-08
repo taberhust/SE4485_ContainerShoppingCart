@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import Entity.Components;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,12 +17,7 @@ import Entity.Components;
  */
 public interface ComponentsDAO {
     
-    Components createComponents(Connection connection, Components components) throws SQLException;
-    
-    Components createComponents(Connection connection, Components components, Long containerID) throws SQLException;
-    
-    Components retrieveComponents(Connection connection, Long containerID) throws SQLException;
-    
-    void deleteComponForContainer(Connection connection, Long containerID) throws SQLException;
-    
+    Components addComponents(Connection connection, Components components) throws SQLException;
+    ArrayList<Components> getComponents(Connection connection, Long containerID) throws SQLException;   
+    boolean deleteComponentsFromContainer(Connection connection, Long containerID, Long componentID) throws SQLException;
 }

@@ -41,7 +41,6 @@ import DAO.ConfigCartDAO;
 import DAO.ConfigurationDAO;
 import DAO.ConfigurationsDAO;
 import DAO.ContainerDAO;
-import DAO.ItemsDAO;
 import DAO.PurchaseDAO;
 import DaoImpl.AccountDaoImpl;
 import DaoImpl.CartDaoImpl;
@@ -53,6 +52,7 @@ import DaoImpl.ConfigurationsDaoImpl;
 import DaoImpl.ContainerDaoImpl;
 import DaoImpl.ItemsDaoImpl;
 import DaoImpl.PurchaseDaoImpl;
+import DAO.ItemsDAO;
 
 /**
  *
@@ -320,7 +320,7 @@ public class FillTables{
     private void insertComponent(Connection connection, Map<Long, Component> componentMap) throws Exception{
         for(Component component: componentMap.values()){
             ComponentDAO componentDAO = new ComponentDaoImpl();
-            componentDAO.createComponent(connection, component);
+            componentDAO.addComponentFT(connection, component);
         }
     }
     
@@ -329,7 +329,7 @@ public class FillTables{
         //ComponentsDAO componDAO = new ComponentsDaoImpl();
         for(Components components : componentsList){
             ComponentsDAO componDAO = new ComponentsDaoImpl();
-            componDAO.createComponents(connection, components);
+            componDAO.addComponents(connection, components);
         }
     }
     
@@ -361,7 +361,7 @@ public class FillTables{
     private void insertContainer(Connection connection, Map<Long, Container> containerMap) throws Exception{
         for(Container container: containerMap.values()){
             ContainerDAO containerDAO = new ContainerDaoImpl();
-            containerDAO.createContainer(connection, container);
+            containerDAO.addContainerFT(connection, container);
         }
     }
     

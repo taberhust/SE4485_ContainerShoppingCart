@@ -12,6 +12,8 @@ import java.sql.SQLException;
 
 import DAO.ComponentsDAO;
 import Entity.Components;
+import Entity.Container;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,7 +22,7 @@ import Entity.Components;
 public class ComponentsDaoImpl implements ComponentsDAO{
     
     @Override
-    public Components createComponents(Connection connection, Components components) throws SQLException {
+    public Components addComponents(Connection connection, Components components) throws SQLException {
         PreparedStatement ps = null;
         try{
             String insertSQL = "INSERT INTO Components (containerID, componentID) VALUES (?, ?);";
@@ -41,22 +43,74 @@ public class ComponentsDaoImpl implements ComponentsDAO{
             if (connection != null && !connection.isClosed()){
                 connection.close();
             }
+            
+            return null;
         }
-        return components;
     }        
 
     @Override
-    public Components createComponents(Connection connection, Components components, Long containerID) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<Components> getComponents(Connection connection, Long containerID) throws SQLException {
+        PreparedStatement ps = null;
+        try{
+            // Prepare the statement
+            String retrieveSQL = "SELECT * FROM Components WHERE containerID = ?;";
+            ps = connection.prepareStatement(retrieveSQL);
+            ps.setLong(1, containerID);
+            ResultSet rs = ps.executeQuery();
+            
+            // Check if the result is empty
+            if(!rs.isBeforeFirst()){
+                    return null;
+            }
+            
+            // Increment through results and build list of containers
+            ArrayList<Components> componentsList = new ArrayList<>();
+            while(rs.next()) {
+                Components components = new Components();
+                components.setContainerID(rs.getLong("containerID"));
+                components.setComponentID(rs.getLong("componentID"));
+                componentsList.add(components);
+            }
+            return componentsList;
+        }
+        
+        catch(Exception ex){
+            System.out.println("Exception in ContainerDaoImpl.retrieveContainer()");
+            if (ps != null && !ps.isClosed()){
+                ps.close();
+            }
+            if (connection != null && !connection.isClosed()){
+                connection.close();
+            }
+            
+            return null;
+        }
     }
 
     @Override
-    public Components retrieveComponents(Connection connection, Long containerID) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void deleteComponForContainer(Connection connection, Long containerID) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean deleteComponentsFromContainer(Connection connection, Long containerID, Long componentID) throws SQLException {
+        PreparedStatement ps = null;
+        try{
+            // Prepare the statement
+            String deleteSQL = "DELETE FROM Components WHERE containerID = ? AND componentID = ?;";
+            ps = connection.prepareStatement(deleteSQL);
+            ps.setLong(1, containerID);
+            ps.setLong(2, componentID);
+            ps.executeUpdate();
+            
+            return true;
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            //System.out.println("Exception in ComponentDaoImpl.deleteComponent()");
+            if (ps != null && !ps.isClosed()){
+                ps.close();
+            }
+            if (connection != null && !connection.isClosed()){
+                connection.close();
+            }
+            
+            return false;
+        }
     }    
 }

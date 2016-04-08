@@ -21,10 +21,11 @@ public interface ContainerDAO {
     ArrayList<Container> retrieveContainersByCategory(Connection connection, String category) throws SQLException;
     ArrayList<Container> retrieveContainersByName(Connection connection, String name) throws SQLException;
     ArrayList<Container> retrieveContainersByProductFamily(Connection connection, String name) throws SQLException;
-    Container createContainer(Connection connection, Container container) throws SQLException;
-    Container retrieveContainer(Connection connection, String containerID) throws SQLException;
-    boolean addContainer(Connection connection, Container container) throws SQLException;
-    boolean editContainer(Connection connection, String id, Container container) throws SQLException;
-    boolean deleteContainer(Connection connection, String id) throws SQLException;
+    // Remove FT function on submission if auto-increment implemented
+    Container addContainerFT(Connection connection, Container container) throws SQLException;
+    Container addContainer(Connection connection, Container container) throws SQLException;
+    Container retrieveContainer(Connection connection, Long containerID) throws SQLException;
+    boolean editContainer(Connection connection, Long id, Container container) throws SQLException;
+    boolean deleteContainer(Connection connection, Long id) throws SQLException;
     
 }

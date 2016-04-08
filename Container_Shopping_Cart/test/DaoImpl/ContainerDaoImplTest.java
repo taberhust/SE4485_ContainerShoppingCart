@@ -23,25 +23,6 @@ import static org.junit.Assert.*;
  */
 public class ContainerDaoImplTest {
     
-    public ContainerDaoImplTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of retrieveContainer method, of class ContainerDaoImpl.
      */
@@ -61,7 +42,7 @@ public class ContainerDaoImplTest {
     public void testRetrieveContainer_Connection_String() throws Exception {
         System.out.println("retrieveContainer");
         Connection connection = DBConnection.getDataSource().getConnection();
-        String id = "4dc735ed4bb4";
+        Long id = 1L;
         ContainerDaoImpl instance = new ContainerDaoImpl();
         Container result = instance.retrieveContainer(connection, id);
         assertNotNull(result);
@@ -98,7 +79,7 @@ public class ContainerDaoImplTest {
     }
     
     /**
-     * Test of addContainer method, of class ContainerDaoImpl.
+     * Test of addContainerFT method, of class ContainerDaoImpl.
      */
     @Test
     public void testAddContainer() throws Exception {
@@ -110,7 +91,6 @@ public class ContainerDaoImplTest {
         // Test add container
         ContainerDaoImpl instance = new ContainerDaoImpl();
         Container container = new Container();
-        container.setContainerID(Long.valueOf("1234567"));
         container.setDockerID("DockerID");
         container.setDockerName("DockerName");
         container.setContainerName("ContainerName");
@@ -118,11 +98,11 @@ public class ContainerDaoImplTest {
         container.setCategory("Test");
         container.setProductFamily("Test Container 1.0");
         container.setVersion("1.0");
-        boolean result = instance.addContainer(connection, container);
-        assertTrue(result);
+        Container result = instance.addContainer(connection, container);
+        assertNotNull(result);
         
         // Test if added container exists
-        String id = "000000000000";
+        Long id = result.getContainerID();
         container = instance.retrieveContainer(connection, id);
         assertNotNull(container);
         
@@ -142,7 +122,7 @@ public class ContainerDaoImplTest {
         connection.setAutoCommit(false);
         
         // Test edit container
-        String id = "2";
+        Long id = 2L;
         ContainerDaoImpl instance = new ContainerDaoImpl();
         Container container = new Container();
         container.setContainerID(Long.valueOf("2"));
@@ -172,7 +152,7 @@ public class ContainerDaoImplTest {
         connection.setAutoCommit(false);
         
         // Test delete container
-        String id = "3";
+        Long id = 3L;
         ContainerDaoImpl instance = new ContainerDaoImpl();
         boolean result = instance.deleteContainer(connection, id);
         assertTrue(result);
@@ -180,6 +160,40 @@ public class ContainerDaoImplTest {
         // Verify container was deleted
         Container container = instance.retrieveContainer(connection, id);
         assertNull(container);
+        
+        // Rollback any changes this test made
+        connection.rollback();
+        connection.setAutoCommit(true);
+    }
+
+    /**
+     * Test of addContainerFT method, of class ContainerDaoImpl.
+     */
+    @Test
+    public void testAddContainerFT() throws Exception {
+        System.out.println("addContainerFT");
+        // Set up connection to not make changes
+        Connection connection = DBConnection.getDataSource().getConnection();
+        connection.setAutoCommit(false);
+        
+        // Test add container
+        ContainerDaoImpl instance = new ContainerDaoImpl();
+        Container container = new Container();
+        container.setContainerID(1337L);
+        container.setDockerID("DockerID");
+        container.setDockerName("DockerName");
+        container.setContainerName("ContainerName");
+        container.setPathToIcon(null);
+        container.setCategory("Test");
+        container.setProductFamily("Test Container 1.0");
+        container.setVersion("1.0");
+        Container result = instance.addContainerFT(connection, container);
+        assertNotNull(result);
+        
+        // Test if added container exists
+        Long id = 1337L;
+        container = instance.retrieveContainer(connection, id);
+        assertNotNull(container);
         
         // Rollback any changes this test made
         connection.rollback();

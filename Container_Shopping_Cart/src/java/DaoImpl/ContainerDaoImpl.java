@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import DAO.ContainerDAO;
 import Entity.Container;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  *
@@ -66,13 +67,13 @@ public class ContainerDaoImpl implements ContainerDAO{
     }
 
     @Override
-    public Container retrieveContainer(Connection connection, String id) throws SQLException {
+    public Container retrieveContainer(Connection connection, Long id) throws SQLException {
         PreparedStatement ps = null;
         try{
             // Prepare the statement
             String retrieveSQL = "SELECT * FROM Container WHERE containerID = ?";
             ps = connection.prepareStatement(retrieveSQL);
-            ps.setString(1, id);
+            ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             
             // Check if the result is empty
@@ -239,14 +240,14 @@ public class ContainerDaoImpl implements ContainerDAO{
         
     
     @Override
-    public Container createContainer(Connection connection, Container container) throws SQLException {
+    public Container addContainerFT(Connection connection, Container container) throws SQLException {
         PreparedStatement ps = null;
         try{
             String insertSQL = "Insert INTO Container " +
                     "(containerID, dockerID, dockerName, containerName, pathToIcon, category, productFamily, version) " + 
                     "  Values (?, ?, ?, ?, ?, ?, ?, ?);";
             ps = connection.prepareStatement(insertSQL);
-            ps.setString(1, container.getContainerID().toString());
+            ps.setLong(1, container.getContainerID());
             ps.setString(2, container.getDockerID());
             ps.setString(3, container.getDockerName());
             ps.setString(4, container.getContainerName());
@@ -267,12 +268,50 @@ public class ContainerDaoImpl implements ContainerDAO{
             if (connection != null && !connection.isClosed()){
                 connection.close();
             }
+            return null;
         }
-        return container;
     }
 
     @Override
-    public boolean editContainer(Connection connection, String id, Container container) throws SQLException {
+    public Container addContainer(Connection connection, Container container) throws SQLException {
+        PreparedStatement ps = null;
+        try{
+            String insertSQL = "Insert INTO Container " +
+                    "(dockerID, dockerName, containerName, pathToIcon, category, productFamily, version) " + 
+                    "  Values (?, ?, ?, ?, ?, ?, ?);";
+            ps = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, container.getDockerID());
+            ps.setString(2, container.getDockerName());
+            ps.setString(3, container.getContainerName());
+            ps.setString(4, container.getPathToIcon());
+            ps.setString(5, container.getCategory());
+            ps.setString(6, container.getProductFamily());
+            ps.setString(7, container.getVersion());
+            ps.executeUpdate();
+            
+            // Return generated ID
+            ResultSet keyRS = ps.getGeneratedKeys();
+            keyRS.next();
+            int lastKey = keyRS.getInt(1);
+            container.setContainerID((long) lastKey);
+            
+            return container;
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            //System.out.println("Exception in ContainerDaoImpl.retrieveContainer()");
+            if (ps != null && !ps.isClosed()){
+                ps.close();
+            }
+            if (connection != null && !connection.isClosed()){
+                connection.close();
+            }
+            return null;
+        }
+    }
+
+    @Override
+    public boolean editContainer(Connection connection, Long id, Container container) throws SQLException {
         PreparedStatement ps = null;
         try{
             // Prepare the statement
@@ -281,7 +320,7 @@ public class ContainerDaoImpl implements ContainerDAO{
                     + "pathToIcon = ?, category = ?, productFamily = ?, version = ?"
                     + "WHERE containerID = ?;";
             ps = connection.prepareStatement(editSQL);
-            ps.setString(1, container.getContainerID().toString());
+            ps.setLong(1, container.getContainerID());
             ps.setString(2, container.getDockerID());
             ps.setString(3, container.getDockerName());
             ps.setString(4, container.getContainerName());
@@ -289,7 +328,7 @@ public class ContainerDaoImpl implements ContainerDAO{
             ps.setString(7, container.getCategory());
             ps.setString(8, container.getProductFamily());
             ps.setString(5, container.getVersion());
-            ps.setString(9, id);
+            ps.setLong(9, id);
             ps.executeUpdate();
             
             return true;
@@ -309,13 +348,13 @@ public class ContainerDaoImpl implements ContainerDAO{
     }
 
     @Override
-    public boolean deleteContainer(Connection connection, String id) throws SQLException{
+    public boolean deleteContainer(Connection connection, Long id) throws SQLException{
         PreparedStatement ps = null;
         try{
             // Prepare the statement
             String deleteSQL = "DELETE FROM Container WHERE containerID = ?;";
             ps = connection.prepareStatement(deleteSQL);
-            ps.setString(1, id);
+            ps.setLong(1, id);
             ps.executeUpdate();
             
             return true;
@@ -333,10 +372,4 @@ public class ContainerDaoImpl implements ContainerDAO{
             return false;
         }
     }
-
-    @Override
-    public boolean addContainer(Connection connection, Container container) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }
