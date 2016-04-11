@@ -53,7 +53,7 @@ public class DAOInterfaceTest {
     @Test
     public void testRetrieveContainersByName() throws Exception {
         System.out.println("retrieveContainersByName");
-        Connection connection = null;
+        Connection connection = DBConnection.getDataSource().getConnection();
         String name = "containerName1";
         DAOInterface instance = new DAOInterface();
         ArrayList<Container> result = instance.retrieveContainersByName(connection, name);
