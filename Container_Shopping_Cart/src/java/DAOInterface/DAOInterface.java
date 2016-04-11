@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class DAOInterface {
     // Intermediate functions
-    Container addComponentsToContainer(Connection connection, Container container) throws SQLException{
+    private Container addComponentsToContainer(Connection connection, Container container) throws SQLException{
         ComponentsDaoImpl componentsInstance = new ComponentsDaoImpl();
         ComponentDaoImpl componentInstance = new ComponentDaoImpl();
         

@@ -221,7 +221,8 @@ public class ContainerDaoImpl implements ContainerDAO{
                 container.setPathToIcon(rs.getString("pathToIcon"));
                 container.setCategory(rs.getString("category"));
                 container.setProductFamily(rs.getString("productFamily"));
-                container.setVersion(rs.getString("version"));                 
+                container.setVersion(rs.getString("version")); 
+                containerList.add(container);
             }
             return containerList;
         }
