@@ -12,12 +12,47 @@ import java.sql.SQLException;
 
 import DAO.ConfigCartDAO;
 import Entity.ConfigCart;
+import Entity.Configuration;
+import Entity.Container;
+import java.util.ArrayList;
 
 /**
  *
  * @author matt & kevin
  */
 public class ConfigCartDaoImpl implements ConfigCartDAO {
+    
+    @Override
+    public boolean createConfigCart(Connection connection, Long userID, Container container) throws SQLException {
+        PreparedStatement ps = null;
+        try{
+            ArrayList<Configuration> cartContainerConfigs = container.getConfigurations();
+            for(Configuration configuration: cartContainerConfigs){
+                String insertSQL = "INSERT INTO ConfigCart (userID, cartContainerID, userType, "
+                    + "userArg1, userArg2) VALUES (?, ?, ?, ?, ?);";
+                ps = connection.prepareStatement(insertSQL);
+                ps.setString(1, userID.toString());
+                ps.setString(2, container.getContainerID().toString());
+                ps.setString(3, configuration.getDefaultType());
+                ps.setString(4, configuration.getDefaultArg1());
+                ps.setString(5, configuration.getDefaultArg2());
+            
+                ps.executeUpdate();
+            }
+            return true;
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            System.out.println("Exception in ConfigCartDaoImpl.createConfigCart(3 arg)");
+            if (ps != null && !ps.isClosed()){
+                ps.close();
+            }
+            if (connection != null && !connection.isClosed()){
+                connection.close();
+            }
+        }
+        return false;       
+    }
 
     @Override
     public ConfigCart createConfigCart(Connection connection, ConfigCart configCart) throws SQLException {
@@ -48,5 +83,7 @@ public class ConfigCartDaoImpl implements ConfigCartDAO {
         }
         return configCart;         
     }
+
+
     
 }

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import Entity.Cart;
+import Entity.Container;
 
 /**
  *
@@ -16,6 +17,7 @@ import Entity.Cart;
  */
 public interface CartDAO {
     
+    boolean createCart(Connection connection, Long userID, Container container) throws SQLException;
     Cart createCart(Connection connection, Cart cart) throws SQLException;
     Cart createCart(Connection connection, Cart cart, Long userID) throws SQLException;
     

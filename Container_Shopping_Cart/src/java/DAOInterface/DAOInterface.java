@@ -5,12 +5,15 @@
  */
 package DAOInterface;
 
+import DaoImpl.CartDaoImpl;
 import DaoImpl.ComponentsDaoImpl;
 import DaoImpl.ContainerDaoImpl;
 import DaoImpl.ComponentDaoImpl;
+import DaoImpl.ConfigCartDaoImpl;
 import DaoImpl.ConfigurationDaoImpl;
 import DaoImpl.ConfigurationsDaoImpl;
 import Entity.Account;
+import Entity.Cart;
 import Entity.Component;
 import Entity.Components;
 import Entity.Configuration;
@@ -107,6 +110,14 @@ public class DAOInterface {
         }
         
         return containerList;
+    }
+    
+    public Container addContainerToCart(Connection connection, Container container, Long userID) throws SQLException {
+        CartDaoImpl cartItem = new CartDaoImpl();
+        ConfigCartDaoImpl configCartItem = new ConfigCartDaoImpl();
+        cartItem.createCart(connection, userID, container);
+        configCartItem.createConfigCart(connection, userID, container);
+        return container;
     }
     
     Container addContainer(Connection connection, Container container) throws SQLException {

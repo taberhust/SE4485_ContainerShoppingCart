@@ -9,12 +9,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import Entity.ConfigCart;
+import Entity.Container;
 
 /**
  *
  * @author matt & kevin
  */
 public interface ConfigCartDAO {
+    
+    boolean createConfigCart(Connection connection, Long userID, Container container) throws SQLException;
     
     ConfigCart createConfigCart(Connection connection, ConfigCart configCart) throws SQLException;
     
