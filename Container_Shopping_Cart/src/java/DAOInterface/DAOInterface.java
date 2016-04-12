@@ -8,9 +8,13 @@ package DAOInterface;
 import DaoImpl.ComponentsDaoImpl;
 import DaoImpl.ContainerDaoImpl;
 import DaoImpl.ComponentDaoImpl;
+import DaoImpl.ConfigurationDaoImpl;
+import DaoImpl.ConfigurationsDaoImpl;
 import Entity.Account;
 import Entity.Component;
 import Entity.Components;
+import Entity.Configuration;
+import Entity.Configurations;
 import Entity.Container;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -37,6 +41,21 @@ public class DAOInterface {
         return container;
     }
     
+    private Container addConfigurationsToContainer(Connection connection, Container container) throws SQLException{
+        ConfigurationsDaoImpl configsDaoImpl = new ConfigurationsDaoImpl();
+        ConfigurationDaoImpl configDaoImpl = new ConfigurationDaoImpl();
+        
+        ArrayList<Configurations> configsList = configsDaoImpl.getConfigurations(connection, container.getContainerID());
+        ArrayList<Configuration> configList = new ArrayList<>();
+        for(int i = 0; i < configsList.size(); i++){
+            Long configID = configsList.get(i).getConfigurationID();
+            configList.add(configDaoImpl.getConfiguration(connection, configID));
+        }
+        
+        container.setConfigurations(configList);
+        return container;
+    }
+    
     // Containers
     ArrayList<Container> retrieveAllContainers(Connection connection) throws SQLException {
         ContainerDaoImpl containerInstance = new ContainerDaoImpl();
@@ -45,6 +64,7 @@ public class DAOInterface {
         for(int i = 0; i < containerList.size() - 1; i++) {
             Container container = containerList.get(i);               
             containerList.set(i, addComponentsToContainer(connection, container));
+            containerList.set(i, addConfigurationsToContainer(connection, container));
         }
         
         return containerList;
@@ -57,6 +77,7 @@ public class DAOInterface {
         for(int i = 0; i < containerList.size() - 1; i++) {
             Container container = containerList.get(i);               
             containerList.set(i, addComponentsToContainer(connection, container));
+            containerList.set(i, addConfigurationsToContainer(connection, container));
         }
         
         return containerList;
@@ -69,6 +90,7 @@ public class DAOInterface {
         for(int i = 0; i < containerList.size() - 1; i++) {
             Container container = containerList.get(i);               
             containerList.set(i, addComponentsToContainer(connection, container));
+            containerList.set(i, addConfigurationsToContainer(connection, container));
         }
         
         return containerList;
@@ -81,6 +103,7 @@ public class DAOInterface {
         for(int i = 0; i < containerList.size() - 1; i++) {
             Container container = containerList.get(i);               
             containerList.set(i, addComponentsToContainer(connection, container));
+            containerList.set(i, addConfigurationsToContainer(connection, container));
         }
         
         return containerList;

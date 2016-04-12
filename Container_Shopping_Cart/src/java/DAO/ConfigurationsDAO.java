@@ -9,12 +9,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import Entity.Configurations;
+import java.util.ArrayList;
 
 /**
  *
  * @author matt & kevin
  */
 public interface ConfigurationsDAO {
+    
+    ArrayList<Configurations> getConfigurations(Connection connection, Long containerID) throws SQLException;
     
     Configurations createConfigurations(Connection connection, Configurations configurations) throws SQLException;
     
