@@ -18,7 +18,10 @@ public interface ComponentDAO {
     
     // Remove FT function on submission if auto-increment implemented
     Component addComponentFT(Connection connection, Component component) throws SQLException;
+    
     Component addComponent(Connection connection, Component component) throws SQLException;
+    
     Component getComponent(Connection connection, Long id) throws SQLException;
+    
     boolean deleteComponent(Connection connection, Long id) throws SQLException;
 }
