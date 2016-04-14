@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import Entity.Items;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,5 +18,5 @@ import Entity.Items;
 public interface ItemsDAO {
     
     Items createItems(Connection connection, Items items) throws SQLException;
-    
+    ArrayList<Items> getItems(Connection connection, Long purchaseID) throws SQLException;
 }

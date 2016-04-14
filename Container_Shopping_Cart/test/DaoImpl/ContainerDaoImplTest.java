@@ -79,7 +79,7 @@ public class ContainerDaoImplTest {
     }
     
     /**
-     * Test of addContainerFT method, of class ContainerDaoImpl.
+     * Test of addContainer method, of class ContainerDaoImpl.
      */
     @Test
     public void testAddContainer() throws Exception {

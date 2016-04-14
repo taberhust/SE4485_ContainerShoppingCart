@@ -50,4 +50,15 @@ public class Purchase {
         return items;
     }
     
+    public void addItem(Container container){
+        this.items.add(container);
+    }
+    
+    public void removeItem(Long containerID) {
+        for (int i = 0; i < this.items.size(); i++) {
+            if(containerID == items.get(i).getContainerID()) {
+                items.remove(i);
+            }
+        }
+    }
 }

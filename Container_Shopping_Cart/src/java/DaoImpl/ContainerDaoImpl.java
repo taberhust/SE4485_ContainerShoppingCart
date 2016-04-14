@@ -319,7 +319,7 @@ public class ContainerDaoImpl implements ContainerDAO{
             // Prepare the statement
             String editSQL = "UPDATE Container SET containerID = ?, dockerID = ?,"
                     + " dockerName = ?, containerName = ?, "
-                    + "pathToIcon = ?, category = ?, productFamily = ?, version = ?"
+                    + "pathToIcon = ?, category = ?, productFamily = ?, version = ? "
                     + "WHERE containerID = ?;";
             ps = connection.prepareStatement(editSQL);
             ps.setLong(1, container.getContainerID());

@@ -21,22 +21,6 @@ import static org.junit.Assert.*;
  */
 public class ComponentDaoImplTest {
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
-
     /**
      * Test of addComponentFT method, of class ComponentDaoImpl.
      */

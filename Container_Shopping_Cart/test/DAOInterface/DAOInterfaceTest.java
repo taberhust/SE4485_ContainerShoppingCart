@@ -7,6 +7,8 @@ package DAOInterface;
 
 import DBConnection.DBConnection;
 import Entity.Container;
+import Entity.Items;
+import Entity.Purchase;
 import java.sql.Connection;
 import java.util.ArrayList;
 import org.junit.After;
@@ -72,7 +74,66 @@ public class DAOInterfaceTest {
         ArrayList<Container> result = instance.retrieveContainersByProductFamily(connection, family);
         assertNotNull(result);
     }
+    
+    /**
+     * Test of retrieveItems method, of class DAOInterface.
+     */
+    @Test
+    public void testRetrieveItems() throws Exception {
+        System.out.println("getItems");
+        Connection connection = DBConnection.getDataSource().getConnection();
+        Long purchaseID = 2L;
+        DAOInterface instance = new DAOInterface();
+        ArrayList<Items> result = instance.retrieveItems(connection, purchaseID);
+        assertNotNull(result);
+    }
+    
+    /**
+     * Test of retrievePurchases method, of class DAOInterface.
+     */
+    @Test
+    public void testRetrievePurchases() throws Exception {
+        System.out.println("retrievePurchases");
+        Connection connection = DBConnection.getDataSource().getConnection();
+        Long userID = 5L;
+        DAOInterface instance = new DAOInterface();
+        ArrayList<Purchase> result = instance.retrievePurchases(connection, userID);
+        assertNotNull(result);
+    }
+    
+    @Test
+    public void testAddContainerToCart() throws Exception {
+        System.out.println("addContainerToCart");
+        // Set up connection to not make changes
+        Connection connection = DBConnection.getDataSource().getConnection();
+        connection.setAutoCommit(false);
+        
+        Long userID = 2L;
+        DAOInterface instance = new DAOInterface();
+        Container container = instance.retrieveContainer(connection, 2L);
+        Container result = instance.addContainerToCart(connection, container, userID);
+        assertNotNull(result);
+        
+        // Rollback any changes this test made
+        connection.rollback();
+        connection.setAutoCommit(true);
+    }
 
+    /**
+     * Test of addPurchase method, of class DAOInterface.
+     */
+    @Test
+    public void testAddPurchase() throws Exception {
+        System.out.println("addPurchase");
+        Connection connection = DBConnection.getDataSource().getConnection();
+        Purchase purchase = null;
+        DAOInterface instance = new DAOInterface();
+        Purchase result = instance.addPurchase(connection, purchase);
+        assertNotNull(result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+    
     /**
      * Test of addContainer method, of class DAOInterface.
      */

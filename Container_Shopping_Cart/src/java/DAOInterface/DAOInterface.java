@@ -12,6 +12,8 @@ import DaoImpl.ComponentDaoImpl;
 import DaoImpl.ConfigCartDaoImpl;
 import DaoImpl.ConfigurationDaoImpl;
 import DaoImpl.ConfigurationsDaoImpl;
+import DaoImpl.ItemsDaoImpl;
+import DaoImpl.PurchaseDaoImpl;
 import Entity.Account;
 import Entity.Cart;
 import Entity.Component;
@@ -19,6 +21,8 @@ import Entity.Components;
 import Entity.Configuration;
 import Entity.Configurations;
 import Entity.Container;
+import Entity.Items;
+import Entity.Purchase;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -59,8 +63,26 @@ public class DAOInterface {
         return container;
     }
     
-    // Containers
-    ArrayList<Container> retrieveAllContainers(Connection connection) throws SQLException {
+    private Purchase addContainersToPurchase(Connection connection, Purchase purchase) throws SQLException{
+        ItemsDaoImpl itemsInstance = new ItemsDaoImpl();
+        ContainerDaoImpl containerInstance = new ContainerDaoImpl();
+        ArrayList<Items> itemsList = new ArrayList<>();
+        
+        itemsList = itemsInstance.getItems(connection, purchase.getPurchaseID());
+        ArrayList<Container> containerList = new ArrayList<>();
+        for(int i = 0; i < itemsList.size(); i++) {
+            Long containerID = itemsList.get(i).getContainerID();
+            Container container = containerInstance.retrieveContainer(connection, containerID);
+            container = addComponentsToContainer(connection, container);
+            container = addConfigurationsToContainer(connection, container);
+            containerList.add(container);
+        }
+        purchase.setItems(containerList);
+        return purchase;
+    }
+    
+    // User functions
+    public ArrayList<Container> retrieveAllContainers(Connection connection) throws SQLException {
         ContainerDaoImpl containerInstance = new ContainerDaoImpl();
         
         ArrayList<Container> containerList = containerInstance.retrieveAllContainers(connection);
@@ -73,7 +95,7 @@ public class DAOInterface {
         return containerList;
     }
     
-    ArrayList<Container> retrieveContainersByCategory(Connection connection, String category) throws SQLException {
+    public ArrayList<Container> retrieveContainersByCategory(Connection connection, String category) throws SQLException {
         ContainerDaoImpl containerInstance = new ContainerDaoImpl();
         
         ArrayList<Container> containerList = containerInstance.retrieveContainersByCategory(connection, category);
@@ -86,7 +108,7 @@ public class DAOInterface {
         return containerList;
     }
     
-    ArrayList<Container> retrieveContainersByName(Connection connection, String name) throws SQLException {
+    public ArrayList<Container> retrieveContainersByName(Connection connection, String name) throws SQLException {
         ContainerDaoImpl containerInstance = new ContainerDaoImpl();
         
         ArrayList<Container> containerList = containerInstance.retrieveContainersByName(connection, name);
@@ -99,7 +121,7 @@ public class DAOInterface {
         return containerList;
     }
     
-    ArrayList<Container> retrieveContainersByProductFamily(Connection connection, String family) throws SQLException {
+    public ArrayList<Container> retrieveContainersByProductFamily(Connection connection, String family) throws SQLException {
         ContainerDaoImpl containerInstance = new ContainerDaoImpl();
         
         ArrayList<Container> containerList = containerInstance.retrieveContainersByProductFamily(connection, family);
@@ -120,14 +142,38 @@ public class DAOInterface {
         return container;
     }
     
+    public Container retrieveContainer(Connection connection, Long containerID) throws SQLException {
+        ContainerDaoImpl containerInstance = new ContainerDaoImpl();
+        Container container = containerInstance.retrieveContainer(connection, containerID);
+        container = addComponentsToContainer(connection, container);
+        container = addConfigurationsToContainer(connection, container);
+        return container;
+    }
+    
+    public ArrayList<Purchase> retrievePurchases(Connection connection, Long userID) throws SQLException {
+        PurchaseDaoImpl purchaseInstance = new PurchaseDaoImpl();
+        ArrayList<Purchase> purchaseList = purchaseInstance.retrievePurchases(connection, userID);
+        
+        for(int i = 0; i < purchaseList.size(); i++) {
+            Purchase purchase = purchaseList.get(i);
+            purchase = addContainersToPurchase(connection, purchase);
+            purchaseList.set(i, purchase);
+        }
+        
+        return purchaseList;
+    }
+    
+    public ArrayList<Items> retrieveItems(Connection connection, Long purchaseID) throws SQLException {
+        ItemsDaoImpl itemsInstance = new ItemsDaoImpl();
+        ArrayList<Items> itemsList = new ArrayList<Items>();
+        itemsList = itemsInstance.getItems(connection, purchaseID);
+        return itemsList;
+    }
+    
+    // Administrator functions
     Container addContainer(Connection connection, Container container) throws SQLException {
         //TODO implement
         throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    Container retrieveContainer(Connection connection, Long containerID) throws SQLException {
-        ContainerDaoImpl containerInstance = new ContainerDaoImpl();
-        return containerInstance.retrieveContainer(connection, containerID);
     }
     
     boolean editContainer(Connection connection, Long id, Container container) throws SQLException {
@@ -136,6 +182,11 @@ public class DAOInterface {
     }
     
     boolean deleteContainer(Connection connection, Long id) throws SQLException {
+        //TODO implement
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    Purchase addPurchase(Connection connection, Purchase purchase) throws SQLException {
         //TODO implement
         throw new UnsupportedOperationException("Not supported yet.");
     }

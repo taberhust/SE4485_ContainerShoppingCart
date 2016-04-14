@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import Entity.Purchase;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,5 +18,8 @@ import Entity.Purchase;
 public interface PurchaseDAO {
     
     Purchase createPurchase(Connection connection, Purchase purchase) throws SQLException;
-    
+    Purchase addPurchase(Connection connection, Purchase purchase) throws SQLException;
+    ArrayList<Purchase> retrievePurchases(Connection connection, Long userID) throws SQLException;
+    boolean editPurchase(Connection connection, Purchase purchase) throws SQLException;
+    boolean deletePurchase(Connection connection, Long purchaseID) throws SQLException;
 }
