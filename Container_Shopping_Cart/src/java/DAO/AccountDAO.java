@@ -18,7 +18,11 @@ import Entity.Account;
 public interface AccountDAO {
     
     Account createAccount(Connection connection, Account account) throws SQLException;
+    
+    Account createAccountFT(Connection connection, Account account) throws SQLException;
+    
     Account retrieveAccount(Connection connection, String username) throws SQLException;
+    
     void deleteAccount(Connection connection, String username) throws SQLException;
     
 }

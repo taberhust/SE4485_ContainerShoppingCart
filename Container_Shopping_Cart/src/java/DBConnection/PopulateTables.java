@@ -56,24 +56,26 @@ import DAO.ItemsDAO;
 
 /**
  *
- * @author matt & kevin
+ * @author matt
  */
-public class FillTables{
+public class PopulateTables{
 
     private File accountFile;
     private File containerFile;
     private File configCartFile;
     private File componentFile;
     private File configurationFile;
+    private File configurationsFile;
     
     Random rnGen = new Random();
 
     private void initialize(){
-	accountFile = new File("test/csvData/accounts.csv");
-	containerFile = new File("test/csvData/container.csv");
-        configCartFile = new File("test/csvData/configCart.csv");
-	componentFile = new File("test/csvData/component.csv");
-	configurationFile = new File("test/csvData/configuration.csv");
+	accountFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/test/csvData/accounts.csv");
+	containerFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/test/csvData/container.csv");
+        configCartFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/test/csvData/configCart.csv");
+	componentFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/test/csvData/component.csv");
+	configurationFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/test/csvData/configuration.csv");
+        configurationsFile = new File("/home/matt/SE4485_ContainerShoppingCart/Container_Shopping_Cart/test/csvData/configurations.csv");
     }	
 
     public static void main(String args[]){
@@ -82,20 +84,23 @@ public class FillTables{
             Connection connection = dataSource.getConnection();
             connection.setAutoCommit(false);
             
-            FillTables fillTables = new FillTables();
+            PopulateTables fillTables = new PopulateTables();
             fillTables.initialize();
 
             Map<Long, Account> accountMap = fillTables.buildAccount();
             fillTables.insertAccount(connection, accountMap);
                     
             Map<Long, Container> containerMap = fillTables.buildContainer();
+            //fillTables.addComponents(containerMap);
+            fillTables.addConfigurations(containerMap);
             fillTables.insertContainer(connection, containerMap);
             
             List<Cart> cartItems = fillTables.buildCart(accountMap.values(), containerMap.values().toArray(new Container[0]));
             fillTables.insertCart(connection, cartItems); 
             
-            List<ConfigCart> configCart = fillTables.buildConfigCart(cartItems.toArray(new Cart[0]));
-            fillTables.insertConfigCart(connection, configCart);
+            //This is the old ConfigCart
+//            List<ConfigCart> configCart = fillTables.buildConfigCart(cartItems.toArray(new Cart[0]));
+//            fillTables.insertConfigCart(connection, configCart);
             
             List<Purchase> purchases = fillTables.buildPurchase(accountMap.values().toArray(new Account[0]));
             fillTables.insertPurchase(connection, purchases);
@@ -105,16 +110,15 @@ public class FillTables{
 
             List<Components> components = fillTables.buildComponents(containerMap.values(), componentMap.values().toArray(new Component[0]));
             fillTables.insertComponents(connection, components);
-            
-            Map<Long, Configuration> configurationMap = fillTables.buildConfiguration();
-            fillTables.insertConfiguration(connection, configurationMap);
-
-            List<Configurations> configurations = fillTables.buildConfigurations(containerMap.values(), configurationMap.values().toArray(new Configuration[0]));
-            fillTables.insertConfigurations(connection, configurations);
-
+                        
             List<Items> items = fillTables.buildItems(purchases, containerMap.values().toArray(new Container[0]));
             fillTables.insertItems(connection, items);
 
+            //-----------Working on this-----------------
+            List<ConfigCart> cartConfig = fillTables.buildConfigCart(cartItems.toArray(new Cart[0]), configurationsMap.values());
+            fillTables.insertConfigCart(connection, cartConfig);
+            //--------------------------------------------
+            
             connection.commit();
             System.out.println("Finished Filling the tables");
 	}
@@ -185,51 +189,17 @@ public class FillTables{
 	return componentMap;
     }
 
-    private Map<Long, Configuration> buildConfiguration() throws Exception{
-	Map<Long, Configuration> configurationMap = new HashMap<>();
-	FileReader fileReader = new FileReader(configurationFile);
-	BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String line = null;
-	while ((line = bufferedReader.readLine()) != null) {
-            Object item[] = parseConfiguration(line);
-            configurationMap.put((Long) item[0], (Configuration) item[1]);
-	}
-	bufferedReader.close();
-	return configurationMap;
-    }
-
-    private List<Components> buildComponents(Collection<Container> containers, Component[] components) throws Exception{
-        List<Components> componList = new ArrayList<>();
-        for(Container container: containers){
-            Component component = components[rnGen.nextInt(components.length)];
-            Components componToAdd = buildComponents(container.getContainerID(), component.getComponentID());
-            componList.add(componToAdd);
-        }
-        return componList;
-    }
-
+//    private void addComponents(Map<Long, Container> containerMap, ArrayList<Components> components) throws Exception{
+//        Object items[] = (Object[]) new Object();
+//        Container contain = containerMap.get(items[0]);
+//        contain.setComponents(items[1]);
+//    }
+    
     private Components buildComponents(Long containerID, Long componentID) throws Exception{
 	Components components = new Components();
 	components.setContainerID(containerID);
 	components.setComponentID(componentID);
         return components;
-    }
-
-    private List<Configurations> buildConfigurations(Collection<Container> containers, Configuration[] configurations) throws Exception{
-        List<Configurations> configList = new ArrayList<>();
-        for(Container container : containers){
-            Configuration configuration = configurations[rnGen.nextInt(configurations.length)];
-            Configurations configsToAdd = buildConfigurations(container.getContainerID(), configuration.getConfigurationID());
-            configList.add(configsToAdd);
-        }
-        return configList;
-    }
-
-    private Configurations buildConfigurations(Long containerID, Long configurationID) throws Exception{
-        Configurations configurations = new Configurations();
-        configurations.setContainerID(containerID);
-        configurations.setConfigurationID(configurationID);
-        return configurations;
     }
 
     private List<Items> buildItems(List<Purchase> purchases, Container[] containers) throws Exception{
@@ -253,24 +223,49 @@ public class FillTables{
 	return items;
     }
     
-    private List<ConfigCart> buildConfigCart(Cart[] cartItems) throws Exception{
+    
+    //---------------Working on------------------------
+    //Have to get a match between cartContainerID to it configurations
+    private List<ConfigCart> buildConfigCart(Cart[] cartList, Collection<Configurations> configsNeedAdded) throws Exception{
         List<ConfigCart> configCartList = new ArrayList<>();
-        FileReader fileReader = new FileReader(configCartFile);
-	BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String line = null;
-        int addToThisUser;
-	while ((line = bufferedReader.readLine()) != null) {
-            addToThisUser = rnGen.nextInt(cartItems.length);
-            ConfigCart configcart = new ConfigCart();
-            configcart.setUserID(cartItems[addToThisUser].getUserID());
-            configcart.setCartContainerID(cartItems[addToThisUser].getCartContainerID());
-            Object item[] = parseConfigCart(line);
-            configcart.setUserType(((ConfigCart)item[1]).getUserType());
-            configcart.setUserArg1(((ConfigCart)item[1]).getUserArg1());
-            configcart.setUserArg2(((ConfigCart)item[1]).getUserArg2());
-            configCartList.add(configcart);
+        for(Cart cart : cartList){
+            List<Configurations> configToAdd = buildConfigsForCart(cart.getCartContainerID(), configsNeedAdded);
+            for (Configurations configurations : configToAdd){
+                Configuration configurationToAdd = buildConfigForCart(configurations.getConfigurationID());
+                ConfigCart configCart = new ConfigCart();
+                configCart.setUserID(cart.getUserID());
+                configCart.setCartContainerID(cart.getCartContainerID());
+                configCart.setUserType(configurationToAdd.getDefaultType(cart.getCartContainerID()));
+                configCart.setUserArg1(configurationToAdd.getDefaultArg1(cart.getCartContainerID()));
+                configCart.setUserArg2(configurationToAdd.getDefaultArg2(cart.getCartContainerID()));
+                configCartList.add(configCart);
+            }
         }
         return configCartList;
+    }
+    
+    private List<Configurations> buildConfigsForCart(Long containerIDToAdd, Collection<Configurations> possConfigs){
+        List<Configurations> listOfCartConfigs = new ArrayList<>();
+        for(Configurations configurations : possConfigs){
+            if(configurations.getContainerID().equals(containerIDToAdd)){
+                Configurations cartConfigs = new Configurations();
+                cartConfigs.setContainerID(configurations.getContainerID());
+                cartConfigs.setConfigurationID(configurations.getConfigurationID());
+                listOfCartConfigs.add(cartConfigs);
+            }
+        }    
+        return listOfCartConfigs;
+    }
+    
+    private Configuration buildConfigForCart(Long configurationsID){
+        //Configurations configsWillBeAdded = new Configurations();
+        Configuration configToAddToCart = new Configuration();
+       
+        configToAddToCart.setConfigurationID(configurationsID);
+        configToAddToCart.setDefaultType(configToAddToCart.getDefaultType(configurationsID));
+        configToAddToCart.setDefaultArg1(configToAddToCart.getDefaultArg1(configurationsID));
+        configToAddToCart.setDefaultArg2(configToAddToCart.getDefaultArg2(configurationsID));
+        return configToAddToCart;
     }
     
     private List<Purchase> buildPurchase(Account[] accounts) throws Exception{
@@ -300,6 +295,25 @@ public class FillTables{
         return purchase;
     }
 
+    //-----------------add Methods------------------------------
+    private void addConfigurations(Map<Long, Container> containerMap) throws Exception{
+        //Map<Long, Configurations> containerMap = new HashMap<>();
+	FileReader fileReader = new FileReader(configurationsFile);
+	BufferedReader bufferedReader = new BufferedReader(fileReader);
+	String line = null;
+	List<Configurations> configList = new ArrayList<>();
+        
+        while ((line = bufferedReader.readLine()) != null) {
+            Object items[] = parseConfigurations(line);
+            Container container = containerMap.get(items[0]);
+            container.setConfigurations(configList);
+	}
+        bufferedReader.close();
+    }    
+    
+    //List<Configurations> configList = new ArrayList<>();
+    //container.add(
+    
     //-----------------insert Methods------------------------------
     private void insertAccount(Connection connection, Map<Long, Account> accountMap) throws Exception{
         for(Account account: accountMap.values()){
@@ -320,7 +334,7 @@ public class FillTables{
     private void insertComponent(Connection connection, Map<Long, Component> componentMap) throws Exception{
         for(Component component: componentMap.values()){
             ComponentDAO componentDAO = new ComponentDaoImpl();
-            componentDAO.addComponent(connection, component);
+            componentDAO.addComponentFT(connection, component);
         }
     }
     
@@ -348,11 +362,22 @@ public class FillTables{
             configurationDAO.createConfiguration(connection, configuration);
         }
     }
-        
-    private void insertConfigurations(Connection connection, List<Configurations> configurationsList) throws Exception{
+      
+    //For old fill
+//    private void insertConfigurations(Connection connection, List<Configurations> configurationsList) throws Exception{
+//        //For some reason in the example cart was outside of the for loop
+//        //ConfigurationsDAO configDAO = new ConfigurationsDaoImpl();
+//        for(Configurations configurations : configurationsList){
+//            ConfigurationsDAO configDAO = new ConfigurationsDaoImpl();
+//            configDAO.createConfigurations(connection, configurations);
+//        }
+//    }
+    
+    //For new fill
+    private void insertConfigurations(Connection connection, Map<Long, Configurations> configurationsMap) throws Exception{
         //For some reason in the example cart was outside of the for loop
         //ConfigurationsDAO configDAO = new ConfigurationsDaoImpl();
-        for(Configurations configurations : configurationsList){
+        for(Configurations configurations : configurationsMap.values()){
             ConfigurationsDAO configDAO = new ConfigurationsDaoImpl();
             configDAO.createConfigurations(connection, configurations);
         }
@@ -361,7 +386,15 @@ public class FillTables{
     private void insertContainer(Connection connection, Map<Long, Container> containerMap) throws Exception{
         for(Container container: containerMap.values()){
             ContainerDAO containerDAO = new ContainerDaoImpl();
-            containerDAO.addContainer(connection, container);
+            containerDAO.addContainerFT(connection, container);
+            
+            ComponentsDAO compDAO = new ComponentsDaoImpl();
+            ArrayList<Component> comp = container.getComponents();
+            compDAO.createComponents(connection, comp, container.getContainerID());
+            
+            ConfigurationsDAO confDAO = new ConfigurationsDaoImpl();
+            ArrayList<Configuration> conf = container.getConfigurations();
+            confDAO.createConfiguration(connection, conf, container.getContainerID());
         }
     }
     
@@ -388,7 +421,7 @@ public class FillTables{
         StringTokenizer st = new StringTokenizer(line, ",");
         Account account = new Account();
         Long id = Long.parseLong(st.nextToken());
-        //account.setUserID(id);
+        account.setUserID(id);
         account.setUserName(st.nextToken());
         account.setFirstName(st.nextToken());
         account.setLastName(st.nextToken());
@@ -401,7 +434,7 @@ public class FillTables{
 	StringTokenizer st = new StringTokenizer(line, ",");
 	Component component = new Component();
 	Long id = Long.parseLong(st.nextToken());
-        //component.setComponentID(id);
+        component.setComponentID(id);
 	component.setImageID(st.nextToken());
 	component.setComponentName(st.nextToken());
 	component.setComponentType(st.nextToken());
@@ -425,7 +458,7 @@ public class FillTables{
 	StringTokenizer st = new StringTokenizer(line, ",");
 	Configuration configuration = new Configuration();
 	Long id = Long.parseLong(st.nextToken());
-        //configuration.setConfigurationID(id);
+        configuration.setConfigurationID(id);
 	configuration.setDisplayName(st.nextToken());
         configuration.setDefaultType(st.nextToken());
 	configuration.setDefaultArg1(st.nextToken());
@@ -433,12 +466,50 @@ public class FillTables{
 	Object[] result = {id, configuration};
 	return result;
     }
+    
+//    private Object[] parseConfigurations(String line){
+//	StringTokenizer st = new StringTokenizer(line, ",");
+//	Configurations configurations = new Configurations();
+//	Long id = Long.parseLong(st.nextToken());
+//        configurations.setConfigurationID(id);
+//        configurations.setContainerID(Long.valueOf(st.nextToken()));
+//	configurations.setDisplayName(st.nextToken());
+//        configurations.setDefaultType(st.nextToken());
+//	configurations.setDefaultArg1(st.nextToken());
+//	configurations.setDefaultArg2(st.nextToken());
+//	Object[] result = {id, configurations};
+//	return result;
+//    }
 
+    private Object[] parseConfigurations(String line){
+	StringTokenizer st = new StringTokenizer(line, ",");
+        int m = 0;
+        int n = 1;
+	List<Configurations> configurationsList = new ArrayList<>();
+        Configurations configurations = new Configurations();
+	Long id = Long.parseLong(st.nextToken());
+        configurations.setConfigurationID(id);
+        configurations.setContainerID(Long.valueOf(st.nextToken()));
+	configurations.setDisplayName(st.nextToken());
+        configurations.setDefaultType(st.nextToken());
+	configurations.setDefaultArg1(st.nextToken());
+	configurations.setDefaultArg2(st.nextToken());
+        configurationsList.add(configurations);
+        
+        if(configurationsList[m].getContainerID().equals(configurations[n].getContainerID())){
+            
+        }
+
+        
+	Object[] result = {id, configurations};
+	return result;
+    }
+    
     private Object[] parseContainer(String line){
 	StringTokenizer st = new StringTokenizer(line, ",");
 	Container container = new Container();
 	Long id = Long.parseLong(st.nextToken());
-        //container.setContainerID(id);
+        container.setContainerID(id);
 	container.setDockerID(st.nextToken());
 	container.setDockerName(st.nextToken());
 	container.setContainerName(st.nextToken());
@@ -450,4 +521,4 @@ public class FillTables{
 	return result;
     }
 
-}//Closes FillTables
+}//Closes PopulateTables

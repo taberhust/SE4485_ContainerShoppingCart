@@ -12,6 +12,7 @@ import java.sql.SQLException;
 
 import DAO.ConfigurationDAO;
 import Entity.Configuration;
+import java.sql.Statement;
 
 /**
  *
@@ -21,6 +22,38 @@ public class ConfigurationDaoImpl implements ConfigurationDAO{
 
     @Override
     public Configuration createConfiguration(Connection connection, Configuration configuration) throws SQLException {
+        PreparedStatement ps = null;
+        try{
+            String insertSQL = "INSERT INTO Configuration (displayName, defaultType, defaultArg1, defaultArg2) VALUES (?, ?, ?, ?);";
+            ps = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, configuration.getDisplayName());
+            ps.setString(2, configuration.getDefaultType());
+            ps.setString(3, configuration.getDefaultArg1()); 
+            ps.setString(4, configuration.getDefaultArg2()); 
+            ps.executeUpdate();
+            
+            ResultSet fullConfiguration = ps.getGeneratedKeys();
+            fullConfiguration.next();
+            int genKey = fullConfiguration.getInt(1);
+            configuration.setConfigurationID((long) genKey);
+            
+            return configuration;
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            //System.out.println("Exception in ConfigurationDaoImpl.create(2 arg)");
+            if (ps != null && !ps.isClosed()){
+                ps.close();
+            }
+            if (connection != null && !connection.isClosed()){
+                connection.close();
+            }
+        }
+        return configuration;
+    }
+    
+    @Override
+    public Configuration createConfigurationFT(Connection connection, Configuration configuration) throws SQLException {
         PreparedStatement ps = null;
         try{
             String insertSQL = "INSERT INTO Configuration (configurationID, displayName, defaultType, defaultArg1, defaultArg2) VALUES (?, ?, ?, ?, ?);";
