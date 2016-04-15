@@ -18,6 +18,7 @@ import Entity.Account;
 import Entity.Cart;
 import Entity.Component;
 import Entity.Components;
+import Entity.ConfigCart;
 import Entity.Configuration;
 import Entity.Configurations;
 import Entity.Container;
@@ -142,6 +143,12 @@ public class DAOInterface {
         return container;
     }
     
+    public ConfigCart addToCart(Connection connectionn, Container container, Long userID) throws SQLException{
+        ConfigCart configCart = new ConfigCart();
+        
+        return configCart;
+    }
+    
     public Container retrieveContainer(Connection connection, Long containerID) throws SQLException {
         ContainerDaoImpl containerInstance = new ContainerDaoImpl();
         Container container = containerInstance.retrieveContainer(connection, containerID);
@@ -189,5 +196,15 @@ public class DAOInterface {
     Purchase addPurchase(Connection connection, Purchase purchase) throws SQLException {
         //TODO implement
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public boolean checkString (String someString, ArrayList<Container> category)
+    {
+        for(Container c: category)
+        {
+            if(someString.equals(c.getContainerName()))
+                return false;
+        }
+        return true;
     }
 }
