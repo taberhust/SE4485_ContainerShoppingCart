@@ -12,9 +12,41 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>login</servlet-name>
+        <servlet-class>Servlets.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GridviewServlet</servlet-name>
+        <servlet-class>Servlets.GridviewServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HierarchicalServlet</servlet-name>
+        <servlet-class>Servlets.HierarchicalServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ContainerInfoServlet</servlet-name>
+        <servlet-class>Servlets.ContainerInfoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>login</servlet-name>
+        <url-pattern>/loginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GridviewServlet</servlet-name>
+        <url-pattern>/GridviewServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HierarchicalServlet</servlet-name>
+        <url-pattern>/HierarchicalServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ContainerInfoServlet</servlet-name>
+        <url-pattern>/ContainerInfoServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -22,6 +54,8 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>redirect.jsp</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-</web-app>
+
+\
+    </web-app>
