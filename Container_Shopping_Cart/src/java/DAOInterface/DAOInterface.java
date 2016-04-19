@@ -5,6 +5,7 @@
  */
 package DAOInterface;
 
+import DaoImpl.AccountDaoImpl;
 import DaoImpl.CartDaoImpl;
 import DaoImpl.ComponentsDaoImpl;
 import DaoImpl.ContainerDaoImpl;
@@ -178,6 +179,11 @@ public class DAOInterface {
         ArrayList<Items> itemsList = new ArrayList<Items>();
         itemsList = itemsInstance.getItems(connection, purchaseID);
         return itemsList;
+    }
+    
+    public Account retrieveAccount(Connection connection, String username) throws SQLException {
+        AccountDaoImpl accountInstance = new AccountDaoImpl();
+        return accountInstance.retrieveAccount(connection, username);
     }
     
     // Administrator functions
