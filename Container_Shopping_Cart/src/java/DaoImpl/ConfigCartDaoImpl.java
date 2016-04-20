@@ -151,60 +151,6 @@ public class ConfigCartDaoImpl implements ConfigCartDAO {
         }
         return configCart;         
     }
-
-//    public ArrayList<ConfigCart> retrieveConfigCart(Connection connection, Long userID) throws SQLException{
-//        PreparedStatement ps = null;
-//        try{
-//            String insertSQL = "SELECT * FROM ConfigCart WHERE userID = ?;";
-//            ps = connection.prepareStatement(insertSQL);
-//            ps.setLong(1, userID);
-//            
-//            ResultSet rs = ps.executeQuery();
-//            
-//            ArrayList<ConfigCart> configCartList = new ArrayList<>();
-//            ArrayList<Container> containersInCart = new ArrayList<>();
-//            //hashmap
-//            while(rs.next()) {
-//                ConfigCart configCart = new ConfigCart();
-//                configCart.setUserID(rs.getLong("userID"));
-//                //if cartContainerIt doesn't exist in map
-//                HashMap<Long, Container> cartMap = new HashMap<Long, Container>(); 
-//                //add to map Configuration configToAddToContainer = new Configuration
-//                //configToAddToContainer.setConfigurationID(rs.getLong("cartContainerID"));
-//                //configToAddToContainer.setDisplayName(rs.getString("displayName"));
-//                //configToAddToContainer.setDefaultType(rs.getString("userType"));
-//                //configToAddToContainer.setArg1(rs.getString("userArg1"));
-//                //configToAddToContainer.setArg2(rs.getString("userArg2"));
-//                //Container.addConfiguration(configToAddToContainer);
-//                configCart.setCartContainerID(rs.getLong("cartContainerID"));
-//                configCart.setDisplayName(rs.getString("displayName"));
-//                configCart.setUserType(rs.getString("userType"));
-//                configCart.setUserArg1(rs.getString("userArg1"));
-//                configCart.setUserArg2(rs.getString("userArg2"));
-//                configCartList.add(configCart);
-//            }
-//            for(Configuration configuration: configCartList){
-//                
-//            }
-//            
-//            
-//            
-//            
-//            
-//            return configCartList;
-//        }
-//        catch(Exception ex){
-//            ex.printStackTrace();
-//            System.out.println("Exception in ConfigCartDaoImpl.retrieveCart()");
-//            if (ps != null && !ps.isClosed()){
-//                ps.close();
-//            }
-//            if (connection != null && !connection.isClosed()){
-//                connection.close();
-//            }
-//            return null;
-//        }
-//    }
  
     public ArrayList<ConfigCart> getConfigCart(Connection connection, Long cartContainerID) throws SQLException {
         PreparedStatement ps = null;

@@ -17,7 +17,7 @@ import Entity.Container;
  */
 public interface CartDAO {
     
-    Cart createCart(Connection connection, Long userID, Container container) throws SQLException;
+    void createCart(Connection connection, Long userID, Container container) throws SQLException;
     Cart createCart(Connection connection, Cart cart) throws SQLException;
     Cart createCart(Connection connection, Cart cart, Long userID) throws SQLException;
     
