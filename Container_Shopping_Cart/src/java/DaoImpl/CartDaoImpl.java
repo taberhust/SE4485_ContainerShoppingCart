@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class CartDaoImpl implements CartDAO{
     
     @Override
-    public boolean createCart(Connection connection, Long userID, Container container) throws SQLException{
+    public Cart createCart(Connection connection, Long userID, Container container) throws SQLException{
         PreparedStatement ps = null;
         try{
             String insertSQL = "INSERT INTO Cart (userID, cartContainerID) VALUES (?, ?);";
@@ -31,7 +31,7 @@ public class CartDaoImpl implements CartDAO{
             ps.setString(2, container.getContainerID().toString());
             
             ps.executeUpdate();
-            return true;
+            
         }
         catch(Exception ex){
             ex.printStackTrace();
@@ -43,8 +43,7 @@ public class CartDaoImpl implements CartDAO{
                 connection.close();
             }
         }
-        return false;
-        
+        return null;
     }
 
     @Override

@@ -65,6 +65,24 @@ public class DAOInterface {
         return container;
     }
     
+    private Container addConfigsToCartContainer(Connection connection, Container container) throws SQLException{
+        //ConfigurationsDaoImpl configsDaoImpl = new ConfigurationsDaoImpl();
+        ConfigCartDaoImpl configCartDaoImpl = new ConfigCartDaoImpl();
+        
+        ArrayList<ConfigCart> configsList = configCartDaoImpl.getConfigCart(connection, container.getContainerID());
+        //ArrayList<ConfigCart> configCartList = configCartDaoImpl.getConfigCarts(connection, configsList);
+        ArrayList<Configuration> configList = new ArrayList<>();
+        //for(int i = 0; i < configsList.size(); i++){
+        for(ConfigCart configCart : configsList){
+            Long configID = configCart.getCartContainerID();
+            configList.add(configCartDaoImpl.getCartConfigs(connection, configID));
+            //configList.add(configDaoImpl.getConfiguration(connection, configID));
+        }
+        
+        container.setConfigurations(configList);
+        return container;
+    }
+    
     private Purchase addContainersToPurchase(Connection connection, Purchase purchase) throws SQLException{
         ItemsDaoImpl itemsInstance = new ItemsDaoImpl();
         ContainerDaoImpl containerInstance = new ContainerDaoImpl();
@@ -99,14 +117,12 @@ public class DAOInterface {
     
     public ArrayList<Container> retrieveContainersByCategory(Connection connection, String category) throws SQLException {
         ContainerDaoImpl containerInstance = new ContainerDaoImpl();
-        
         ArrayList<Container> containerList = containerInstance.retrieveContainersByCategory(connection, category);
         for(int i = 0; i < containerList.size() - 1; i++) {
             Container container = containerList.get(i);               
             containerList.set(i, addComponentsToContainer(connection, container));
             containerList.set(i, addConfigurationsToContainer(connection, container));
         }
-        
         return containerList;
     }
     
@@ -142,12 +158,20 @@ public class DAOInterface {
         for(int i = 0; i < containerList.size() - 1; i++) {
             Container container = containerList.get(i);               
             containerList.set(i, addComponentsToContainer(connection, container));
-            containerList.set(i, addConfigurationsToContainer(connection, container));
+            
+            //This worked but it only returns the default configurations
+            //containerList.set(i, addConfigurationsToContainer(connection, container));
+
+            //This should return the configurations from config cart whether the user 
+            //changed the defaults or not
+            containerList.set(i, addConfigsToCartContainer(connection, container));
         }
         return containerList;
     }
     
     public void addContainerToCart(Connection connection, Container container, Long userID) throws SQLException {
+        CartDaoImpl cartDaoImpl = new CartDaoImpl();
+        cartDaoImpl.createCart(connection, userID, container);
         ConfigCartDaoImpl configCartItem = new ConfigCartDaoImpl();
         configCartItem.createConfigCart(connection, userID, container);
     }
@@ -163,7 +187,7 @@ public class DAOInterface {
         Container container = containerInstance.retrieveContainer(connection, containerID);
         container = addComponentsToContainer(connection, container);
         container = addConfigurationsToContainer(connection, container);
-        return container;
+       return container;
     }
     
     public ArrayList<Purchase> retrievePurchases(Connection connection, Long userID) throws SQLException {
