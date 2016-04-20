@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import DAO.CartDAO;
 import Entity.Cart;
 import Entity.Container;
+import java.util.ArrayList;
 
 /**
  *
@@ -97,4 +98,43 @@ public class CartDaoImpl implements CartDAO{
         return cart;
     }
     
+    
+    public ArrayList<Container> retrieveCart(Connection connection, Long userID) throws SQLException{
+        PreparedStatement ps = null;
+        try{
+            String retrieveSQL = "SELECT * FROM Cart WHERE userID = (userID) values (?);";
+            ps = connection.prepareStatement(retrieveSQL);
+            ps.setLong(1, userID);
+            ResultSet rs = ps.executeQuery();
+            
+            if(!rs.isBeforeFirst()){
+                    return null;
+            }
+            
+            ArrayList<Container> containerList = new ArrayList<>();
+            while(rs.next()){
+                Container container = new Container();
+                container.setContainerID(rs.getLong("containerID"));
+                container.setDockerID(rs.getString("dockerID"));
+                container.setDockerName(rs.getString("dockerName"));
+                container.setContainerName(rs.getString("containerName"));
+                container.setVersion(rs.getString("version"));
+                container.setPathToIcon(rs.getString("pathToIcon"));
+                container.setCategory(rs.getString("category"));
+                container.setProductFamily(rs.getString("productFamily"));
+                containerList.add(container);
+            }
+            return containerList;
+        }
+        catch(Exception ex){
+            System.out.println("Exception in CartDaoImpl.retrieveCart(3 arg)");
+            if (ps != null && !ps.isClosed()){
+                ps.close();
+            }
+            if (connection != null && !connection.isClosed()){
+                connection.close();
+            }
+        }
+        return null;
+    }
 }

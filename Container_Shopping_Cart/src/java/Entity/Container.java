@@ -64,6 +64,10 @@ public class Container {
         this.configurations = configurations;
     }            
     
+    public void addConfiguration(Configuration configuration){
+        this.configurations.add(configuration);
+    }
+    
     public Long getContainerID(){
         return containerID;
     }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class Cart {
     private Long userID;
+    private ArrayList<Container> containers;
     private Long cartContainerID;
 
     public void setUserID(Long userID) {
@@ -23,6 +24,10 @@ public class Cart {
         this.cartContainerID = cartContainerID;
     }
     
+    public void addContainer(Container container){
+        this.containers.add(container);
+    }
+    
     public Long getUserID() {
         return userID;
     }
@@ -31,4 +36,7 @@ public class Cart {
         return cartContainerID;
     }
    
+    public ArrayList<Container> getContainer(){
+        return containers;
+    }
 }

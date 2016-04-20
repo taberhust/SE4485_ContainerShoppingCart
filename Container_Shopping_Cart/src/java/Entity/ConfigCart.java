@@ -12,6 +12,7 @@ package Entity;
 public class ConfigCart {
     private Long userID;
     private Long cartContainerID;
+    private String displayName;
     private String userType;
     private String userArg1;
     private String userArg2;
@@ -22,6 +23,10 @@ public class ConfigCart {
     
     public void setCartContainerID(Long cartContainerID){
         this.cartContainerID = cartContainerID;
+    }
+    
+    public void setDisplayName(String displayName){
+        this.displayName = displayName;
     }
     
     public void setUserType(String userType){
@@ -44,6 +49,10 @@ public class ConfigCart {
         return cartContainerID;
     }
 
+    public String getDisplayName(){
+        return displayName;
+    }
+    
     public String getUserType(){
         return userType;
     }

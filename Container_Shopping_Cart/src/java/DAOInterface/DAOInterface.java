@@ -40,7 +40,7 @@ public class DAOInterface {
         ComponentDaoImpl componentInstance = new ComponentDaoImpl();
         
         ArrayList<Components> components = componentsInstance.getComponents(connection, container.getContainerID());
-        ArrayList<Component> componentList = new ArrayList<Component>();
+        ArrayList<Component> componentList = new ArrayList<>();
         for(int j = 0; j < components.size(); j++) {
             Long componentID = components.get(j).getComponentID();
             componentList.add(componentInstance.getComponent(connection, componentID));
@@ -135,21 +135,26 @@ public class DAOInterface {
         
         return containerList;
     }
-    
-    public retrieveCart(Long userID) throws SQLException{
         
+    public ArrayList<Container> retrieveCart(Connection connection, Long userID) throws SQLException{
+        CartDaoImpl cartDaoImpl = new CartDaoImpl();
+        ArrayList<Container> containerList = cartDaoImpl.retrieveCart(connection, userID);
+        for(int i = 0; i < containerList.size() - 1; i++) {
+            Container container = containerList.get(i);               
+            containerList.set(i, addComponentsToContainer(connection, container));
+            containerList.set(i, addConfigurationsToContainer(connection, container));
+        }
+        return containerList;
     }
     
-    public Container addContainerToCart(Connection connection, Container container, Long userID) throws SQLException {
-        CartDaoImpl cartItem = new CartDaoImpl();
+    public void addContainerToCart(Connection connection, Container container, Long userID) throws SQLException {
         ConfigCartDaoImpl configCartItem = new ConfigCartDaoImpl();
-        cartItem.createCart(connection, userID, container);
         configCartItem.createConfigCart(connection, userID, container);
-        return container;
     }
-    
-    public ConfigCart addToCart(Connection connectionn, Container container, Long userID) throws SQLException{
-        ConfigCart configCart = new ConfigCart();       
+        
+    public ConfigCart addToCart(Connection connectionn, Long userID, Container container) throws SQLException{
+        ConfigCartDaoImpl addThisContainer = new ConfigCartDaoImpl();
+        ConfigCart configCart = new ConfigCart();      
         return configCart;
     }
     
