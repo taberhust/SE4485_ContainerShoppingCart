@@ -414,6 +414,7 @@ public class FillTables{
         StringTokenizer st = new StringTokenizer(line, ",");
         ConfigCart configcart = new ConfigCart();
         Long id = Long.parseLong(st.nextToken());
+        configcart.setDisplayName(st.nextToken());
         configcart.setUserType(st.nextToken());
         configcart.setUserArg1(st.nextToken());
         configcart.setUserArg2(st.nextToken());
