@@ -265,6 +265,7 @@ public class FillTables{
             configcart.setUserID(cartItems[addToThisUser].getUserID());
             configcart.setCartContainerID(cartItems[addToThisUser].getCartContainerID());
             Object item[] = parseConfigCart(line);
+            configcart.setDisplayName(((ConfigCart)item[1]).getDisplayName());
             configcart.setUserType(((ConfigCart)item[1]).getUserType());
             configcart.setUserArg1(((ConfigCart)item[1]).getUserArg1());
             configcart.setUserArg2(((ConfigCart)item[1]).getUserArg2());
