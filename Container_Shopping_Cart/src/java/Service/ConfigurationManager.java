@@ -1,16 +1,32 @@
 package Service;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Calendar;
 
-import Entity.Configuration;
 import Entity.Container;
-
+import Entity.Configuration;
+import Entity.Component;
 /**
  *
  * @author taber
  */
 public class ConfigurationManager {
     
+    private static final String dir = "/" + System.getProperty("user.home") + "/ContainerShoppingCart";
+    private static final String scriptDir = dir + "/Script";
+    
+    long userID;
+    
+    public ConfigurationManager()
+    {
+        userID = 0;
+    }
+    
+    public ConfigurationManager(long userID)
+    {
+        this.userID = userID;
+    }
     /**
      * Volume - a directory on the container that is shared with the host machine via a local dir.
      * 
@@ -21,6 +37,8 @@ public class ConfigurationManager {
     public Configuration addVolume(String containerDir, String hostDir)
     {
         Configuration volume = new Configuration();
+        volume.setDefaultType("VOLUME");
+        volume.setDisplayName("");
         volume.setDefaultArg1(containerDir);
         volume.setDefaultArg2(hostDir);
         
@@ -36,7 +54,10 @@ public class ConfigurationManager {
     public Configuration addCommand(String command)
     {
         Configuration commandConfig = new Configuration();
-        commandConfig.setDefaultArg2(command);
+        commandConfig.setDefaultType("CMD");
+        commandConfig.setDisplayName("");
+        commandConfig.setDefaultArg1(command);
+        commandConfig.setDefaultArg2("");
         
         return commandConfig;
     }
@@ -51,6 +72,8 @@ public class ConfigurationManager {
     public Configuration addEnvironmentVar(String var, String value)
     {
         Configuration environmentVar = new Configuration();
+        environmentVar.setDefaultType("ENV");
+        environmentVar.setDisplayName("");
         environmentVar.setDefaultArg1(var);
         environmentVar.setDefaultArg2(value);
         
@@ -65,7 +88,10 @@ public class ConfigurationManager {
     public Configuration setDetached()
     {
         Configuration mode = new Configuration();
+        mode.setDefaultType("MODE");
+        mode.setDisplayName("");
         mode.setDefaultArg1("-d");
+        mode.setDefaultArg2("");
         
         return mode;
     }
@@ -79,7 +105,10 @@ public class ConfigurationManager {
     public Configuration setInteractive()
     {
         Configuration mode = new Configuration();
+        mode.setDefaultType("MODE");
+        mode.setDisplayName("");
         mode.setDefaultArg1("-i");
+        mode.setDefaultArg2("");
         
         return mode;
     }
@@ -90,9 +119,12 @@ public class ConfigurationManager {
      * @param hostPort
      * @return 
      */
-    public Configuration exposePort(String containerPort, String hostPort)
+    public Configuration exposePort(long configID, String containerPort, String hostPort)
     {
         Configuration port = new Configuration();
+        port.setConfigurationID(configID);
+        port.setDefaultType("EXPOSE");
+        port.setDisplayName("");
         port.setDefaultArg1(containerPort);
         port.setDefaultArg2(hostPort);
         
@@ -109,6 +141,8 @@ public class ConfigurationManager {
     public Configuration setEntryPoint(String command)
     {
         Configuration entryPoint = new Configuration();
+        entryPoint.setDefaultType("ENTRYPOINT");
+        entryPoint.setDisplayName("");
         entryPoint.setDefaultArg1(command);
         entryPoint.setDefaultArg2(null);
         
@@ -124,6 +158,8 @@ public class ConfigurationManager {
     public Configuration setWorkDir(String dir)
     {
         Configuration workDir = new Configuration();
+        workDir.setDefaultType("WORKDIR");
+        workDir.setDisplayName("");
         workDir.setDefaultArg1(dir);
         workDir.setDefaultArg2(null);
         
@@ -139,6 +175,8 @@ public class ConfigurationManager {
     public Configuration setUser(String user)
     {
         Configuration userConfig = new Configuration();
+        userConfig.setDefaultType("USER");
+        userConfig.setDisplayName("");
         userConfig.setDefaultArg1(user);
         userConfig.setDefaultArg2(null);
         
@@ -153,8 +191,10 @@ public class ConfigurationManager {
      * @param myContainer
      * @return 
      */
-    public String generateStartScript(Container myContainer)
+    public File generateStartScript(long userID, Container myContainer)
     {
+        File scriptFile = new File(scriptDir + "/start_" + myContainer.getContainerName() + "_" + myContainer.getVersion() + "_" + userID + "_" + Calendar.getInstance().getTime().toString().replace(" ", "-") + ".sh");
+        
         boolean cmdSet = false;
         String cmd = "";
         
@@ -166,7 +206,7 @@ public class ConfigurationManager {
                                 "commd='docker ps'\n" +
                                 "indexSet=0\n" +
                                 "index=0\n" +
-                                "containerName='" + myContainer.getContainerName() + "_" + myContainer.getVersion() + "\n" +
+                                "containerName='" + myContainer.getContainerID() + "'\n" +
                                 "count=0\n\n" +
                                 "for output in $(docker ps -a)\n" +
                                 "do\n" +
@@ -190,7 +230,7 @@ public class ConfigurationManager {
                                 "done\n" +
                                 "\n" +
                                 "if [ $containerExists = 0 ]; then\n" +
-                                "       docker load < " + myContainer.getDockerName() + ".tar" +
+                                "       docker load < " + myContainer.getDockerID() + ".tar\n" +
                                 "	docker run --name=$containerName ";
                                 for(int i = 0; i < myContainer.getConfigurations().size(); i++)
                                 {
@@ -199,6 +239,9 @@ public class ConfigurationManager {
                                     {
                                         case "EXPOSE":
                                             startupScript = startupScript.concat("-p " + currentConfig.getDefaultArg1() + ":" + currentConfig.getDefaultArg2() + " ");
+                                            break;
+                                        case "MODE":
+                                            startupScript = startupScript.concat(currentConfig.getDefaultArg1() + " ");
                                             break;
                                         case "ENTRYPOINT":
                                             startupScript = startupScript.concat("--entrypoint=\"" + currentConfig.getDefaultArg1() + "\" ");
@@ -222,14 +265,26 @@ public class ConfigurationManager {
                                         default:
                                     }
                                 }
-                                startupScript = startupScript.concat(myContainer.getDockerName());
+                                startupScript = startupScript.concat(myContainer.getDockerID());
                                 if(cmdSet)
                                 {
-                                    startupScript = startupScript.concat(" " + cmd + "\n");
+                                    startupScript = startupScript.concat(" \"" + cmd + "\"\n");
                                 }
                                 else
                                     startupScript = startupScript.concat("\n");
                                 startupScript = startupScript.concat("fi");
-        return startupScript;
+        
+        try{
+            scriptFile.createNewFile();
+            FileOutputStream writeFile = new FileOutputStream(scriptFile);
+            writeFile.write(startupScript.getBytes());
+        }
+        catch(Exception ex)
+        {
+            System.out.println("ERROR: Error writing script file.");
+            System.out.println(ex.toString());
+        }
+                                
+        return scriptFile;
     }
 }

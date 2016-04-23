@@ -95,7 +95,7 @@ public class ConfigCartDaoImpl implements ConfigCartDAO {
             ArrayList<Configuration> cartContainerConfigs = container.getConfigurations();
             for(Configuration configuration: cartContainerConfigs){
                 String insertSQL = "INSERT INTO ConfigCart (userID, cartContainerID, displayName, userType, "
-                    + "userArg1, userArg2) VALUES (?, ?, ?, ?, ?);";
+                    + "userArg1, userArg2) VALUES (?, ?, ?, ?, ?, ?);";
                 ps = connection.prepareStatement(insertSQL);
                 ps.setString(1, userID.toString());
                 ps.setString(2, container.getContainerID().toString());
