@@ -13,7 +13,8 @@ import Entity.Container;
 import java.util.ArrayList;
 
 /**
- *
+ * ConfigCartDAO interface
+ * 
  * @author matt & kevin
  */
 public interface ConfigCartDAO {
@@ -24,6 +25,7 @@ public interface ConfigCartDAO {
     
     boolean createConfigCart(Connection connection, Long userID, Container container) throws SQLException;
     
+    // TESTING ENVIRONMENT FUNCTION ONLY
     ConfigCart createConfigCart(Connection connection, ConfigCart configCart) throws SQLException;
     
 }

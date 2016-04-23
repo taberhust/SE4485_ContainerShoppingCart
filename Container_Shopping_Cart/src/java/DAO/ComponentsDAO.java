@@ -12,7 +12,8 @@ import Entity.Components;
 import java.util.ArrayList;
 
 /**
- *
+ * ComponentsDAO interface
+ * 
  * @author matt & kevin
  */
 public interface ComponentsDAO {

@@ -15,11 +15,20 @@ import Entity.Configuration;
 import java.sql.Statement;
 
 /**
- *
+ *Implmentation of the ConfigurationDAO interface
+ * 
  * @author matt & kevin
  */
 public class ConfigurationDaoImpl implements ConfigurationDAO{
 
+    /**
+     * Add the specified configuration to the table and return the ID
+     * 
+     * @param connection Connection to be used
+     * @param configuration Configuration to add to the table
+     * @return The configuration with the generated ID
+     * @throws SQLException 
+     */
     @Override
     public Configuration createConfiguration(Connection connection, Configuration configuration) throws SQLException {
         PreparedStatement ps = null;
@@ -52,6 +61,15 @@ public class ConfigurationDaoImpl implements ConfigurationDAO{
         return configuration;
     }
     
+    /**
+     * TESTING ENVIRONMENT FUNCTION ONLY
+     * Add the specified configuration to the table
+     * 
+     * @param connection Connection to be used
+     * @param configuration Configuration to add to the table
+     * @return The configuration passed in
+     * @throws SQLException 
+     */
     @Override
     public Configuration createConfigurationFT(Connection connection, Configuration configuration) throws SQLException {
         PreparedStatement ps = null;
@@ -80,6 +98,14 @@ public class ConfigurationDaoImpl implements ConfigurationDAO{
         return configuration;
     }
     
+    /**
+     * Retrieve the specified configuration
+     * 
+     * @param connection Connection to be used
+     * @param configID ID of the configuration to retrieve
+     * @return Configuration specified by the ID
+     * @throws SQLException 
+     */
     @Override
     public Configuration getConfiguration(Connection connection, Long configID) throws SQLException {
         PreparedStatement ps = null;

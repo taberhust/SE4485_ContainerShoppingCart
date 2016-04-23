@@ -16,11 +16,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
- *
+ * Implementation of the ItemsDAO interface
+ * 
  * @author matt & kevin
  */
 public class ItemsDaoImpl implements ItemsDAO{
 
+    /**
+     * Create the items for the purchase
+     * 
+     * @param connection Connection to be used
+     * @param items Items to be added to the purchase
+     * @return Items that were passed in
+     * @throws SQLException 
+     */
     @Override
     public Items createItems(Connection connection, Items items) throws SQLException {
         PreparedStatement ps = null;
@@ -48,7 +57,14 @@ public class ItemsDaoImpl implements ItemsDAO{
         }
     }
 
-
+    /**
+     * Retrieve the items from a particular purchase
+     * 
+     * @param connection Connection to be used
+     * @param purchaseID ID of the purchase from which items will be retrieved
+     * @return ArrayList of items from the purchase
+     * @throws SQLException 
+     */
     @Override
     public ArrayList<Items> getItems(Connection connection, Long purchaseID) throws SQLException {
         PreparedStatement ps = null;

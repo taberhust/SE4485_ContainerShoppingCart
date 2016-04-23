@@ -16,12 +16,21 @@ import Entity.Account;
 
 
 /**
- *@author matt & kevin
+ * Implementation of AccountDAO interface
  * 
- * This only updates the Account table
+ * @author matt & kevin
  */
 public class AccountDaoImpl implements AccountDAO{
     
+    /**
+     * TESTING ENVIRONMENT FUNCTION ONLY
+     * Creates the account in the database
+     * 
+     * @param connection Connection to be used
+     * @param account Account to create in the table
+     * @return The account that was added or null if it failed
+     * @throws SQLException 
+     */
     @Override
     public Account createAccountFT(Connection connection, Account account) throws SQLException{
         PreparedStatement ps = null;
@@ -51,6 +60,14 @@ public class AccountDaoImpl implements AccountDAO{
         return account;
     }
     
+    /**
+     * Create account in the database
+     * 
+     * @param connection Connection to be used
+     * @param account Account to be created
+     * @return Account with the generated ID or null if it failed
+     * @throws SQLException 
+     */
     //CreateAccount() for AUTO_INCREMENT primary key
     @Override
     public Account createAccount(Connection connection, Account account) throws SQLException{
@@ -85,6 +102,14 @@ public class AccountDaoImpl implements AccountDAO{
         return account;
     }
     
+    /**
+     * Retrieve the account associated with the specified username
+     * 
+     * @param connection Connection to be used
+     * @param username
+     * @return
+     * @throws SQLException 
+     */
     @Override
     public Account retrieveAccount(Connection connection, String username) throws SQLException{
         PreparedStatement ps = null;
@@ -116,6 +141,13 @@ public class AccountDaoImpl implements AccountDAO{
         return null;
     } 
     
+    /**
+     * Delete the account specified by the username
+     * 
+     * @param connection Connection to be used
+     * @param username Username of the user
+     * @throws SQLException 
+     */
     @Override
     public void deleteAccount(Connection connection, String username) throws SQLException{
         PreparedStatement ps = null;

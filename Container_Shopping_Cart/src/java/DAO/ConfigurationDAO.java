@@ -11,13 +11,15 @@ import java.sql.SQLException;
 import Entity.Configuration;
 
 /**
- *
+ * ConfigurationDAO interface
+ * 
  * @author matt & kevin
  */
 public interface ConfigurationDAO {
     
     Configuration createConfiguration(Connection connection, Configuration configuration) throws SQLException;
     
+    // TESTING ENVIRONMENT FUNCTION ONLY
     Configuration createConfigurationFT(Connection connection, Configuration configuration) throws SQLException;
     
     Configuration getConfiguration(Connection connection, Long configID) throws SQLException;

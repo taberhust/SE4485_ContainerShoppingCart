@@ -12,12 +12,13 @@ import Entity.Cart;
 import Entity.Container;
 
 /**
- *
+ * CartDAO interface
  * @author matt & kevin
  */
 public interface CartDAO {
     
     void createCart(Connection connection, Long userID, Container container) throws SQLException;
+    // TESTING ENVIRONMENT FUNCTION ONLY
     Cart createCart(Connection connection, Cart cart) throws SQLException;
     Cart createCart(Connection connection, Cart cart, Long userID) throws SQLException;
     
