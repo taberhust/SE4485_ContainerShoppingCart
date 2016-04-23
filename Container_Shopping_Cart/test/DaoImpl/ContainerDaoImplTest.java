@@ -53,7 +53,7 @@ public class ContainerDaoImplTest {
         System.out.println("retrieveContainer");
         Connection connection = DBConnection.getDataSource().getConnection();
         ContainerDaoImpl instance = new ContainerDaoImpl();
-        String category = "category4";
+        String category = "nginx";
         ArrayList<Container> result = instance.retrieveContainersByCategory(connection, category);
         assertNotNull(result);
     }
@@ -63,7 +63,7 @@ public class ContainerDaoImplTest {
         System.out.println("retrieveContainer");
         Connection connection = DBConnection.getDataSource().getConnection();
         ContainerDaoImpl instance = new ContainerDaoImpl();
-        String name = "containerName7";
+        String name = "nginx";
         ArrayList<Container> result = instance.retrieveContainersByName(connection, name);
         assertNotNull(result);
     }
@@ -73,7 +73,7 @@ public class ContainerDaoImplTest {
         System.out.println("retrieveContainer");
         Connection connection = DBConnection.getDataSource().getConnection();
         ContainerDaoImpl instance = new ContainerDaoImpl();
-        String category = "productFamily6";
+        String category = "Application";
         ArrayList<Container> result = instance.retrieveContainersByProductFamily(connection, category);
         assertNotNull(result);
     }
