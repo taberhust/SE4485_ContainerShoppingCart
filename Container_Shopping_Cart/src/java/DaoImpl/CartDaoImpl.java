@@ -146,15 +146,13 @@ public class CartDaoImpl implements CartDAO{
             
             ArrayList<Container> containerList = new ArrayList<>();
             while(rs.next()){
-                Container container = new Container();
-                container.setContainerID(rs.getLong("containerID"));
-                container.setDockerID(rs.getString("dockerID"));
-                container.setDockerName(rs.getString("dockerName"));
-                container.setContainerName(rs.getString("containerName"));
-                container.setVersion(rs.getString("version"));
-                container.setPathToIcon(rs.getString("pathToIcon"));
-                container.setCategory(rs.getString("category"));
-                container.setProductFamily(rs.getString("productFamily"));
+                ContainerDaoImpl containerDaoImpl = new ContainerDaoImpl();
+                
+                //This is to get a container with the fields we want inside.
+                Container container = containerDaoImpl.retrieveContainer(connection, rs.getLong("containerID"));
+                ConfigCartDaoImpl cCDI = new ConfigCartDaoImpl();
+                container.setConfigurations(cCDI.getConfigCart(connection, container.getContainerID(), userID));
+               
                 containerList.add(container);
             }
             return containerList;

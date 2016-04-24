@@ -63,6 +63,7 @@ public class ConfigCartDaoImpl implements ConfigCartDAO {
         }
         
     }
+    
     /**
      * Add the specified container and its configurations to the user's cart
      * 
@@ -215,6 +216,45 @@ public class ConfigCartDaoImpl implements ConfigCartDAO {
                 configCart.setUserType(rs.getString("userType"));
                 configCart.setUserArg1(rs.getString("userArg1"));
                 configCart.setUserArg2(rs.getString("userArg2"));
+                configCartList.add(configCart);
+            }
+            return configCartList;
+        }
+        
+        catch(Exception ex){
+            System.out.println("Exception in ConfigurationsDaoImpl.getConfiguration()");
+            if (ps != null && !ps.isClosed()){
+                ps.close();
+            }
+            if (connection != null && !connection.isClosed()){
+                connection.close();
+            }
+            
+            return null;
+        }
+    }    
+    
+    //This is for retrieving Modified configurations from cart
+    public ArrayList<Configuration> getConfigCart(Connection connection, Long cartContainerID, Long userID) throws SQLException {
+        PreparedStatement ps = null;
+        try{
+            String retrieveSQL = "SELECT * FROM ConfigCart WHERE cartContainerID = ?;";
+            ps = connection.prepareStatement(retrieveSQL);
+            ps.setLong(1, cartContainerID);
+            ResultSet rs = ps.executeQuery();
+            
+            if(!rs.isBeforeFirst()){
+                    return null;
+            }
+
+            ArrayList<Configuration> configCartList = new ArrayList<>();
+            while(rs.next()) {
+                Configuration configCart = new Configuration();
+                configCart.setConfigurationID(rs.getLong("cartContainerID"));
+                configCart.setDisplayName(rs.getString("displayName"));
+                configCart.setDefaultType(rs.getString("userType"));
+                configCart.setDefaultArg1(rs.getString("userArg1"));
+                configCart.setDefaultArg2(rs.getString("userArg2"));
                 configCartList.add(configCart);
             }
             return configCartList;
