@@ -2,7 +2,6 @@ package Service;
 
 
 import java.io.File;
-import java.nio.file.Files;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.io.OutputStream;
@@ -25,7 +24,6 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.Image;
 
 import Entity.Container;
-import Entity.Configuration;
 
 /**
  *
@@ -146,7 +144,7 @@ public class Delivery {
     
     private File saveImage(Container content)
     {
-        File imgTar = new File (imgDir + "/" + content.getDockerID() + ".tar");
+        File imgTar = new File (imgDir + "/" + content.getDockerName() + ".tar");
         byte[] buffer = new byte[100];
         int bytesRead = 0;
         
