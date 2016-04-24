@@ -12,13 +12,15 @@ import Entity.Configurations;
 import java.util.ArrayList;
 
 /**
- *
+ * ConfigurationsDAO interface
+ * 
  * @author matt & kevin
  */
 public interface ConfigurationsDAO {
     
     ArrayList<Configurations> getConfigurations(Connection connection, Long containerID) throws SQLException;
     
+    // TESTING ENVIRONMENT FUNCTION ONLY
     Configurations createConfigurations(Connection connection, Configurations configurations) throws SQLException;
     
     Configurations createConfigurations(Connection connection, Configurations configurations, Long containerID) throws SQLException;

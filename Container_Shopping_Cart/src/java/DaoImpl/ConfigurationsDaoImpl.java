@@ -16,11 +16,21 @@ import DAO.ConfigurationsDAO;
 import Entity.Configurations;
 
 /**
- *
+ * Testing environment class for weak entity table
+ * Implementation of ConfigurationsDAO interface
+ * 
  * @author matt & kevin
  */
 public class ConfigurationsDaoImpl implements ConfigurationsDAO{
 
+    /**
+     * Add configurations object to the weak entity table
+     * 
+     * @param connection Connection to be used
+     * @param configurations Configurations to be added
+     * @return Configurations that were passed in
+     * @throws SQLException 
+     */
     @Override
     public Configurations createConfigurations(Connection connection, Configurations configurations) throws SQLException {
         PreparedStatement ps = null;
@@ -47,6 +57,14 @@ public class ConfigurationsDaoImpl implements ConfigurationsDAO{
         return configurations;
     }
 
+    /**
+     * Retrieve the configurations from the given container
+     * 
+     * @param connection Connection to be used
+     * @param containerID ID of the container whose configurations to return
+     * @return ArrayList of configurations for the container
+     * @throws SQLException 
+     */
     @Override
     public ArrayList<Configurations> getConfigurations(Connection connection, Long containerID) throws SQLException {
         PreparedStatement ps = null;

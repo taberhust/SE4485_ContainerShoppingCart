@@ -16,11 +16,21 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
- *
+ * Implementation of the PurchaseDAO interface
+ * 
  * @author matt & kevin
  */
 public class PurchaseDaoImpl implements PurchaseDAO{
 
+    /**
+     * TESTING ENVIRONMENT FUNCTION ONLY
+     * Create the purchase item in the table
+     * 
+     * @param connection Connection to be used
+     * @param purchase Purchase object to add to the table
+     * @return Purchase item that was passed in
+     * @throws SQLException 
+     */
     @Override
     public Purchase createPurchase(Connection connection, Purchase purchase) throws SQLException {
         PreparedStatement ps = null;
@@ -49,6 +59,14 @@ public class PurchaseDaoImpl implements PurchaseDAO{
         }
     }
 
+    /**
+     * Add a purchase to the purchase history
+     * 
+     * @param connection Connection to be used
+     * @param purchase Purchase object to add to the table
+     * @return Purchase with the generated ID
+     * @throws SQLException 
+     */
     @Override
     public Purchase addPurchase(Connection connection, Purchase purchase) throws SQLException {
         PreparedStatement ps = null;
@@ -82,6 +100,14 @@ public class PurchaseDaoImpl implements PurchaseDAO{
         }
     }
 
+    /**
+     * Retrieve the purchase history for the specified user
+     * 
+     * @param connection Connection to be used
+     * @param userID ID of the user to whom the purchase belongs
+     * @return ArrayList of purchases for the user
+     * @throws SQLException 
+     */
     @Override
     public ArrayList<Purchase> retrievePurchases(Connection connection, Long userID) throws SQLException {
         PreparedStatement ps = null;
@@ -124,6 +150,14 @@ public class PurchaseDaoImpl implements PurchaseDAO{
         }
     }
 
+    /**
+     * Administrative function to edit the details of a purchase
+     * 
+     * @param connection Connection to be used
+     * @param purchase Updated purchase object to replace the existing
+     * @return True if the purchase was updated properly
+     * @throws SQLException 
+     */
     @Override
     public boolean editPurchase(Connection connection, Purchase purchase) throws SQLException {
         PreparedStatement ps = null;
@@ -155,6 +189,14 @@ public class PurchaseDaoImpl implements PurchaseDAO{
         }
     }
 
+    /**
+     * Administrative function to delete a purchase from the user's account
+     * 
+     * @param connection Connection to be used
+     * @param purchaseID ID of the purchase
+     * @return True if the purchase was deleted properly
+     * @throws SQLException 
+     */
     @Override
     public boolean deletePurchase(Connection connection, Long purchaseID) throws SQLException {
         PreparedStatement ps = null;

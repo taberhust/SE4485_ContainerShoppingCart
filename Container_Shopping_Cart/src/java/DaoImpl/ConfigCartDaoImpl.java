@@ -19,11 +19,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *
+ * Implementation of the ConfigCartDAO interface
+ * 
  * @author matt & kevin
  */
 public class ConfigCartDaoImpl implements ConfigCartDAO {
     
+    /**
+     * Add the user's configurations to the configCart table
+     * 
+     * @param connection Connection to be used
+     * @param userID ID of the user tied to the cart
+     * @param configsToAdd ArrayList of configurations to add to the user's cart
+     * @throws SQLException 
+     */
     @Override
     public void addToConfigCart(Connection connection, Long userID, ArrayList<ConfigCart> configsToAdd) throws SQLException{
         PreparedStatement ps = null;
@@ -55,6 +64,15 @@ public class ConfigCartDaoImpl implements ConfigCartDAO {
         
     }
     
+    /**
+     * Add the specified container and its configurations to the user's cart
+     * 
+     * @param connection Connection to be used
+     * @param userID ID of the user tied to the cart
+     * @param container Container with configurations to add to the user's cart
+     * @return True if the container and configurations were added
+     * @throws SQLException 
+     */
     @Override
     public boolean addToConfigCart(Connection connection, Long userID, Container container) throws SQLException {
         PreparedStatement ps = null;
@@ -88,6 +106,15 @@ public class ConfigCartDaoImpl implements ConfigCartDAO {
         return false;       
     }
     
+    /**
+     * Add the specified container and its configurations to the user's cart
+     * 
+     * @param connection Connection to be used
+     * @param userID ID of the user tied to the cart
+     * @param container Container with configurations to add to the user's cart
+     * @return True if the container and configurations were added
+     * @throws SQLException 
+     */
     @Override
     public boolean createConfigCart(Connection connection, Long userID, Container container) throws SQLException {
         PreparedStatement ps = null;
@@ -121,6 +148,15 @@ public class ConfigCartDaoImpl implements ConfigCartDAO {
         return false;       
     }
 
+    /**
+     * TESTING ENVIRONMENT FUNCTION ONLY
+     * Add the configCart to the table
+     * 
+     * @param connection Connecton to be used
+     * @param configCart configCart to add to the database
+     * @return ConfigCart that was passed in
+     * @throws SQLException 
+     */
     @Override
     public ConfigCart createConfigCart(Connection connection, ConfigCart configCart) throws SQLException {
         PreparedStatement ps = null;
@@ -152,6 +188,14 @@ public class ConfigCartDaoImpl implements ConfigCartDAO {
         return configCart;         
     }
  
+    /**
+     * Retrieve the configurations from the configCart
+     * 
+     * @param connection Connection to be used
+     * @param cartContainerID ID of container whose configurations are retrieved
+     * @return ArrayList of configurations for the container
+     * @throws SQLException 
+     */
     public ArrayList<ConfigCart> getConfigCart(Connection connection, Long cartContainerID) throws SQLException {
         PreparedStatement ps = null;
         try{
@@ -190,6 +234,53 @@ public class ConfigCartDaoImpl implements ConfigCartDAO {
         }
     }    
     
+    //This is for retrieving Modified configurations from cart
+    public ArrayList<Configuration> getConfigCart(Connection connection, Long cartContainerID, Long userID) throws SQLException {
+        PreparedStatement ps = null;
+        try{
+            String retrieveSQL = "SELECT * FROM ConfigCart WHERE cartContainerID = ?;";
+            ps = connection.prepareStatement(retrieveSQL);
+            ps.setLong(1, cartContainerID);
+            ResultSet rs = ps.executeQuery();
+            
+            if(!rs.isBeforeFirst()){
+                    return null;
+            }
+
+            ArrayList<Configuration> configCartList = new ArrayList<>();
+            while(rs.next()) {
+                Configuration configCart = new Configuration();
+                configCart.setConfigurationID(rs.getLong("cartContainerID"));
+                configCart.setDisplayName(rs.getString("displayName"));
+                configCart.setDefaultType(rs.getString("userType"));
+                configCart.setDefaultArg1(rs.getString("userArg1"));
+                configCart.setDefaultArg2(rs.getString("userArg2"));
+                configCartList.add(configCart);
+            }
+            return configCartList;
+        }
+        
+        catch(Exception ex){
+            System.out.println("Exception in ConfigurationsDaoImpl.getConfiguration()");
+            if (ps != null && !ps.isClosed()){
+                ps.close();
+            }
+            if (connection != null && !connection.isClosed()){
+                connection.close();
+            }
+            
+            return null;
+        }
+    }    
+    
+    /**
+     * Get the configuration from the cart
+     * 
+     * @param connection Connection to be used
+     * @param configID ID of the configuration to get
+     * @return Configuration object from the table
+     * @throws SQLException 
+     */
     public Configuration getCartConfigs(Connection connection, Long configID) throws SQLException {
         PreparedStatement ps = null;
         try{

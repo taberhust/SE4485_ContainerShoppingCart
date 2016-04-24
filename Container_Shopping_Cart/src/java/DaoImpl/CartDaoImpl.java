@@ -16,11 +16,20 @@ import Entity.Container;
 import java.util.ArrayList;
 
 /**
- *
+ * Implementation of CartDAO interface
+ * 
  * @author matt & kevin
  */
 public class CartDaoImpl implements CartDAO{
     
+    /**
+     * Insert container into user's cart
+     * 
+     * @param connection Connection to be used
+     * @param userID ID of the user whose cart is being modified
+     * @param container Container to add to the cart
+     * @throws SQLException 
+     */
     @Override
     public void createCart(Connection connection, Long userID, Container container) throws SQLException{
         PreparedStatement ps = null;
@@ -45,6 +54,15 @@ public class CartDaoImpl implements CartDAO{
         }
     }
 
+    /**
+     * TESTING ENVIRONMENT FUNCTION ONLY
+     * Add the cart object into the cart database
+     * 
+     * @param connection Connection to be used
+     * @param cart Cart object to be added to the database
+     * @return The cart object
+     * @throws SQLException 
+     */
     @Override
     public Cart createCart(Connection connection, Cart cart) throws SQLException {
         PreparedStatement ps = null;
@@ -71,6 +89,16 @@ public class CartDaoImpl implements CartDAO{
         return cart;    
     }
 
+    /**
+     * TESTING ENVIRONMENT FUNCTION ONLY
+     * Add cart object to user's account
+     * 
+     * @param connection Connection to be used
+     * @param cart Cart object to be added to the database
+     * @param userID ID of the user associated with the cart
+     * @return The cart object inserted
+     * @throws SQLException 
+     */
     @Override
     public Cart createCart(Connection connection, Cart cart, Long userID) throws SQLException {
         PreparedStatement ps = null;
@@ -96,7 +124,14 @@ public class CartDaoImpl implements CartDAO{
         return cart;
     }
     
-    
+    /**
+     * Retrieve the containers in the user's cart
+     * 
+     * @param connection Connection to be used
+     * @param userID ID of the user associated with the cart
+     * @return ArrayList of containers in the user's cart
+     * @throws SQLException 
+     */
     public ArrayList<Container> retrieveCart(Connection connection, Long userID) throws SQLException{
         PreparedStatement ps = null;
         try{
@@ -111,15 +146,13 @@ public class CartDaoImpl implements CartDAO{
             
             ArrayList<Container> containerList = new ArrayList<>();
             while(rs.next()){
-                Container container = new Container();
-                container.setContainerID(rs.getLong("containerID"));
-                container.setDockerID(rs.getString("dockerID"));
-                container.setDockerName(rs.getString("dockerName"));
-                container.setContainerName(rs.getString("containerName"));
-                container.setVersion(rs.getString("version"));
-                container.setPathToIcon(rs.getString("pathToIcon"));
-                container.setCategory(rs.getString("category"));
-                container.setProductFamily(rs.getString("productFamily"));
+                ContainerDaoImpl containerDaoImpl = new ContainerDaoImpl();
+                
+                //This is to get a container with the fields we want inside.
+                Container container = containerDaoImpl.retrieveContainer(connection, rs.getLong("containerID"));
+                ConfigCartDaoImpl cCDI = new ConfigCartDaoImpl();
+                container.setConfigurations(cCDI.getConfigCart(connection, container.getContainerID(), userID));
+               
                 containerList.add(container);
             }
             return containerList;

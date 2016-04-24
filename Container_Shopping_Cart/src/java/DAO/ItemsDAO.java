@@ -12,7 +12,8 @@ import Entity.Items;
 import java.util.ArrayList;
 
 /**
- *
+ * ItemsDAO interface
+ * 
  * @author matt & kevin
  */
 public interface ItemsDAO {

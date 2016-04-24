@@ -16,11 +16,21 @@ import Entity.Container;
 import java.util.ArrayList;
 
 /**
- *
+ * Implementation of ComponentsDAO interface
+ * Used primarily to set up the table in the testing environment
+ * 
  * @author matt & kevin
  */
 public class ComponentsDaoImpl implements ComponentsDAO{
     
+    /**
+     * Add the Components object into the weak entity table
+     * 
+     * @param connection Connection to be used
+     * @param components Components object to be added
+     * @return Components object that was passed in
+     * @throws SQLException 
+     */
     @Override
     public Components addComponents(Connection connection, Components components) throws SQLException {
         PreparedStatement ps = null;
@@ -48,6 +58,14 @@ public class ComponentsDaoImpl implements ComponentsDAO{
         }
     }        
 
+    /**
+     * Retrieve a list of components from the weak entity table
+     * 
+     * @param connection Connection to be used
+     * @param containerID ID of the container whose components will be retrieved
+     * @return ArrayList of components from the weak entity table
+     * @throws SQLException 
+     */
     @Override
     public ArrayList<Components> getComponents(Connection connection, Long containerID) throws SQLException {
         PreparedStatement ps = null;
@@ -87,6 +105,15 @@ public class ComponentsDaoImpl implements ComponentsDAO{
         }
     }
 
+    /**
+     * Remove entries of components from the specified container
+     * 
+     * @param connection Connection to be used
+     * @param containerID ID of the container whose component will be removed
+     * @param componentID ID of the component to remove
+     * @return True if the component was deleted
+     * @throws SQLException 
+     */
     @Override
     public boolean deleteComponentsFromContainer(Connection connection, Long containerID, Long componentID) throws SQLException {
         PreparedStatement ps = null;

@@ -43,7 +43,7 @@ public class DAOInterfaceTest {
     public void testRetrieveContainersByCategory() throws Exception {
         System.out.println("retrieveContainersByCategory");
         Connection connection = DBConnection.getDataSource().getConnection();
-        String category = "category1";
+        String category = "nginx";
         DAOInterface instance = new DAOInterface();
         ArrayList<Container> result = instance.retrieveContainersByCategory(connection, category);
         assertNotNull(result);
@@ -56,7 +56,7 @@ public class DAOInterfaceTest {
     public void testRetrieveContainersByName() throws Exception {
         System.out.println("retrieveContainersByName");
         Connection connection = DBConnection.getDataSource().getConnection();
-        String name = "containerName1";
+        String name = "nginx";
         DAOInterface instance = new DAOInterface();
         ArrayList<Container> result = instance.retrieveContainersByName(connection, name);
         assertNotNull(result);
@@ -69,7 +69,7 @@ public class DAOInterfaceTest {
     public void testRetrieveContainersByProductFamily() throws Exception {
         System.out.println("retrieveContainersByProductFamily");
         Connection connection = DBConnection.getDataSource().getConnection();
-        String family = "productFamily1";
+        String family = "Application";
         DAOInterface instance = new DAOInterface();
         ArrayList<Container> result = instance.retrieveContainersByProductFamily(connection, family);
         assertNotNull(result);
@@ -82,7 +82,7 @@ public class DAOInterfaceTest {
     public void testRetrieveItems() throws Exception {
         System.out.println("getItems");
         Connection connection = DBConnection.getDataSource().getConnection();
-        Long purchaseID = 2L;
+        Long purchaseID = 1L;
         DAOInterface instance = new DAOInterface();
         ArrayList<Items> result = instance.retrieveItems(connection, purchaseID);
         assertNotNull(result);

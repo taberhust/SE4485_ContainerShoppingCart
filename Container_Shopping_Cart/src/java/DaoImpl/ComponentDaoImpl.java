@@ -15,11 +15,21 @@ import Entity.Component;
 import java.sql.Statement;
 
 /**
- *
+ * Implementation of ComponentDAO interface
+ * 
  * @author matt & kevin
  */
 public class ComponentDaoImpl implements ComponentDAO{
 
+    /**
+     * TESTING ENVIRONMENT FUNCTION ONLY
+     * Add the component to the database table
+     * 
+     * @param connection Connection to be used
+     * @param component Component to be added to the database
+     * @return Component that was added to the database
+     * @throws SQLException 
+     */
     @Override
     public Component addComponentFT(Connection connection, Component component) throws SQLException {
         PreparedStatement ps = null;
@@ -49,6 +59,13 @@ public class ComponentDaoImpl implements ComponentDAO{
         }
     }
 
+    /**
+     * Add the component to the database
+     * @param connection Connection to be used
+     * @param component Component to be added
+     * @return Component object with the generated ID
+     * @throws SQLException 
+     */
     @Override
     public Component addComponent(Connection connection, Component component) throws SQLException {
         PreparedStatement ps = null;
@@ -83,6 +100,14 @@ public class ComponentDaoImpl implements ComponentDAO{
         }
     }
         
+    /**
+     * Retrieve the component by its ID
+     * 
+     * @param connection Connection to be used
+     * @param id ID of the component to retrieve
+     * @return The component from the database
+     * @throws SQLException 
+     */
     @Override
     public Component getComponent(Connection connection, Long id) throws SQLException {
         PreparedStatement ps = null;
@@ -121,6 +146,14 @@ public class ComponentDaoImpl implements ComponentDAO{
         }
     }
 
+    /**
+     * Delete the specified component
+     * 
+     * @param connection Connection to be used
+     * @param id ID of the component to delete
+     * @return True if the component was deleted
+     * @throws SQLException 
+     */
     @Override
     public boolean deleteComponent(Connection connection, Long id) throws SQLException {
         PreparedStatement ps = null;

@@ -12,11 +12,13 @@ import Entity.Purchase;
 import java.util.ArrayList;
 
 /**
- *
+ * PurchaseDAO interface
+ * 
  * @author matt & kevin
  */
 public interface PurchaseDAO {
     
+    // TESTING ENVIRONMENT FUNCTION ONLY
     Purchase createPurchase(Connection connection, Purchase purchase) throws SQLException;
     Purchase addPurchase(Connection connection, Purchase purchase) throws SQLException;
     ArrayList<Purchase> retrievePurchases(Connection connection, Long userID) throws SQLException;

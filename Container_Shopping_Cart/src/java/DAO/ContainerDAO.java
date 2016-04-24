@@ -12,7 +12,8 @@ import Entity.Container;
 import java.util.ArrayList;
 
 /**
- *
+ * ContainerDAO interface
+ * 
  * @author matt & kevin
  */
 public interface ContainerDAO {
@@ -21,7 +22,7 @@ public interface ContainerDAO {
     ArrayList<Container> retrieveContainersByCategory(Connection connection, String category) throws SQLException;
     ArrayList<Container> retrieveContainersByName(Connection connection, String name) throws SQLException;
     ArrayList<Container> retrieveContainersByProductFamily(Connection connection, String name) throws SQLException;
-    // Remove FT function on submission if auto-increment implemented
+    // TESTING ENVIRONMENT FUNCTION ONLY
     Container addContainerFT(Connection connection, Container container) throws SQLException;
     Container addContainer(Connection connection, Container container) throws SQLException;
     Container retrieveContainer(Connection connection, Long containerID) throws SQLException;

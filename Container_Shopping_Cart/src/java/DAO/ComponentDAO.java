@@ -11,12 +11,13 @@ import java.sql.SQLException;
 import Entity.Component;
 
 /**
- *
+ * ComponentDAO interface
+ * 
  * @author matt & kevin
  */
 public interface ComponentDAO {
     
-    // Remove FT function on submission if auto-increment implemented
+    // TESTING ENVIRONMENT FUNCTION ONLY
     Component addComponentFT(Connection connection, Component component) throws SQLException;
     
     Component addComponent(Connection connection, Component component) throws SQLException;
