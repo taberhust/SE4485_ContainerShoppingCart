@@ -5,6 +5,7 @@
  */
 package DaoImpl;
 
+import DBConnection.DBConnection;
 import Entity.Cart;
 import Entity.Container;
 import java.sql.Connection;
@@ -28,13 +29,23 @@ public class CartDaoImplTest {
     @Test
     public void testCreateCart_3args_1() throws Exception {
         System.out.println("createCart");
-        Connection connection = null;
-        Long userID = null;
-        Container container = null;
+        // Set up connection to not make changes
+        Connection connection = DBConnection.getDataSource().getConnection();
+        connection.setAutoCommit(false);
+        
+        ContainerDaoImpl containerInstance = new ContainerDaoImpl();
+        Container container = containerInstance.retrieveContainer(connection, 1L);
+        Long userID = 1L;
+        
         CartDaoImpl instance = new CartDaoImpl();
         instance.createCart(connection, userID, container);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        ArrayList<Container> result = instance.retrieveCart(connection, userID);
+        assertNotNull(result);
+        
+        // Rollback any changes this test made
+        connection.rollback();
+        connection.setAutoCommit(true);
     }
 
     /**
@@ -43,14 +54,22 @@ public class CartDaoImplTest {
     @Test
     public void testCreateCart_Connection_Cart() throws Exception {
         System.out.println("createCart");
-        Connection connection = null;
-        Cart cart = null;
+        // Set up connection to not make changes
+        Connection connection = DBConnection.getDataSource().getConnection();
+        connection.setAutoCommit(false);
+        
+        Cart cart = new Cart();
         CartDaoImpl instance = new CartDaoImpl();
-        Cart expResult = null;
-        Cart result = instance.createCart(connection, cart);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        cart.setCartContainerID(1L);
+        cart.setUserID(1L);
+        instance.createCart(connection, cart);
+        
+        ArrayList<Container> result = instance.retrieveCart(connection, 1L);
+        assertNotNull(result);
+        
+        // Rollback any changes this test made
+        connection.rollback();
+        connection.setAutoCommit(true);
     }
 
     /**
@@ -59,15 +78,24 @@ public class CartDaoImplTest {
     @Test
     public void testCreateCart_3args_2() throws Exception {
         System.out.println("createCart");
-        Connection connection = null;
-        Cart cart = null;
-        Long userID = null;
+        // Set up connection to not make changes
+        Connection connection = DBConnection.getDataSource().getConnection();
+        connection.setAutoCommit(false);
+        
+        Cart cart = new Cart();
         CartDaoImpl instance = new CartDaoImpl();
-        Cart expResult = null;
-        Cart result = instance.createCart(connection, cart, userID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Long userID = 1L;
+        cart.setCartContainerID(1L);
+        cart.setUserID(userID);
+
+        instance.createCart(connection, cart, userID);
+        
+        ArrayList<Container> result = instance.retrieveCart(connection, 1L);
+        assertNotNull(result);
+        
+        // Rollback any changes this test made
+        connection.rollback();
+        connection.setAutoCommit(true);
     }
 
     /**
@@ -76,14 +104,23 @@ public class CartDaoImplTest {
     @Test
     public void testRetrieveCart() throws Exception {
         System.out.println("retrieveCart");
-        Connection connection = null;
-        Long userID = null;
+        // Set up connection to not make changes
+        Connection connection = DBConnection.getDataSource().getConnection();
+        connection.setAutoCommit(false);
+        
+        Cart cart = new Cart();
         CartDaoImpl instance = new CartDaoImpl();
-        ArrayList<Container> expResult = null;
+        cart.setCartContainerID(1L);
+        cart.setUserID(1L);
+        instance.createCart(connection, cart);
+        
+        Long userID = 1L;
         ArrayList<Container> result = instance.retrieveCart(connection, userID);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
+        
+        // Rollback any changes this test made
+        connection.rollback();
+        connection.setAutoCommit(true);
     }
     
 }
