@@ -10,7 +10,8 @@ import java.sql.PreparedStatement;
 import javax.sql.DataSource;
 
 /**
- *
+ * Clear the test data in the database
+ * 
  * @author matt
  */
 public class ClearDB {

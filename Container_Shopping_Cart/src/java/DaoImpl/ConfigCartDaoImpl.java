@@ -238,9 +238,9 @@ public class ConfigCartDaoImpl implements ConfigCartDAO {
      * This is for retrieving Modified configurations from cart
      *
      *@param connection Connection to be used
-     *@param cartContainerID this is the ID of the container to be retrieved from customer's shopping cart
-     *@param userID this is the ID for the customer with the items in the shopping cart.
-     *@return An ArrayList of Configuration 's for the container in the customers shopping cart
+     *@param cartContainerID ID of the container to be retrieved from customer's shopping cart
+     *@param userID ID for the customer with the items in the shopping cart.
+     *@return ArrayList of Configuration 's for the container in the customers shopping cart
      *@throws SQLException
      */ 
     public ArrayList<Configuration> getConfigCart(Connection connection, Long cartContainerID, Long userID) throws SQLException {

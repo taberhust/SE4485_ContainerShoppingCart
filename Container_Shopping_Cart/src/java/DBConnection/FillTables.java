@@ -52,7 +52,8 @@ import DaoImpl.PurchaseDaoImpl;
 import DAO.ItemsDAO;
 
 /**
- *
+ * Fill the database with test data
+ * 
  * @author matt & kevin
  */
 public class FillTables{
@@ -65,6 +66,9 @@ public class FillTables{
     
     Random rnGen = new Random();
 
+    /**
+     * Initialize the csv files to variables
+     */
     private void initialize(){
 	accountFile = new File("test/csvData/accounts.csv");
 	containerFile = new File("test/csvData/container.csv");
@@ -73,6 +77,11 @@ public class FillTables{
 	configurationFile = new File("test/csvData/configuration.csv");
     }	
 
+    /**
+     * Main function handling all calls
+     * 
+     * @param args 
+     */
     public static void main(String args[]){
 	try{
             DataSource dataSource = DBConnection.getDataSource();
@@ -122,6 +131,12 @@ public class FillTables{
     }
     
     //-----------------build Methods------------------------
+    /**
+     * Builds a map of accounts
+     * 
+     * @return Map with ID and Account objects
+     * @throws Exception 
+     */
     private Map<Long, Account> buildAccount() throws Exception{
         Map<Long, Account> accountMap = new HashMap<>();
         FileReader fileReader = new FileReader(accountFile);
@@ -135,6 +150,14 @@ public class FillTables{
 	return accountMap;
     }
 
+    /**
+     * Build a list of carts and return them
+     * 
+     * @param accounts Collection of accounts to add to the database
+     * @param containers Array of containers to add to the database
+     * @return A list of cart objects
+     * @throws Exception 
+     */
     private List<Cart> buildCart(Collection<Account> accounts, Container[] containers) throws Exception{
 	List<Cart> cartList = new ArrayList<>();
             int numPur;
@@ -149,6 +172,13 @@ public class FillTables{
             return cartList;
     }
     
+    /**
+     * Build up a cart object and return it
+     * 
+     * @param userID ID of the user tied to the cart
+     * @param cartContainerID ID of the container in the cart
+     * @return Cart object with the specified data
+     */
     private Cart buildCart(Long userID, Long cartContainerID){
 	Cart cart = new Cart();
 	cart.setUserID(userID);
@@ -156,6 +186,12 @@ public class FillTables{
 	return cart;
     }
     
+    /**
+     * Build a map containing an ID and container object
+     * 
+     * @return Map with an ID and container object
+     * @throws Exception 
+     */
     private Map<Long, Container> buildContainer() throws Exception{
 	Map<Long, Container> containerMap = new HashMap<>();
 	FileReader fileReader = new FileReader(containerFile);
@@ -169,6 +205,12 @@ public class FillTables{
 	return containerMap;
     }
 
+    /**
+     * Build a map containing an ID and component object
+     * 
+     * @return Map containing ID and component object
+     * @throws Exception 
+     */
     private Map<Long, Component> buildComponent() throws Exception{
 	Map<Long, Component> componentMap = new HashMap<>();
 	FileReader fileReader = new FileReader(componentFile);
@@ -182,6 +224,12 @@ public class FillTables{
 	return componentMap;
     }
 
+    /**
+     * Build a map containing an ID and configuration object
+     * 
+     * @return Map containing an ID and configuration object
+     * @throws Exception 
+     */
     private Map<Long, Configuration> buildConfiguration() throws Exception{
 	Map<Long, Configuration> configurationMap = new HashMap<>();
 	FileReader fileReader = new FileReader(configurationFile);
@@ -195,6 +243,14 @@ public class FillTables{
 	return configurationMap;
     }
 
+    /**
+     * Build a List of components to add to the database
+     * 
+     * @param containers Collection of containers to add into the database
+     * @param components Array of components to add to the database
+     * @return List of components
+     * @throws Exception 
+     */
     private List<Components> buildComponents(Collection<Container> containers, Component[] components) throws Exception{
         List<Components> componList = new ArrayList<>();
         for(Container container: containers){
@@ -205,6 +261,14 @@ public class FillTables{
         return componList;
     }
 
+    /**
+     * Build a components object to add to the database
+     * 
+     * @param containerID ID of the container
+     * @param componentID ID of the component
+     * @return Components object with the specified data
+     * @throws Exception 
+     */
     private Components buildComponents(Long containerID, Long componentID) throws Exception{
 	Components components = new Components();
 	components.setContainerID(containerID);
@@ -212,6 +276,14 @@ public class FillTables{
         return components;
     }
 
+    /**
+     * Build a list of configurations to add to the database
+     * 
+     * @param containers Collection of containers to add
+     * @param configurations Array of configurations to add
+     * @return List of configurations added to the database
+     * @throws Exception 
+     */
     private List<Configurations> buildConfigurations(Collection<Container> containers, Configuration[] configurations) throws Exception{
         List<Configurations> configList = new ArrayList<>();
         for(Container container : containers){
@@ -222,6 +294,14 @@ public class FillTables{
         return configList;
     }
 
+    /**
+     * Build a configurations object to add to the database
+     * 
+     * @param containerID ID of the container
+     * @param configurationID ID of the configuration
+     * @return Configurations object that was built
+     * @throws Exception 
+     */
     private Configurations buildConfigurations(Long containerID, Long configurationID) throws Exception{
         Configurations configurations = new Configurations();
         configurations.setContainerID(containerID);
@@ -229,6 +309,14 @@ public class FillTables{
         return configurations;
     }
 
+    /**
+     * Build a list of items to add to the database
+     * 
+     * @param purchases List of purhcases to add to the database
+     * @param containers Array of containers to add to the database
+     * @return List of items added to the database
+     * @throws Exception 
+     */
     private List<Items> buildItems(List<Purchase> purchases, Container[] containers) throws Exception{
 	List<Items> itemList = new ArrayList<>();
             int numPur;
@@ -243,6 +331,14 @@ public class FillTables{
             return itemList;
     }
 
+    /**
+     * Build an items object to add to the database
+     * 
+     * @param purchaseID ID of the purchase
+     * @param containerID ID of the container
+     * @return Items object that was built
+     * @throws Exception 
+     */
     private Items buildItems(Long purchaseID, Long containerID) throws Exception{
 	Items items = new Items();
 	items.setPurchaseID(purchaseID);
@@ -250,6 +346,13 @@ public class FillTables{
 	return items;
     }
     
+    /**
+     * Build a list of configurations to add to the cart in the database
+     * 
+     * @param cartItems Array of cart items
+     * @return List of configurations added to the configuration cart
+     * @throws Exception 
+     */
     private List<ConfigCart> buildConfigCart(Cart[] cartItems) throws Exception{
         List<ConfigCart> configCartList = new ArrayList<>();
         FileReader fileReader = new FileReader(configCartFile);
@@ -271,6 +374,13 @@ public class FillTables{
         return configCartList;
     }
     
+    /**
+     * Build a list of purchase items to add to the database
+     * 
+     * @param accounts Array of accounts to add to the table
+     * @return List of purchase objects to add to the database
+     * @throws Exception 
+     */
     private List<Purchase> buildPurchase(Account[] accounts) throws Exception{
 	List<Purchase> purchaseList = new ArrayList<>();
 	for(int i=1; i<101; i++){
@@ -281,6 +391,13 @@ public class FillTables{
         return purchaseList;
     }
 
+    /**
+     * Build a purchase object to add to the database
+     * 
+     * @param purchaseID ID of the purchase
+     * @param userID ID of the user
+     * @return Purchase item that was built
+     */
     private Purchase buildPurchase(Long purchaseID, Long userID){
 	Purchase purchase = new Purchase();
 	purchase.setPurchaseID(purchaseID);
@@ -294,6 +411,13 @@ public class FillTables{
     }
 
     //-----------------insert Methods------------------------------
+    /**
+     * Insert account objects into the database
+     * 
+     * @param connection Connection to be used
+     * @param accountMap Map containing ID and account object
+     * @throws Exception 
+     */
     private void insertAccount(Connection connection, Map<Long, Account> accountMap) throws Exception{
         AccountDAO accountDAO = new AccountDaoImpl();
         for(Account account: accountMap.values()){
@@ -301,6 +425,13 @@ public class FillTables{
         }
     }
         
+    /**
+     * Insert cart objects into the database
+     * 
+     * @param connection Connection to be used
+     * @param cartList List of cart objects to insert
+     * @throws Exception 
+     */
     private void insertCart(Connection connection, List<Cart> cartList) throws Exception{
         CartDAO cartDAO = new CartDaoImpl();
         for(Cart cart : cartList){
@@ -308,6 +439,13 @@ public class FillTables{
         }
     }
     
+    /**
+     * Insert component objects into the database
+     * 
+     * @param connection Connection to be used
+     * @param componentMap Map containing ID and component objects
+     * @throws Exception 
+     */
     private void insertComponent(Connection connection, Map<Long, Component> componentMap) throws Exception{
         ComponentDAO componentDAO = new ComponentDaoImpl();
         for(Component component: componentMap.values()){
@@ -315,6 +453,13 @@ public class FillTables{
         }
     }
     
+    /**
+     * Insert components objects into the database
+     * 
+     * @param connection Connection to be used
+     * @param componentsList List of components objects to insert
+     * @throws Exception 
+     */
     private void insertComponents(Connection connection, List<Components> componentsList) throws Exception{
         ComponentsDAO componDAO = new ComponentsDaoImpl();
         for(Components components : componentsList){
@@ -322,20 +467,41 @@ public class FillTables{
         }
     }
     
+    /**
+     * Insert configCart objects into the database
+     * 
+     * @param connection Connection to be used
+     * @param configcartlist List of configCart objects to insert
+     * @throws Exception 
+     */
     private void insertConfigCart(Connection connection, List<ConfigCart> configcartlist) throws Exception{
         ConfigCartDAO configcartDAO = new ConfigCartDaoImpl();
         for(ConfigCart configcart : configcartlist){
             configcartDAO.createConfigCart(connection, configcart);
         }
     }
-        
+       
+    /**
+     * Insert configuration objects into the database
+     * 
+     * @param connection Connection to be used
+     * @param configurationMap Map containing ID and configuration object
+     * @throws Exception 
+     */
     private void insertConfiguration(Connection connection, Map<Long, Configuration> configurationMap) throws Exception{
         ConfigurationDAO configurationDAO = new ConfigurationDaoImpl();
         for(Configuration configuration: configurationMap.values()){
             configurationDAO.createConfiguration(connection, configuration);
         }
     }
-        
+      
+    /**
+     * Insert configurations objects into the database
+     * 
+     * @param connection Connection to be used
+     * @param configurationsList List of configurations objects to be inserted
+     * @throws Exception 
+     */
     private void insertConfigurations(Connection connection, List<Configurations> configurationsList) throws Exception{
         ConfigurationsDAO configDAO = new ConfigurationsDaoImpl();
         for(Configurations configurations : configurationsList){
@@ -343,6 +509,13 @@ public class FillTables{
         }
     }
         
+    /**
+     * Insert container objects into the database
+     * 
+     * @param connection Connection to be used
+     * @param containerMap Map containing ID and container object
+     * @throws Exception 
+     */
     private void insertContainer(Connection connection, Map<Long, Container> containerMap) throws Exception{
         ContainerDAO containerDAO = new ContainerDaoImpl();
         for(Container container: containerMap.values()){
@@ -350,6 +523,13 @@ public class FillTables{
         }
     }
     
+    /**
+     * Insert items objects into the database
+     * 
+     * @param connection Connection to be used
+     * @param itemsList List of items to insert into the database
+     * @throws Exception 
+     */
     private void insertItems(Connection connection, List<Items> itemsList) throws Exception{
         ItemsDAO itemsDAO = new ItemsDaoImpl();
         for(Items items : itemsList){
@@ -357,6 +537,13 @@ public class FillTables{
         }
     }
     
+    /**
+     * Insert purchase objects into the database
+     * 
+     * @param connection Connection to be used
+     * @param purchases List of purchases to add into the database
+     * @throws Exception 
+     */
     private void insertPurchase(Connection connection, List<Purchase> purchases) throws Exception{
         PurchaseDAO purchaseDAO = new PurchaseDaoImpl();
         for (Purchase purchase : purchases){
@@ -365,6 +552,12 @@ public class FillTables{
     }
 
     //-----------------parse Methods-----------------------------
+    /**
+     * Parse account
+     * 
+     * @param line Line to parse
+     * @return Array of ID and account object
+     */
     private Object[] parseAccount(String line){
         StringTokenizer st = new StringTokenizer(line, ",");
         Account account = new Account();
@@ -378,6 +571,12 @@ public class FillTables{
         return result;
     }
     
+    /**
+     * Parse component
+     * 
+     * @param line Line to parse
+     * @return Array of ID and component object
+     */
     private Object[] parseComponent(String line){
 	StringTokenizer st = new StringTokenizer(line, ",");
 	Component component = new Component();
@@ -390,6 +589,12 @@ public class FillTables{
 	return result;
     }
 
+    /**
+     * Parse configCart
+     * 
+     * @param line Line to parse
+     * @return Array of ID and configCart object
+     */
     private Object[] parseConfigCart(String line){
         StringTokenizer st = new StringTokenizer(line, ",");
         ConfigCart configcart = new ConfigCart();
@@ -402,6 +607,12 @@ public class FillTables{
         return result;
     }
     
+    /**
+     * Parse configuration
+     * 
+     * @param line Line to parse
+     * @return Array of ID and configuration object
+     */
     private Object[] parseConfiguration(String line){
 	StringTokenizer st = new StringTokenizer(line, ",");
 	Configuration configuration = new Configuration();
@@ -414,6 +625,12 @@ public class FillTables{
 	return result;
     }
 
+    /**
+     * Parse container
+     * 
+     * @param line Line to parse
+     * @return Array of ID and container object
+     */
     private Object[] parseContainer(String line){
 	StringTokenizer st = new StringTokenizer(line, ",");
 	Container container = new Container();
