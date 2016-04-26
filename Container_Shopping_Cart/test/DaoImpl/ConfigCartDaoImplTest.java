@@ -14,7 +14,11 @@ import Entity.Configurations;
 import Entity.Container;
 import java.sql.Connection;
 import java.util.ArrayList;
+import org.junit.After;
+import org.junit.AfterClass;
 import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -22,8 +26,8 @@ import org.junit.Test;
  * @author matt
  */
 public class ConfigCartDaoImplTest {
-    
-    @Test
+
+@Test
     public void testAddToConfigCart() throws Exception {
         Connection connection = DBConnection.getDataSource().getConnection();
         connection.setAutoCommit(false);
@@ -104,5 +108,119 @@ public class ConfigCartDaoImplTest {
                 
         connection.rollback();
         connection.setAutoCommit(true);
+    }
+
+    /**
+     * Test of addToConfigCart method, of class ConfigCartDaoImpl.
+     */
+    @Test
+    public void testAddToConfigCart_3args_1() throws Exception {
+        System.out.println("addToConfigCart");
+        Connection connection = null;
+        Long userID = null;
+        ArrayList<ConfigCart> configsToAdd = null;
+        ConfigCartDaoImpl instance = new ConfigCartDaoImpl();
+        instance.addToConfigCart(connection, userID, configsToAdd);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of addToConfigCart method, of class ConfigCartDaoImpl.
+     */
+    @Test
+    public void testAddToConfigCart_3args_2() throws Exception {
+        System.out.println("addToConfigCart");
+        Connection connection = null;
+        Long userID = null;
+        Container container = null;
+        ConfigCartDaoImpl instance = new ConfigCartDaoImpl();
+        boolean expResult = false;
+        boolean result = instance.addToConfigCart(connection, userID, container);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of createConfigCart method, of class ConfigCartDaoImpl.
+     */
+    @Test
+    public void testCreateConfigCart_3args() throws Exception {
+        System.out.println("createConfigCart");
+        Connection connection = null;
+        Long userID = null;
+        Container container = null;
+        ConfigCartDaoImpl instance = new ConfigCartDaoImpl();
+        boolean expResult = false;
+        boolean result = instance.createConfigCart(connection, userID, container);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of createConfigCart method, of class ConfigCartDaoImpl.
+     */
+    @Test
+    public void testCreateConfigCart_Connection_ConfigCart() throws Exception {
+        System.out.println("createConfigCart");
+        Connection connection = null;
+        ConfigCart configCart = null;
+        ConfigCartDaoImpl instance = new ConfigCartDaoImpl();
+        ConfigCart expResult = null;
+        ConfigCart result = instance.createConfigCart(connection, configCart);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getConfigCart method, of class ConfigCartDaoImpl.
+     */
+    @Test
+    public void testGetConfigCart_Connection_Long() throws Exception {
+        System.out.println("getConfigCart");
+        Connection connection = null;
+        Long cartContainerID = null;
+        ConfigCartDaoImpl instance = new ConfigCartDaoImpl();
+        ArrayList<ConfigCart> expResult = null;
+        ArrayList<ConfigCart> result = instance.getConfigCart(connection, cartContainerID);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getConfigCart method, of class ConfigCartDaoImpl.
+     */
+    @Test
+    public void testGetConfigCart_3args() throws Exception {
+        System.out.println("getConfigCart");
+        Connection connection = null;
+        Long cartContainerID = null;
+        Long userID = null;
+        ConfigCartDaoImpl instance = new ConfigCartDaoImpl();
+        ArrayList<Configuration> expResult = null;
+        ArrayList<Configuration> result = instance.getConfigCart(connection, cartContainerID, userID);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getCartConfigs method, of class ConfigCartDaoImpl.
+     */
+    @Test
+    public void testGetCartConfigs() throws Exception {
+        System.out.println("getCartConfigs");
+        Connection connection = null;
+        Long configID = null;
+        ConfigCartDaoImpl instance = new ConfigCartDaoImpl();
+        Configuration expResult = null;
+        Configuration result = instance.getCartConfigs(connection, configID);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 }
