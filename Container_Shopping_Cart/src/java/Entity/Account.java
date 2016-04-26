@@ -16,6 +16,7 @@ public class Account {
     private String firstName;
     private String lastName;
     private String privilege;
+    private String password;
             
     /**
      * Set user ID
@@ -63,6 +64,15 @@ public class Account {
     }
     
     /**
+     * Set Password
+     * 
+     * @param password Password to set
+     */
+    public void setPassword(String password){
+        this.password = password;
+    }
+    
+    /**
      * Get user ID
      * 
      * @return User ID
@@ -107,4 +117,12 @@ public class Account {
         return privilege;
     }
     
+    /**
+     * Get password
+     * 
+     * @return password
+     */
+    public String getPassword(){
+        return password;
+    }
 }

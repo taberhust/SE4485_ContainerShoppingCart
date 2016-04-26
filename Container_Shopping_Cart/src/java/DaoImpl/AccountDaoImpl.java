@@ -35,13 +35,14 @@ public class AccountDaoImpl implements AccountDAO{
     public Account createAccountFT(Connection connection, Account account) throws SQLException{
         PreparedStatement ps = null;
         try{
-            String insertSQL = "INSERT INTO Account (userID, userName, firstName, lastName, privilege) VALUES (?, ?, ?, ?, ?);";
+            String insertSQL = "INSERT INTO Account (userID, userName, firstName, lastName, privilege, password) VALUES (?, ?, ?, ?, ?, ?);";
             ps = connection.prepareStatement(insertSQL);
             ps.setString(1, account.getUserID().toString());
             ps.setString(2, account.getUsername());
             ps.setString(3, account.getFirstName());
             ps.setString(4, account.getLastName());
             ps.setString(5, account.getPrivilege());
+            ps.setString(6, account.getPassword());
             
             ps.executeUpdate();
             
@@ -73,12 +74,13 @@ public class AccountDaoImpl implements AccountDAO{
     public Account createAccount(Connection connection, Account account) throws SQLException{
         PreparedStatement ps = null;
         try{
-            String insertSQL = "INSERT INTO Account (userName, firstName, lastName, privilege) VALUES (?, ?, ?, ?);";
+            String insertSQL = "INSERT INTO Account (userName, firstName, lastName, privilege, password) VALUES (?, ?, ?, ?, ?);";
             ps = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, account.getUsername());
             ps.setString(2, account.getFirstName());
             ps.setString(3, account.getLastName());
             ps.setString(4, account.getPrivilege());
+            ps.setString(5, account.getPassword());
             
             ps.executeUpdate();
             
@@ -127,6 +129,7 @@ public class AccountDaoImpl implements AccountDAO{
             account.setFirstName(rs.getString("firstName"));
             account.setLastName(rs.getString("lastName"));
             account.setPrivilege(rs.getString("privilege"));
+            account.setPassword(rs.getString("password"));
             return account;
         }
         catch(Exception ex){
