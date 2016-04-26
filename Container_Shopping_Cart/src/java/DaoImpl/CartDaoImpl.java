@@ -135,7 +135,7 @@ public class CartDaoImpl implements CartDAO{
     public ArrayList<Container> retrieveCart(Connection connection, Long userID) throws SQLException{
         PreparedStatement ps = null;
         try{
-            String retrieveSQL = "SELECT * FROM Cart WHERE userID = (userID) VALUES (?);";
+            String retrieveSQL = "SELECT * FROM Cart WHERE userID = ?;";
             ps = connection.prepareStatement(retrieveSQL);
             ps.setLong(1, userID);
             ResultSet rs = ps.executeQuery();
@@ -149,7 +149,7 @@ public class CartDaoImpl implements CartDAO{
                 ContainerDaoImpl containerDaoImpl = new ContainerDaoImpl();
                 
                 //This is to get a container with the fields we want inside.
-                Container container = containerDaoImpl.retrieveContainer(connection, rs.getLong("containerID"));
+                Container container = containerDaoImpl.retrieveContainer(connection, rs.getLong("cartContainerID"));
                 ConfigCartDaoImpl cCDI = new ConfigCartDaoImpl();
                 container.setConfigurations(cCDI.getConfigCart(connection, container.getContainerID(), userID));
                

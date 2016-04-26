@@ -23,45 +23,6 @@ import Entity.Account;
 public class AccountDaoImpl implements AccountDAO{
     
     /**
-     * TESTING ENVIRONMENT FUNCTION ONLY
-     * Creates the account in the database
-     * 
-     * @param connection Connection to be used
-     * @param account Account to create in the table
-     * @return The account that was added or null if it failed
-     * @throws SQLException 
-     */
-    @Override
-    public Account createAccountFT(Connection connection, Account account) throws SQLException{
-        PreparedStatement ps = null;
-        try{
-            String insertSQL = "INSERT INTO Account (userID, userName, firstName, lastName, privilege, password) VALUES (?, ?, ?, ?, ?, ?);";
-            ps = connection.prepareStatement(insertSQL);
-            ps.setString(1, account.getUserID().toString());
-            ps.setString(2, account.getUsername());
-            ps.setString(3, account.getFirstName());
-            ps.setString(4, account.getLastName());
-            ps.setString(5, account.getPrivilege());
-            ps.setString(6, account.getPassword());
-            
-            ps.executeUpdate();
-            
-            return account;
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
-            //System.out.println("Exception in AccountDaoImpl.create()");
-            if (ps != null && !ps.isClosed()){
-                ps.close();
-            }
-            if (connection != null && !connection.isClosed()){
-                connection.close();
-            }
-        }
-        return account;
-    }
-    
-    /**
      * Create account in the database
      * 
      * @param connection Connection to be used
