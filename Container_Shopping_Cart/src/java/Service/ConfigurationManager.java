@@ -3,10 +3,12 @@ package Service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
+import java.util.Locale;
 
 import Entity.Container;
 import Entity.Configuration;
-import Entity.Component;
+
+
 /**
  *
  * @author taber
@@ -188,12 +190,14 @@ public class ConfigurationManager {
      * 
      * This both works to create the container if it does not exist and to start container if it does exist
      * 
+     * @param userID
      * @param myContainer
      * @return 
      */
     public File generateStartScript(long userID, Container myContainer)
     {
-        File scriptFile = new File(scriptDir + "/start_" + myContainer.getContainerName() + "_" + myContainer.getVersion() + "_" + userID + "_" + Calendar.getInstance().getTime().toString().replace(" ", "-") + ".sh");
+        Calendar date = Calendar.getInstance();
+        File scriptFile = new File(scriptDir + "/start_" + myContainer.getContainerName() + "_UID_" + userID + "_PD_" + date.get(Calendar.YEAR) + "-" + date.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US) + "-" + date.get(Calendar.DAY_OF_MONTH) + ".sh");
         
         boolean cmdSet = false;
         String cmd = "";
@@ -206,7 +210,7 @@ public class ConfigurationManager {
                                 "commd='docker ps'\n" +
                                 "indexSet=0\n" +
                                 "index=0\n" +
-                                "containerName='" + myContainer.getContainerID() + "'\n" +
+                                "containerName='" + myContainer.getContainerName() + "_" + userID + "'\n" +
                                 "count=0\n\n" +
                                 "for output in $(docker ps -a)\n" +
                                 "do\n" +
@@ -230,7 +234,7 @@ public class ConfigurationManager {
                                 "done\n" +
                                 "\n" +
                                 "if [ $containerExists = 0 ]; then\n" +
-                                "       docker load < " + myContainer.getDockerID() + ".tar\n" +
+                                "       docker load < " + myContainer.getDockerName() + ".tar\n" +
                                 "	docker run --name=$containerName ";
                                 for(int i = 0; i < myContainer.getConfigurations().size(); i++)
                                 {
