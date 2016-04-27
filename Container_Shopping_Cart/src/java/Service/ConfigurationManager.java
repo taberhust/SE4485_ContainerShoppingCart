@@ -269,7 +269,7 @@ public class ConfigurationManager {
                                         default:
                                     }
                                 }
-                                startupScript = startupScript.concat(myContainer.getDockerID());
+                                startupScript = startupScript.concat(myContainer.getDockerName());
                                 if(cmdSet)
                                 {
                                     startupScript = startupScript.concat(" \"" + cmd + "\"\n");
