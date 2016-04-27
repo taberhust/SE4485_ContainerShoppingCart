@@ -16,6 +16,6 @@ public interface AccountDAO {
         
     Account retrieveAccount(Connection connection, String username) throws SQLException;
     
-    void deleteAccount(Connection connection, String username) throws SQLException;
+    boolean deleteAccount(Connection connection, String username) throws SQLException;
     
 }

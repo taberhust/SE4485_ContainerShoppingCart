@@ -110,16 +110,18 @@ public class AccountDaoImpl implements AccountDAO{
      * 
      * @param connection Connection to be used
      * @param username Username of the user
+     * @return True if the container was deleted
      * @throws SQLException 
      */
     @Override
-    public void deleteAccount(Connection connection, String username) throws SQLException{
+    public boolean deleteAccount(Connection connection, String username) throws SQLException{
         PreparedStatement ps = null;
         try{
             String deleteSQL = "DELETE FROM Account WHERE Account.userName = ?;";
             ps = connection.prepareStatement(deleteSQL);
             ps.setString(1, username);
-            ps.executeUpdate();
+            ps.execute();
+            return true;
         }
         catch(Exception ex){
             System.out.println("Exception in AccountDaoImpl.deleteAccount()");
@@ -129,6 +131,7 @@ public class AccountDaoImpl implements AccountDAO{
             if(connection != null && !connection.isClosed()){
                 connection.close();
             }
+            return false;
         }
     }
     

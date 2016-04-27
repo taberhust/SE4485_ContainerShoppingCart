@@ -5,10 +5,15 @@
  */
 package DaoImpl;
 
+import DBConnection.DBConnection;
 import Entity.Account;
 import java.sql.Connection;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,35 +25,27 @@ import org.junit.Test;
 public class AccountDaoImplTest {
 
     /**
-     * Test of createAccountFT method, of class AccountDaoImpl.
-     */
-    @Test
-    public void testCreateAccountFT() throws Exception {
-        System.out.println("createAccountFT");
-        Connection connection = null;
-        Account account = null;
-        AccountDaoImpl instance = new AccountDaoImpl();
-        Account expResult = null;
-        Account result = instance.createAccountFT(connection, account);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of createAccount method, of class AccountDaoImpl.
      */
     @Test
     public void testCreateAccount() throws Exception {
         System.out.println("createAccount");
-        Connection connection = null;
-        Account account = null;
+        Connection connection = DBConnection.getDataSource().getConnection();
+        connection.setAutoCommit(false);
+        
+        Account account = new Account();
         AccountDaoImpl instance = new AccountDaoImpl();
-        Account expResult = null;
-        Account result = instance.createAccount(connection, account);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        account.setUserID(666L);
+        account.setUserName("tCAUserName");
+        account.setFirstName("tCAFirtName");
+        account.setLastName("tCALastName");
+        account.setPrivilege("tCAPrivilege");
+        account.setPassword("tCAPassword");
+        instance.createAccount(connection, account);
+        assertNotNull(instance);
+        
+        connection.rollback();
+        connection.setAutoCommit(true);
     }
 
     /**
@@ -57,14 +54,16 @@ public class AccountDaoImplTest {
     @Test
     public void testRetrieveAccount() throws Exception {
         System.out.println("retrieveAccount");
-        Connection connection = null;
-        String username = "";
+        Connection connection = DBConnection.getDataSource().getConnection();
+        connection.setAutoCommit(false);
+
+        String username = "a";
         AccountDaoImpl instance = new AccountDaoImpl();
-        Account expResult = null;
         Account result = instance.retrieveAccount(connection, username);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
+        
+        connection.rollback();
+        connection.setAutoCommit(true);
     }
 
     /**
@@ -73,12 +72,18 @@ public class AccountDaoImplTest {
     @Test
     public void testDeleteAccount() throws Exception {
         System.out.println("deleteAccount");
-        Connection connection = null;
-        String username = "";
+        Connection connection = DBConnection.getDataSource().getConnection();
+        connection.setAutoCommit(false);
+        String username = "userName1";
         AccountDaoImpl instance = new AccountDaoImpl();
-        instance.deleteAccount(connection, username);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        boolean deleted = instance.deleteAccount(connection, username);
+        assertTrue(deleted);
+        
+        Account accountDeleted = instance.retrieveAccount(connection, username);
+        assertNull(accountDeleted);
+        
+        connection.rollback();
+        connection.setAutoCommit(true);
     }
     
 }
